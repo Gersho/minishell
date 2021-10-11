@@ -1,4 +1,4 @@
-SRCS		= src/main.c src/exits.c src/parse.c src/token.c
+SRCS		= srcs/main.c srcs/exits.c srcs/list_init.c srcs/token.c srcs/parse_input.c
 
 
 OBJS			= $(SRCS:.c=.o)

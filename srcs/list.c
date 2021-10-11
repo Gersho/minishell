@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_init.c                                        :+:      :+:    :+:   */
+/*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 12:43:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/11 14:56:03 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 17:00:13 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list	*ft_list_init(void)
 
 	list = malloc(sizeof(t_list*));
 	if (!list)
-		error_exit(-1);
+		ft_error_exit(-1);
 	list->cmd = NULL;
 	list->red = NULL;
 	list->next = NULL;
@@ -31,7 +31,7 @@ t_cmd	*ft_cmd_init(t_list *list)
 
 	cmd = malloc(sizeof (t_cmd*));
 	if (!cmd)
-		freestructs_exit(list, -1);
+		ft_freestructs_exit(list, -1);
 	cmd->str = NULL;
 	cmd->next = NULL;
 	cmd->token = NONE;
@@ -44,7 +44,7 @@ t_red	*ft_red_init(t_list *list)
 
 	red = malloc(sizeof (t_red*));
 	if (!red)
-		freestructs_exit(list, -1);
+		ft_freestructs_exit(list, -1);
 	red->str = NULL;
 	red->next = NULL;
 	return (red);

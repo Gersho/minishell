@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.test.c                                        :+:      :+:    :+:   */
+/*   exits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/11 13:54:56 by kzennoun         ###   ########lyon.fr   */
+/*   Created: 2021/10/11 14:12:59 by kzennoun          #+#    #+#             */
+/*   Updated: 2021/10/11 16:18:22 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include "../headers/token.h"
-#include <readline/readline.h>
-//#include <readline/history.h>
 
-int main()
+void	ft_error_exit(int err)
 {
-	char*	line;
-	t_list*	list;
+	perror("Error");
+	exit(err);
+}
 
-	list = ft_list_init();
-	while (1)
-	{
-		line = readline("Enter a line: ");
-
-
-		free(line);
-	}
+void	ft_freestructs_exit(t_list *list, int err)
+{
+	(void)list;
+	//free stuff, starting from end and with sub chains
 	
-
-	//printf("%s", line);
-	//system(line);
-
-	return 0;
+	
+	ft_error_exit(err);
 }

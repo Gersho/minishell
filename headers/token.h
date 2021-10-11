@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/11 14:38:18 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/11 16:15:06 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <readline/readline.h>
 
 typedef struct	s_cmd	t_cmd;
 typedef struct	s_red	t_red;
@@ -56,8 +57,13 @@ struct s_red
 };
 
 
-t_list*	ft_list_init();
-void	error_exit(int err);
-void	freestructs_exit(t_list* list, int err);
+t_list	*ft_list_init();
+t_cmd	*ft_cmd_init(t_list *list);
+t_red	*ft_red_init(t_list *list);
+
+void	ft_parse_line(char *line, t_list *list);
+
+void	ft_error_exit(int err);
+void	ft_freestructs_exit(t_list* list, int err);
 
 #endif
