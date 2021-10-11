@@ -1,4 +1,4 @@
-SRCS		= main.test.c
+SRCS		= src/main.c src/exits.c src/parse.c src/token.c
 
 
 OBJS			= $(SRCS:.c=.o)
@@ -10,11 +10,11 @@ CFLAGS			= -Wall -Wextra -Werror
 
 all:			$(NAME)
 
-%.o: 			%.c	token.h
+%.o: 			%.c	headers/token.h
 				$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):		$(OBJS) token.h
-				$(CC) $(CFLAGS) -Iheaders/token.h -o $(NAME) $(OBJS)
+$(NAME):		$(OBJS) headers/token.h
+				$(CC) $(CFLAGS) -Iheaders/token.h -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS)
 
 clean:			
 				$(RM) $(OBJS)

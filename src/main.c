@@ -1,12 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   main.test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/11 12:41:43 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/11 14:41:14 by kzennoun         ###   ########lyon.fr   */
+/*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
+/*   Updated: 2021/10/11 13:54:56 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include "../headers/token.h"
+#include <readline/readline.h>
+//#include <readline/history.h>
+
+int main()
+{
+	char*	line;
+	t_list*	list;
+
+	list = ft_list_init();
+	while (1)
+	{
+		line = readline("Enter a line: ");
+
+
+		free(line);
+	}
+	
+
+	//printf("%s", line);
+	//system(line);
+
+	return 0;
+}
