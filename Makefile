@@ -1,54 +1,27 @@
-readline
-	rl_clear_history
-	rl_on_new_line
-	rl_replace_line
-	rl_redisplay
-	add_history
-
-access
-fork
-wait
-	waitpid
-	wait3
-	wait4
-signal
-sigaction
-kill
-exit
-getcwd
-chdir
-stat
-lstat
-fstat
-unlink
-execve
-dup
-dup2
-pipe
-opendir
-readdir
-closedir
-isatty
-ttyname
-ttyslot
-ioctl
-getenv
-tcsetattr
-tcgetattr
-tgetent
-tgetflag
-tgetnum
-tgetstr
-tgoto
-tputs
+SRCS		= main.test.c
 
 
-strerror
-perror
-open
-read
-close
-printf
-malloc
-free
-write
+OBJS			= $(SRCS:.c=.o)
+
+NAME			= minishell
+CC				= gcc
+RM				= rm -f
+CFLAGS			= -Wall -Wextra -Werror
+
+all:			$(NAME)
+
+%.o: 			%.c	token.h
+				$(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME):		$(OBJS) token.h
+				$(CC) $(CFLAGS) -Iheaders/token.h -o $(NAME) $(OBJS)
+
+clean:			
+				$(RM) $(OBJS)
+
+fclean:			clean
+				$(RM) minishell
+
+re:			fclean all
+
+.PHONY:		re fclean clean all
