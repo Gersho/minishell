@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_input.c                                      :+:      :+:    :+:   */
+/*   s_list.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/11 17:07:15 by kzennoun         ###   ########lyon.fr   */
+/*   Created: 2021/10/11 12:43:59 by kzennoun          #+#    #+#             */
+/*   Updated: 2021/10/11 17:08:23 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/token.h"
 
-void	ft_parse_line(char *str, t_list *list)
+t_list	*ft_list_init(void)
 {
-	int	i;
+	t_list	*list;
 
-	i = 0;
-	while (str[i]!= '\0')
-	{
-
-
-		if (str[i] == '|')
-		{
-			
-		}
-		else if (str[i] == '"') //double quote
-		{
-
-		}
-
-
-
-		//printf("%c", str[i]);
-		i++;
-	}
-	(void)list;
+	list = malloc(sizeof(t_list*));
+	if (!list)
+		ft_error_exit(-1);
+	list->cmd = NULL;
+	list->red = NULL;
+	list->next = NULL;
+	return (list);
 }

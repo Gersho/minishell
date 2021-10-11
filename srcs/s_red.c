@@ -1,39 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_input.c                                      :+:      :+:    :+:   */
+/*   s_red.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/11 17:07:15 by kzennoun         ###   ########lyon.fr   */
+/*   Created: 2021/10/11 17:07:22 by kzennoun          #+#    #+#             */
+/*   Updated: 2021/10/11 17:07:48 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/token.h"
 
-void	ft_parse_line(char *str, t_list *list)
+t_red	*ft_red_init(t_list *list)
 {
-	int	i;
+	t_red	*red;
 
-	i = 0;
-	while (str[i]!= '\0')
-	{
-
-
-		if (str[i] == '|')
-		{
-			
-		}
-		else if (str[i] == '"') //double quote
-		{
-
-		}
-
-
-
-		//printf("%c", str[i]);
-		i++;
-	}
-	(void)list;
+	red = malloc(sizeof (t_red*));
+	if (!red)
+		ft_freestructs_exit(list, -1);
+	red->str = NULL;
+	red->next = NULL;
+	return (red);
 }
