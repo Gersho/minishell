@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/12 11:50:24 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/12 15:04:27 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 int main()
 {
 	char*	line;
-	t_list*	list;
+	t_cmd*	cmd;
 
-	list = ft_list_init();
+	cmd = ft_cmd_init();
 	while (1)
 	{
 		line = readline("Enter a line: ");
-		ft_parse_line(line, list);
+		ft_parse_line(line, cmd);
 		free(line);
 	}
+
 	
 
 	//printf("%s", line);

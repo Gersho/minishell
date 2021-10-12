@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/12 13:03:31 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/12 15:20:01 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,54 +17,36 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 
+typedef struct	s_args	t_args;
 typedef struct	s_cmd	t_cmd;
-//typedef struct	s_red	t_red;
-typedef struct	s_list	t_list;
-typedef enum	e_token	t_token;
 
-// enum	e_token
-// {
-// 	//DBL_QUOTE,
-// 	//SMP_QUOTE,
-// 	//DOLLAR,
-// 	// CHEV_LEFT,
-// 	// CHEV_RIGHT,
-// 	// DBL_LEFT,
-// 	// DBL_RIGHT,
-// 	COMMAND,
-// 	WORD,
-// 	NONE
-// };
 
-struct s_list
+struct s_cmd
 {
-	t_cmd*		cmd;
-	//t_red*		red;
-	t_cmd*		red;
-	t_list*		next;
+	t_args*		param;
+	t_args*		red;
+	t_cmd*		next;
 
 };
 
-struct	s_cmd
+struct	s_args
 {
 	char**		str;
-//	t_token		token;
-	t_cmd*		next;
+	t_args*		next;
 };
 
-// struct s_red
-// {
-// 	char**		str;
-// 	t_red*		next;
-// };
 
+t_cmd	*ft_cmd_init();
+t_cmd	*ft_cmd_last(t_cmd *cmd);
+void	ft_cmd_addback(t_cmd *start, t_cmd *new);
 
-t_list	*ft_list_init();
-t_cmd	*ft_cmd_init(t_list *list);
+t_args	*ft_args_init(t_cmd *cmd, char* str);
+t_args	*ft_args_last(t_args *args);
+void	ft_args_addback(t_args *start, t_args *new);
 
-void	ft_parse_line(char *line, t_list *list);
+void	ft_parse_line(char *line, t_cmd *list);
 
 void	ft_error_exit(int err);
-void	ft_freestructs_exit(t_list* list, int err);
+void	ft_freestructs_exit(t_cmd* list, int err);
 
 #endif

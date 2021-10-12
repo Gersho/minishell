@@ -6,13 +6,13 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/11 17:07:15 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/12 14:33:20 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/token.h"
 
-void	ft_parse_line(char *str, t_list *list)
+void	ft_parse_line(char *str, t_cmd *cmd)
 {
 	int	i;
 
@@ -35,5 +35,5 @@ void	ft_parse_line(char *str, t_list *list)
 		//printf("%c", str[i]);
 		i++;
 	}
-	(void)list;
+	(void)cmd;
 }

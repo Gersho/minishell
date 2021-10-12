@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   s_cmd.c                                            :+:      :+:    :+:   */
+/*   s_args.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/11 12:43:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/12 15:17:21 by kzennoun         ###   ########lyon.fr   */
+/*   Created: 2021/10/11 17:07:24 by kzennoun          #+#    #+#             */
+/*   Updated: 2021/10/12 15:13:42 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,40 +61,39 @@ char	*ft_strdup(const char *s1)
 	return (ptr);
 }
 
-t_cmd	*ft_cmd_init(void)
+t_args	*ft_args_init(t_cmd *cmd, char* str)
 {
-	t_cmd	*cmd;
+	t_args	*args;
 
-	cmd = malloc(sizeof(t_cmd*));
-	if (!cmd)
-		ft_error_exit(-1);
-	cmd->param = NULL;
-	cmd->red = NULL;
-	cmd->next = NULL;
-	return (cmd);
+	args = malloc(sizeof (t_args*));
+	if (!args)
+		ft_freestructs_exit(cmd, -1);
+	args->next = NULL;
+	if (!str)
+		args->str = NULL;
+	else
+		args->str = ft_strdup(str);
+	return (args);
 }
 
-
-t_cmd	*ft_cmd_last(t_cmd *cmd)
+t_args	*ft_args_last(t_args *args)
 {
-	if (!cmd)
+	if (!args)
 		return (NULL);
-	while (cmd->next)
-		cmd = cmd->next;
-	return (cmd);
+	while (args->next)
+		args = args->next;
+	return (args);
 }
 
-void	ft_cmd_addback(t_cmd *start, t_cmd *new)
+void	ft_args_addback(t_args *start, t_args *new)
 {
-	t_cmd *tmp;
+	t_args *tmp;
 
 	if (!start)
 		start = new;
 	else
 	{
-		tmp = ft_cmd_last(start);
+		tmp = ft_args_last(start);
 		tmp->next = new;
 	}
 }
-
-
