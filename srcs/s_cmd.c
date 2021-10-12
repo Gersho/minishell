@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 17:07:24 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/11 17:08:21 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/12 13:03:43 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,5 @@ t_cmd	*ft_cmd_init(t_list *list)
 		ft_freestructs_exit(list, -1);
 	cmd->str = NULL;
 	cmd->next = NULL;
-	cmd->token = NONE;
 	return (cmd);
 }
