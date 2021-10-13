@@ -13,8 +13,9 @@
 #ifndef TOKEN_H_
 #define TOKEN_H_
 
+# include "../libft/include/libft.h"
+# include <errno.h>
 # include <stdio.h>
-# include <stdlib.h>
 # include <readline/readline.h>
 
 typedef struct	s_args	t_args;
