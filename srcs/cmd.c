@@ -210,53 +210,84 @@ int exec_cmd(t_cmd *cmd, char **env)
 	char **path_tab;
 	int pid;
 	int pipe_fd[2];
-
+	int std_out;
+	int std_in;
+	int i = 0;
 	path_tab = split_env_path(env);
+	std_out = dup(1);
+	std_in = dup(0);
+	if (pipe(pipe_fd) == -1)
+		perror("pipe");
 	while (cmd != NULL)
 	{
+//		printf("cmd->param %s\n", cmd->param->str);
 		if (cmd->next)
 		{
-			if (pipe(pipe_fd) == -1)
-				perror("pipe");
 			dup2(pipe_fd[1], 1);
+//			printf("oui\n");
 		}
 		pid = fork();
 		if (pid == 0)
 		{
+//			dup2(pipe_fd[1], 1);
+			if (i > 0)
+				dup2(pipe_fd[0], 0);
+//			dup2(std_out, 1);
 			cmd->param_tab = list_to_tab(cmd->param);
 			if (cmd->red) {
 				redirect_handler(cmd->red->str);
 			}
+			printf("cmd->la [%s]\n", cmd->param_tab[0]);
 			get_cmd_path(cmd, path_tab);//just before execve
+			printf("cmd->path %s\n", cmd->path);
+			if (cmd->next)
+				exec_cmd(cmd->next, env);
 			execve(cmd->path, cmd->param_tab, env);
 			perror("execve");
 		}
 		else if (pid == -1)
 			return (-1);//perror fork
 		cmd = cmd->next;
+		}
+		i++;
 	}
 	return (1);
 }
-//
-//int main(int ac, char **av, char **env)
-//{
-//	t_cmd *cmd;
-//
-////	cmd = ft_cmd_init();
-//	cmd = malloc(sizeof(t_cmd));
-//	cmd->next = NULL;
-//	cmd->param = malloc(sizeof(t_args));
-//	cmd->param->str = ft_strdup("ls");
+
+int main(int ac, char **av, char **env)
+{
+	t_cmd *cmd;
+
+//	cmd = ft_cmd_init();
+	cmd = malloc(sizeof(t_cmd));
+	cmd->param = malloc(sizeof(t_args));
+	cmd->param->str = ft_strdup("ls");
+	cmd->param->next = NULL;
+	cmd->red = NULL;
 //	cmd->param->next = malloc(sizeof(t_args));
-//	cmd->param->next->str = ft_strdup("-l");
+//	cmd->param->next->str = ft_strdup("Bonjour");
 //	cmd->param->next->next = NULL;
 //	cmd->red = malloc(sizeof(t_args));
-//	cmd->red->str = ft_strdup(">> test1.txt");
+//	cmd->red->str = ft_strdup("> test.txt");
 //	cmd->red->next = NULL; //useless atm
-////	cmd->red = NULL;
-//	cmd->path = NULL;
-//	cmd->param_tab = NULL;
-////	printf("cmd->param->str %s\n", cmd->param->str);
-//	exec_cmd(cmd, env);
-//	wait(NULL);
-//}
+	cmd->path = NULL;
+	cmd->param_tab = NULL;
+
+	//next cmd
+//	cmd->next = NULL;
+//	cmd->next = malloc(sizeof(t_cmd));
+//	cmd->next->next = NULL;
+//	cmd->next->red = NULL;
+//	cmd->next->red = malloc(sizeof(t_args));
+//	cmd->next->red->str = ft_strdup("> test1.txt");
+//	cmd->next->param = malloc(sizeof(t_args));
+//	cmd->next->param->str = ft_strdup("grep");
+//	cmd->next->param->next = malloc(sizeof(t_args));
+//	cmd->next->param->next->str = ft_strdup("s_");
+//	cmd->next->param->next->next = NULL;
+//	cmd->next->path = NULL;
+//	cmd->next->param_tab = NULL;
+//	printf("cmd->param->str %s\n", cmd->param->str);
+	exec_cmd(cmd, env);
+	wait(NULL);
+}
