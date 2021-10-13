@@ -50,16 +50,16 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	int		len;
-	char	*ptr;
-
-	len = ft_strlen(s1);
-	ptr = ft_calloc(len + 1, sizeof(char));
-	ft_strlcpy(ptr, s1, len + 1);
-	return (ptr);
-}
+//char	*ft_strdup(const char *s1)
+//{
+//	int		len;
+//	char	*ptr;
+//
+//	len = ft_strlen(s1);
+//	ptr = ft_calloc(len + 1, sizeof(char));
+//	ft_strlcpy(ptr, s1, len + 1);
+//	return (ptr);
+//}
 
 t_cmd	*ft_cmd_init(void)
 {
@@ -97,4 +97,15 @@ void	ft_cmd_addback(t_cmd *start, t_cmd *new)
 	}
 }
 
+size_t ft_size_list(t_args *arg_list)
+{
+	size_t i;
 
+	i = 0;
+	while (arg_list)
+	{
+		i++;
+		arg_list = arg_list->next;
+	}
+	return (i);
+}
