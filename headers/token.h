@@ -21,8 +21,16 @@ typedef struct	s_args	t_args;
 typedef struct	s_cmd	t_cmd;
 
 
+enum e_open_param
+{
+	RED_OUT_T,
+	RED_OUT_A,
+};
+
 struct s_cmd
 {
+	char*		path;
+	char**		param_tab;
 	t_args*		param;
 	t_args*		red;
 	t_cmd*		next;
@@ -31,14 +39,15 @@ struct s_cmd
 
 struct	s_args
 {
-	char**		str;
+	char*		str;
 	t_args*		next;
 };
 
-
+//----lst_cmd
 t_cmd	*ft_cmd_init();
 t_cmd	*ft_cmd_last(t_cmd *cmd);
 void	ft_cmd_addback(t_cmd *start, t_cmd *new);
+size_t	ft_size_list(t_args *arg_list);
 
 t_args	*ft_args_init(t_cmd *cmd, char* str);
 t_args	*ft_args_last(t_args *args);
