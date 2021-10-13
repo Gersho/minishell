@@ -171,6 +171,7 @@ int open_with_param(char *filename, int open_param)
 		return (0);
 	}
 	dup2(file_fd , 1);
+//	ft_putstr_nl_fd("writing in file fd", 1);
 	return (1);
 }
 
@@ -200,7 +201,7 @@ int	redirect_handler(char *red)
 		if (filename == NULL)
 			return (-1);
 		red += ft_strlen(filename);
-		open_with_param(filename, open_param);
+		open_with_param(filename, open_param); //close fd if more redirect
 	}
 	return (1);
 }
@@ -221,34 +222,40 @@ int exec_cmd(t_cmd *cmd, char **env)
 	while (cmd != NULL)
 	{
 //		printf("cmd->param %s\n", cmd->param->str);
-		if (cmd->next)
+		if (cmd->next)//if there is a pipe
 		{
 			dup2(pipe_fd[1], 1);
 //			printf("oui\n");
 		}
+		else
+			dup2(std_out, 1);
 		pid = fork();
 		if (pid == 0)
 		{
 //			dup2(pipe_fd[1], 1);
 			if (i > 0)
-				dup2(pipe_fd[0], 0);
+				dup2(pipe_fd[0], 0);//if not first cmd replace stdin by pipe
 //			dup2(std_out, 1);
 			cmd->param_tab = list_to_tab(cmd->param);
 			if (cmd->red) {
+//				ft_putstr_fd(cmd->param_tab[0], std_out);
+//				ft_putstr_nl_fd(" entering redirect", std_out);
 				redirect_handler(cmd->red->str);
 			}
-			printf("cmd->la [%s]\n", cmd->param_tab[0]);
+//			ft_putstr_nl_fd(" working?", 1);
+//			fprintf(std_out, "cmd->name [%s] cmd->param [%s]\n", cmd->param_tab[0], cmd->param_tab[1]);
+//			ft_putstr_nl_fd(cmd->param_tab[0], std_out);
 			get_cmd_path(cmd, path_tab);//just before execve
-			printf("cmd->path %s\n", cmd->path);
-			if (cmd->next)
-				exec_cmd(cmd->next, env);
+//			ft_putstr_nl_fd(cmd->param_tab[0], 1);
 			execve(cmd->path, cmd->param_tab, env);
 			perror("execve");
 		}
 		else if (pid == -1)
 			return (-1);//perror fork
+		char *line;
+//		get_next_line(pipe_fd[0], &line);
+//		ft_putstr_nl_fd(line, std_out);
 		cmd = cmd->next;
-		}
 		i++;
 	}
 	return (1);
@@ -274,19 +281,19 @@ int main(int ac, char **av, char **env)
 	cmd->param_tab = NULL;
 
 	//next cmd
-//	cmd->next = NULL;
-//	cmd->next = malloc(sizeof(t_cmd));
-//	cmd->next->next = NULL;
-//	cmd->next->red = NULL;
-//	cmd->next->red = malloc(sizeof(t_args));
-//	cmd->next->red->str = ft_strdup("> test1.txt");
-//	cmd->next->param = malloc(sizeof(t_args));
-//	cmd->next->param->str = ft_strdup("grep");
-//	cmd->next->param->next = malloc(sizeof(t_args));
-//	cmd->next->param->next->str = ft_strdup("s_");
-//	cmd->next->param->next->next = NULL;
-//	cmd->next->path = NULL;
-//	cmd->next->param_tab = NULL;
+	cmd->next = NULL;
+	cmd->next = malloc(sizeof(t_cmd));
+	cmd->next->next = NULL;
+	cmd->next->red = NULL;
+	cmd->next->red = malloc(sizeof(t_args));
+	cmd->next->red->str = ft_strdup("> test1.txt");
+	cmd->next->param = malloc(sizeof(t_args));
+	cmd->next->param->str = ft_strdup("grep");
+	cmd->next->param->next = malloc(sizeof(t_args));
+	cmd->next->param->next->str = ft_strdup("min");
+	cmd->next->param->next->next = NULL;
+	cmd->next->path = NULL;
+	cmd->next->param_tab = NULL;
 //	printf("cmd->param->str %s\n", cmd->param->str);
 	exec_cmd(cmd, env);
 	wait(NULL);
