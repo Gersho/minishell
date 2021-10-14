@@ -64,5 +64,4 @@ int		is_redirect(char c);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, char **env);
 
-
 #endif
