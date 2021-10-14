@@ -14,6 +14,7 @@ all:			$(NAME)
 				$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS) headers/token.h
+				make -C libft/
 				$(CC) $(CFLAGS) -Iheaders/token.h -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS)
 
 clean:			
