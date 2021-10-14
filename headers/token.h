@@ -26,14 +26,15 @@ enum e_open_param
 {
 	RED_OUT_T,
 	RED_OUT_A,
+	RED_IN,
+	HERE_DOC
 };
 
 struct s_cmd
 {
 	char*		path;
-	char**		param_tab;
-	t_args*		param;
-	t_args*		red;
+	char**		param;
+	char*		red;
 	t_cmd*		next;
 
 };
