@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.h                                            :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_H_
-#define TOKEN_H_
+#ifndef MINISHELL_H_
+#define MINISHELL_H_
 
 # include "../libft/include/libft.h"
 # include <errno.h>
@@ -59,6 +59,5 @@ int		redirect_handler(char *red);
 int		is_redirect(char c);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, char **env);
-
 
 #endif
