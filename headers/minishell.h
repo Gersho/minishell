@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/14 16:20:28 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 17:26:52 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ size_t	ft_size_list(t_cmd *cmd_list);
 //----cmd->param
 char	**ft_param_init(t_cmd* cmd);
 char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);
-
+int		to_param_quote(t_cmd *forfree, t_cmd *current, char* str);
+int		to_param_dblquote(t_cmd *forfree, t_cmd *current, char* str);
 
 //----Parsing
 void	ft_parse_line(char *line, t_cmd *list);
