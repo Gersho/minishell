@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/14 15:07:14 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/14 15:27:16 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 		{
 			tmp->next = ft_cmd_init();
 			tmp = tmp->next;
+			i++;
+			continue;
 		}
 
 

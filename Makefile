@@ -15,7 +15,7 @@ all:			$(NAME)
 
 $(NAME):		$(OBJS) headers/minishell.h
 				make -C libft/
-				$(CC) $(CFLAGS) srcs/libft/libft.a -Iheaders/minishell.h -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS)
+				$(CC) $(CFLAGS) libft/libft.a -Iheaders/minishell.h -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS)
 
 clean:			
 				$(RM) $(OBJS)
