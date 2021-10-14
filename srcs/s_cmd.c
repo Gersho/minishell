@@ -16,12 +16,13 @@ t_cmd	*ft_cmd_init(void)
 {
 	t_cmd	*cmd;
 
-	cmd = malloc(sizeof(t_cmd*));
+	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		ft_error_exit(-1);
 	cmd->param = NULL;
 	cmd->red = NULL;
 	cmd->next = NULL;
+	cmd->path = NULL;
 	return (cmd);
 }
 
