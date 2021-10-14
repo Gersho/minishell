@@ -16,9 +16,21 @@
 # include "../libft/include/libft.h"
 # include <errno.h>
 # include <stdio.h>
-# include <readline/readline.h>
+# include <wait.h>
+//# include <readline/readline.h>
 
 typedef struct	s_cmd	t_cmd;
+
+enum e_cmd_name
+{
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
+};//probably useless but we never know
 
 enum e_open_param
 {
@@ -59,5 +71,7 @@ int		redirect_handler(char *red);
 int		is_redirect(char c);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, char **env);
+//----COMMANDS BUILT IN
+void	echo(char **param);
 
 #endif
