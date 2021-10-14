@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/token.h"
+#include "../headers/minishell.h"
 
 t_cmd	*ft_cmd_init(void)
 {
@@ -49,15 +49,15 @@ void	ft_cmd_addback(t_cmd *start, t_cmd *new)
 	}
 }
 
-size_t ft_size_list(t_args *arg_list)
+size_t ft_size_list(t_cmd *cmd_list)
 {
 	size_t i;
 
 	i = 0;
-	while (arg_list)
+	while (cmd_list)
 	{
 		i++;
-		arg_list = arg_list->next;
+		cmd_list = cmd_list->next;
 	}
 	return (i);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/token.h"
+#include "../headers/minishell.h"
 
 void	ft_error_exit(int err)
 {

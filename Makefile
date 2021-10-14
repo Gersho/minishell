@@ -10,10 +10,10 @@ CFLAGS			= -Wall -Wextra -Werror
 
 all:			$(NAME)
 
-%.o: 			%.c	headers/token.h
+%.o: 			%.c	headers/minishell.h
 				$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):		$(OBJS) headers/token.h
+$(NAME):		$(OBJS) headers/minishell.h
 				make -C libft/
 				$(CC) $(CFLAGS) -Iheaders/token.h -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS)
 

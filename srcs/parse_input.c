@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/token.h"
+#include "../headers/minishell.h"
 
 void	ft_parse_line(char *str, t_cmd *cmd)
 {
