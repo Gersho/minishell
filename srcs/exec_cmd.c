@@ -4,6 +4,24 @@
 
 #include "../headers/minishell.h"
 
+//int is_build_in(char *cmd)
+//{
+//	if (ft_strcmp("echo", cmd) == 0)
+//		return (ECHO);
+//	else if (ft_strcmp("pwd", cmd) == 0)
+//		return (PWD);
+//	else if (ft_strcmp("cd", cmd) == 0)
+//		return (CD);
+//	return (0);
+//}//useless
+
+void check_built_in(char **param)
+{
+	if (ft_strcmp("echo", *param) == 0)
+		echo(param);
+//	else if (ft_strcmp("pwd", cmd) == 0)
+}
+
 int exec_cmd(t_cmd *cmd, char **env)
 {
 	char **path_tab;
@@ -31,6 +49,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 		{
 			if (cmd->red)
 				redirect_handler(cmd->red);
+			check_built_in(cmd->param);
 			get_cmd_path(cmd, path_tab);
 			execve(cmd->path, cmd->param, env);
 			perror("execve");
@@ -41,6 +60,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 			prev_pipe_r = dup(pipe_fd[0]);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
+		waitpid(pid, NULL, 0);
 		cmd = cmd->next;
 		i++;
 	}
@@ -49,16 +69,18 @@ int exec_cmd(t_cmd *cmd, char **env)
 	return (1);
 }
 
-//int main(int ac, char **av, char **env)
-//{
-//	t_cmd *cmd;
-//	t_cmd *new;
-//	//first cmd
-//	cmd = ft_cmd_init();
-//	cmd->param = ft_split("ls -la", ' ');
-//	//second cmd
+int main(int ac, char **av, char **env)
+{
+	t_cmd *cmd;
+	t_cmd *new;
+	//first cmd
+
+	cmd = ft_cmd_init();
+	cmd->param = ft_split("", ' ');
+//	cmd->red = ft_strdup("> test.txt");
+	//second cmd
 //	cmd->next = ft_cmd_init();
-//	cmd->next->param = ft_split("grep test", ' ');
+//	cmd->next->param = ft_split("wc -l", ' ');
 	
 //	cmd->next->next = ft_cmd_init();
 //	cmd->next->next->param = ft_split("wc -l", ' ');
@@ -66,5 +88,4 @@ int exec_cmd(t_cmd *cmd, char **env)
 
 
 	exec_cmd(cmd, env);
-	wait(NULL);
 }
