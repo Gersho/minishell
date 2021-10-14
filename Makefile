@@ -1,4 +1,4 @@
-SRCS		= srcs/main.c srcs/exits.c srcs/list_init.c srcs/token.c srcs/parse_input.c
+SRCS		= srcs/exec_cmd.c srcs/get_cmd_path.c srcs/minishell.c srcs/redirect_handler.c srcs/utils.c srcs/exits.csrcs/main.c srcs/parse_input.c  srcs/s_cmd.c
 
 
 OBJS			= $(SRCS:.c=.o)
@@ -15,13 +15,14 @@ all:			$(NAME)
 
 $(NAME):		$(OBJS) headers/minishell.h
 				make -C libft/
-				$(CC) $(CFLAGS) -Iheaders/token.h -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS)
+				$(CC) $(CFLAGS) srcs/libft/libft.a -Iheaders/minishell.h -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS)
 
 clean:			
 				$(RM) $(OBJS)
 
 fclean:			clean
 				$(RM) minishell
+				$(RM) libft/libft.a
 
 re:			fclean all
 
