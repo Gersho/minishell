@@ -36,13 +36,17 @@ static int open_with_param(char *filename, int redirect_mode, int mode)
 		file_fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 00644);
 	else if (redirect_mode == RED_IN)
 		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
+	else if (redirect_mode == HERE_DOC)
+		file_fd = open("here_doc", O_RDWR | O_CREAT | O_TRUNC, 00644);
 	if (file_fd == -1)
 	{
 		perror(filename);
 		exit (EXIT_FAILURE);
 	}
-	if (mode == STDOUT_FILENO)
-		dup2_close(file_fd, STDOUT_FILENO);//TODO close fd at every call of dup2
+	if (redirect_mode == HERE_DOC)
+		here_doc(file_fd, filename);
+	else if (mode == STDOUT_FILENO)
+		dup2_close(file_fd, STDOUT_FILENO);
 	else
 		dup2_close(file_fd, STDIN_FILENO);
 	return (1);
@@ -73,7 +77,10 @@ int	redirect_handler(char *red)
 		{
 			mode = STDIN_FILENO;
 			if (*(red + 1) == '<')
+			{
 				redirect_mode = HERE_DOC;
+				red++;
+			}
 			else
 				redirect_mode = RED_IN;
 		}

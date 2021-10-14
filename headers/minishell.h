@@ -69,6 +69,7 @@ int		get_cmd_path(t_cmd *cmd, char **path_tab);
 //----Redirect Handling
 int		redirect_handler(char *red);
 int		is_redirect(char c);
+void	here_doc(int fd, char* limiter);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, char **env);
 //----COMMANDS BUILT IN

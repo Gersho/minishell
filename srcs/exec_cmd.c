@@ -51,6 +51,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 				redirect_handler(cmd->red);
 			check_built_in(cmd->param);
 			get_cmd_path(cmd, path_tab);
+//			ft_putstr_nl_fd(cmd->path, 1);
 			execve(cmd->path, cmd->param, env);
 			perror("execve");
 		}
@@ -76,8 +77,8 @@ int main(int ac, char **av, char **env)
 	//first cmd
 
 	cmd = ft_cmd_init();
-	cmd->param = ft_split("", ' ');
-//	cmd->red = ft_strdup("> test.txt");
+	cmd->param = ft_split("cat", ' ');
+	cmd->red = ft_strdup("<< end");
 	//second cmd
 //	cmd->next = ft_cmd_init();
 //	cmd->next->param = ft_split("wc -l", ' ');
