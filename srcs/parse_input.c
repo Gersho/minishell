@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/15 14:00:04 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 17:24:28 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 	tmp = cmd;
 	while (i < len)
 	{
-		//printf("i: %d -- str[i]: %c\n", i, str[i]);
+		// printf("i: %d -- str[i]: %c\n", i, str[i]);
+		// printf("still in str:%s\n", &str[i]);
 
 		if (ft_strncmp(&str[i], " ", 1) == 0)
 		{
@@ -35,16 +36,17 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 
 		if (ft_strncmp(&str[i], "\'", 1) == 0)
 		{
-			i += to_param_quote(cmd, tmp, &str[i + 1]) + 2;
+			i += to_param_quote(cmd, tmp, &str[i]);
 			continue;	
 		}
 		else if (ft_strncmp(&str[i], "\"", 1) == 0)
 		{
-			i += to_param_dblquote(cmd, tmp, &str[i + 1]) + 2;
+			i += to_param_dblquote(cmd, tmp, &str[i]);
 			continue;
 		}
 		else if (ft_strncmp(&str[i], "|", 1) == 0)
 		{
+			//printf("dans le if pipe\n");
 			tmp->next = ft_cmd_init();
 			tmp = tmp->next;
 			i++;
@@ -52,8 +54,7 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 		}
 		else
 		{
-			//printf("dans alnum\n");
-			i += to_param_word(cmd, tmp, &str[i]) + 1;
+			i += to_param_word(cmd, tmp, &str[i]);
 			continue;	
 		}
 		//else //if (ft_isalnum(str[i]))
