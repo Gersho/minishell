@@ -16,8 +16,8 @@
 # include "../libft/include/libft.h"
 # include <errno.h>
 # include <stdio.h>
-# include <wait.h>
-//# include <readline/readline.h>
+# include <sys/wait.h>
+# include <readline/readline.h>
 
 typedef struct	s_cmd	t_cmd;
 
@@ -69,7 +69,7 @@ int		get_cmd_path(t_cmd *cmd, char **path_tab);
 //----Redirect Handling
 int		redirect_handler(char *red);
 int		is_redirect(char c);
-void	here_doc(int fd, char* limiter);
+int 	here_doc(int fd, char* limiter);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, char **env);
 //----COMMANDS BUILT IN

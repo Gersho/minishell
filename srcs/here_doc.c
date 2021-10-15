@@ -4,7 +4,7 @@
 
 #include "../headers/minishell.h"
 
-void here_doc(int fd, char* limiter)
+int here_doc(int fd, char* limiter)
 {
 	int		len;
 	char*	line;
@@ -18,5 +18,9 @@ void here_doc(int fd, char* limiter)
 		get_next_line(0, &line);
 	}
 	free(line);
-	dup2_close(fd, 0);
+	close (fd);
+	fd = open(".here_doc", O_RDWR, 00644);
+	if (fd == -1)
+		exit (EXIT_FAILURE);
+	return (fd);
 }
