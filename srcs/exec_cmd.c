@@ -69,9 +69,10 @@ int exec_cmd(t_cmd *cmd, char **env)
 	if (i > 1)
 		close(prev_pipe_r);
 	waitpid(pid, NULL, 0);
-	while (wait(NULL) == -1)
-		;
-	ft_putstr_nl_fd(" ouii", 1);
+	if (i > 1) {
+		while (wait(NULL) == -1);
+	}
+	ft_putstr_nl_fd("------", 1);
 	return (1);
 }
 
@@ -81,12 +82,12 @@ int main(int ac, char **av, char **env)
 	//first cmd
 
 	cmd = ft_cmd_init();
-//	cmd->param = ft_split("cat", ' ');
-	cmd->red = ft_strdup("<< end");
+	cmd->param = ft_split("cat", ' ');
+	cmd->red = ft_strdup("<< end > halo.txt");
 	//second cmd
-	cmd->next = ft_cmd_init();
-//	cmd->next->param = ft_split("dfsafas", ' ');
-	cmd->next->red = ft_strdup("<< ok");
+//	cmd->next = ft_cmd_init();
+//	cmd->next->param = ft_split("cat", ' ');
+//	cmd->next->red = ft_strdup("<< ok");
 	
 //	cmd->next->next = ft_cmd_init();
 //	cmd->next->next->param = ft_split("wc -l", ' ');

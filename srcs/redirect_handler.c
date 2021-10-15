@@ -57,6 +57,7 @@ int	redirect_handler(char *red)
 	int		mode;
 	int 	redirect_mode;
 	char	*filename;
+	int here_doc = 0;
 	
 	mode = 0;
 	redirect_mode = 0;
@@ -79,6 +80,7 @@ int	redirect_handler(char *red)
 			if (*(red + 1) == '<')
 			{
 				redirect_mode = HERE_DOC;
+				here_doc = 1;
 				red++;
 			}
 			else
