@@ -80,6 +80,7 @@ char				*ft_strtrim(const char *s1, const char *set);
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char				*ft_strnstr(const char *s1, const char *to_find,
 						size_t len);
+int					ft_strcmp(const char *s1, const char *s2);
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **alst, t_list *new);
