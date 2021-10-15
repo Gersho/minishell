@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/14 17:26:52 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 11:20:56 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	ft_freestructs_exit(t_cmd* list, int err);
 int		skip_spaces(char *str);
 void	close_perror(int fd);
 void	dup2_close(int fd1, int fd2);
+//----Tools
+int	ft_str_index_c(char *str, char c);
 //----Get cmd path
 char	**split_env_path(char **envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);

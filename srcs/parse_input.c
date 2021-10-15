@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/14 17:58:35 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 12:43:32 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,26 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 	t_cmd*	tmp;
 	int len;
 
-	printf("tested line: %s\n", str);
-	printf("len = %zu\n", ft_strlen(str));
+	// printf("tested line: %s\n", str);
+	// printf("len = %zu\n", ft_strlen(str));
 	i = 0;
 	len = ft_strlen(str);
 	tmp = cmd;
 	while (i < len)
 	{
-		printf("pwet\n");
 
-		printf("strncmp1: %d\n", ft_strncmp(&str[i], "\'", 1));
 		if (ft_strncmp(&str[i], "\'", 1) == 0)
 		{
-			printf("dans le if 1\n");
-			i += to_param_quote(cmd, tmp, &str[i + 1]) + 1;
+			i += to_param_quote(cmd, tmp, &str[i + 1]) + 2;
 			continue;	
 		}
 		if (ft_strncmp(&str[i], "\"", 1) == 0)
 		{
-			printf("dans le if 2\n");
-			i += to_param_dblquote(cmd, tmp, &str[i + 1]) + 1;
+			i += to_param_dblquote(cmd, tmp, &str[i + 1]) + 2;
 			continue;
 		}
 		if (ft_strncmp(&str[i], "|", 1) == 0)
 		{
-			printf("dans le if 3\n");
 			tmp->next = ft_cmd_init();
 			tmp = tmp->next;
 			i++;

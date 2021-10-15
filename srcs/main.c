@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/14 18:05:14 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 12:51:29 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,35 @@ int main()
 {
 	char*	line;
 	t_cmd*	cmd;
+	t_cmd*	tmp;
 
 	cmd = ft_cmd_init();
-		printf("%p\n", cmd);
-	// while (1)
-	// {
+
+	while (1)
+	{
 		line = readline("Enter a line: ");
 		ft_parse_line(line, cmd);
-	//	printf("plip\n");
+		//ft_parse_line(av[1], cmd);
 		free(line);
-//	}
-	printf("Still alive\n");
-	int i = 0;
 
-	// while (cmd->param[i])
-	// {
-	// 	printf("%s", cmd->param[i]);
-	// 	i++;
-	// }
-	printf("%p\n", cmd);
-	printf("%p\n", cmd->param);
-	printf("%s\n", *cmd->param);
+		int i;
+		tmp = cmd;
 
-//	system(line);
+		while (tmp)
+		{
+			i = 0;
+			while (cmd->param[i])
+			{
+				printf("i: %d\n", i);
+				printf("%p\n", cmd->param);
+				printf("cmd param: %s\n", cmd->param[i]);
+				printf("----");	
+				i++;
+			}
 
+			tmp = tmp->next;
+		}
+	}
+	
 	return 0;
 }
