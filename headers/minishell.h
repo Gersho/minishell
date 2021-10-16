@@ -20,7 +20,7 @@
 # include <readline/readline.h>
 
 typedef struct	s_cmd	t_cmd;
-
+typedef struct	s_file_descriptors	t_fds;
 enum e_cmd_name
 {
 	ECHO,
@@ -45,7 +45,15 @@ struct s_cmd
 	char*		path;
 	char**		param;
 	char*		red;
+	t_fds		*fd;
 	t_cmd*		next;
+};
+
+struct s_file_descriptors
+{
+	int std_out;
+	int std_in;
+	int pipe[2];
 };
 
 //----lst_cmd
@@ -76,9 +84,9 @@ int		is_separator(char c);
 char	**split_env_path(char **envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);
 //----Redirect Handling
-int		redirect_handler(char *red);
+int		redirect_handler(char *red, t_cmd *cmd);
 int		is_redirect(char c);
-int 	here_doc(int fd, char* limiter);
+int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, char **env);
 //----COMMANDS BUILT IN
