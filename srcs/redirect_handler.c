@@ -56,6 +56,7 @@ int	redirect_handler(char *red, t_cmd *cmd)
 	int		mode;
 	int 	redirect_mode;
 	char	*filename;
+	int here_doc = 0;
 	
 	while (*red)
 	{
@@ -80,6 +81,7 @@ int	redirect_handler(char *red, t_cmd *cmd)
 			if (*(red + 1) == '<')
 			{
 				redirect_mode = HERE_DOC;
+				here_doc = 1;
 				red++;
 			}
 			else
