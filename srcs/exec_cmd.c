@@ -34,6 +34,8 @@ int exec_cmd(t_cmd *cmd, char **env)
 	fds.std_in = dup(0);
 	path_tab = split_env_path(env);
 	int	prev_pipe_r;
+	
+	prev_pipe_r = 0;
 	while (cmd != NULL)
 	{
 		cmd->fd = &fds;
@@ -56,9 +58,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 		if (pid == 0)
 		{
 			check_built_in(cmd->param);
-			get_cmd_path(cmd, path_tab);
-//			ft_putstr_nl_fd(cmd->path, 1);
-			close(cmd->fd->std_out);
+			get_cmd_path(cmd, path_tab);;
 			execve(cmd->path, cmd->param, env);
 			perror("execve");
 			ft_putstr_nl_fd(cmd->path, cmd->fd->std_out);
@@ -74,7 +74,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 		i++;
 	}
 	if (i > 1)
-		close(prev_pipe_r);
+		close_perror(prev_pipe_r);
 //	while (wait(NULL) != -1)
 //		;
 	waitpid(pid, NULL, 0);
@@ -92,11 +92,11 @@ int main(int ac, char **av, char **env)
 
 	cmd = ft_cmd_init();
 	cmd->param = ft_split("cat", ' ');
-	cmd->red = ft_strdup("<< ok");
+//	cmd->red = ft_strdup("<< ok");
 	//second cmd
 	cmd->next = ft_cmd_init();
-	cmd->next->param = ft_split("cat", ' ');
-	cmd->next->red = ft_strdup("<< oui");
+	cmd->next->param = ft_split("ls", ' ');
+//	cmd->next->red = ft_strdup("<< oui");
 	
 //	cmd->next->next = ft_cmd_init();
 //	cmd->next->next->param = ft_split("wc -l", ' ');
