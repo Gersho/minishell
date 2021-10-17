@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/15 17:25:13 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 18:01:46 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,31 @@ int	to_param_word(t_cmd *forfree, t_cmd *current, char* str)
 	// 	i = ft_strlen(str);
 	tmp = ft_substr(str, 0, i);
 	current->param = ft_param_append_word(forfree, current->param, tmp);
+	free(tmp);
+	return (i);
+}
+
+int	to_redirect(t_cmd *forfree, t_cmd *current, char* str)
+{
+	int i;
+	char *tmp;
+	char *swap;
+
+	i = 1;
+	while (is_redirect_or_space(str[i]))
+		i++;
+	while (!is_separator(str[i]))
+		i++;
+	tmp = ft_substr(str, 0, i);
+	if (current->red == NULL)
+	{
+		current->red = ft_strjoin("", tmp);
+	}
+	else
+	{	swap = current->red;
+		current->red = ft_strjoin(swap, tmp);
+		free(swap);
+	}
 	free(tmp);
 	return (i);
 }
