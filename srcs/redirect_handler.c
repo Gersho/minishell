@@ -28,11 +28,10 @@ static char *get_filename(char *str)
 	return (filename);
 }
 
-static int open_with_param(char *filename, int redirect_mode, int mode)
+static int open_with_param(char *filename, int redirect_mode)
 {
 	int 	file_fd;
-	
-	file_fd = 0;
+
 	if (redirect_mode == RED_OUT_T)
 		file_fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 00644);
 	else if (redirect_mode == RED_OUT_A)
@@ -44,11 +43,51 @@ static int open_with_param(char *filename, int redirect_mode, int mode)
 		perror(filename);
 		exit (EXIT_FAILURE);
 	}
-	if (mode == STDOUT_FILENO)
+	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
 		dup2_close(file_fd, STDOUT_FILENO);
-	else if (redirect_mode == RED_IN)
-		dup2_close(file_fd, 0);
+	else
+		dup2_close(file_fd, STDIN_FILENO);
 	return (1);
+}
+
+static void redirect_out(char **redirect, int *red_mode)
+{
+	if (*(*redirect) == '>')
+	{
+		if (*(*redirect + 1) == '>')
+		{
+			(*redirect)++;
+			*red_mode = RED_OUT_A;
+		}
+		else
+			*red_mode = RED_OUT_T;
+	}
+}
+
+static void redirect_in(char **redirect, int *red_mode)
+{
+	if (*(*redirect)== '<')
+	{
+		if (*(*redirect + 1) == '<')
+		{
+			(*redirect)++;
+			*red_mode = HERE_DOC;
+		}
+		else
+			*red_mode = RED_IN;
+	}
+}
+
+static int which_redirect(char **red)
+{
+	int	redirect_mode;
+	
+	*red += skip_spaces(*red);
+	redirect_in(red, &redirect_mode);
+	redirect_out(red, &redirect_mode);
+	(*red)++;
+	*red += skip_spaces(*red);//if is redirect syntax error near *red
+	return (redirect_mode);
 }
 
 int	redirect_handler(char *red, t_cmd *cmd)
@@ -59,34 +98,32 @@ int	redirect_handler(char *red, t_cmd *cmd)
 	
 	while (*red)
 	{
-		mode = 0;
-		redirect_mode = 0;
-		red += skip_spaces(red);
-//		ft_putstr_nl_fd(red, 2);
-		if (*red == '>')
-		{
-			mode = STDOUT_FILENO;
-			if (*(red + 1) == '>')
-			{
-				redirect_mode = RED_OUT_A;
-				red++;
-			}
-			else
-				redirect_mode = RED_OUT_T;
-		}
-		else if (*red == '<')
-		{
-			mode = STDIN_FILENO;
-			if (*(red + 1) == '<')
-			{
-				redirect_mode = HERE_DOC;
-				red++;
-			}
-			else
-				redirect_mode = RED_IN;
-		}
-		red++;
-		red += skip_spaces(red);
+//		redirect_mode = 0;
+//		red += skip_spaces(red);
+//		if (*red == '>')
+//		{
+//			if (*(red + 1) == '>')
+//			{
+//				redirect_mode = RED_OUT_A;
+//				red++;
+//			}
+//			else
+//				redirect_mode = RED_OUT_T;
+//		}
+//		else if (*red == '<')
+//		{
+//			if (*(red + 1) == '<')
+//			{
+//				redirect_mode = HERE_DOC;
+//				red++;
+//			}
+//			else
+//				redirect_mode = RED_IN;
+//		}
+		redirect_mode = which_redirect(&red);
+//		red++;
+//		red += skip_spaces(red);
+		dprintf(2, "%s\n", red);
 		filename = get_filename(red);
 		if (filename == NULL)
 			return (-1);
@@ -94,7 +131,7 @@ int	redirect_handler(char *red, t_cmd *cmd)
 		if (redirect_mode == HERE_DOC)
 			here_doc(filename, cmd);
 		else
-			open_with_param(filename, redirect_mode, mode); //TODO close fd if more redirect
+			open_with_param(filename, redirect_mode); //TODO close fd if more redirect
 		
 	}
 	return (1);
