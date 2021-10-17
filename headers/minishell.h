@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/15 16:03:37 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/15 18:02:12 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);
 int		to_param_quote(t_cmd *forfree, t_cmd *current, char* str);
 int		to_param_dblquote(t_cmd *forfree, t_cmd *current, char* str);
 int		to_param_word(t_cmd *forfree, t_cmd *current, char* str);
-
+int		to_redirect(t_cmd *forfree, t_cmd *current, char* str);
 //----Parsing
 void	ft_parse_line(char *line, t_cmd *list);
 //----Error handling
@@ -72,6 +72,7 @@ void	dup2_close(int fd1, int fd2);
 //----Tools
 int		ft_str_index_c(char *str, char c);
 int		is_separator(char c);
+int		is_redirect_or_space(char c);
 //----Get cmd path
 char	**split_env_path(char **envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);
