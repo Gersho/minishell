@@ -6,74 +6,44 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/15 17:50:41 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/17 12:41:53 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-void	ft_parse_line(char *str, t_cmd *cmd)
+void	ft_parse_loop(t_cmd *cmd, char *str, int len)
 {
-	int	i;
-	t_cmd*	tmp;
-	int len;
+	t_cmd	*tmp;
+	int		i;
 
-	//printf("tested line: %s\n", str);
-	// printf("len = %zu\n", ft_strlen(str));
-	i = 0;
-	len = ft_strlen(str);
 	tmp = cmd;
+	i = 0;
 	while (i < len)
 	{
-		// printf("i: %d -- str[i]: %c\n", i, str[i]);
-		// printf("still in str:%s\n", &str[i]);
-
 		if (ft_strncmp(&str[i], " ", 1) == 0)
-		{
 			i += skip_spaces(&str[i]);
-			continue;
-		}
-
-		if (ft_strncmp(&str[i], "\'", 1) == 0)
-		{
+		else if (ft_strncmp(&str[i], "\'", 1) == 0)
 			i += to_param_quote(cmd, tmp, &str[i]);
-			continue;	
-		}
 		else if (ft_strncmp(&str[i], "\"", 1) == 0)
-		{
 			i += to_param_dblquote(cmd, tmp, &str[i]);
-			continue;
-		}
 		else if (ft_strncmp(&str[i], "|", 1) == 0)
 		{
-			//printf("dans le if pipe\n");
 			tmp->next = ft_cmd_init();
 			tmp = tmp->next;
 			i++;
-			continue;
 		}
-		else if(str[i] == 60 || str[i] == 62)
-		{
+		else if (str[i] == 60 || str[i] == 62)
 			i += to_redirect(cmd, tmp, &str[i]);
-			continue;
-		}
 		else
-		{
 			i += to_param_word(cmd, tmp, &str[i]);
-			continue;	
-		}
-		//else //if (ft_isalnum(str[i]))
-
-
-
-		// if (ft_strchr("<>", str[i]))
-		// {
-		// 	//send to red with watever is after (tmp not cmd)
-		// }
-
-
-		//printf("%c", str[i]);
-		i++;
 	}
-//	(void)cmd;
+}
+
+void	ft_parse_line(char *str, t_cmd *cmd)
+{
+	int		len;
+
+	len = ft_strlen(str);
+	ft_parse_loop(cmd, str, len);
 }
