@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/17 13:05:11 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:47:31 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	to_param_quote(t_cmd *forfree, t_cmd *current, char *str)
 	int		i;
 	char	*tmp;
 
+	(void) forfree;
 	i = ft_str_index_c((str + 1), '\'') + 2;
 	if (i == -1)
 	{
@@ -55,6 +56,7 @@ int	to_param_dblquote(t_cmd *forfree, t_cmd *current, char *str)
 	int		i;
 	char	*tmp;
 
+	(void) forfree;
 	i = ft_str_index_c((str + 1), '\"') + 2;
 	if (i == -1)
 	{
@@ -73,6 +75,7 @@ int	to_param_word(t_cmd *forfree, t_cmd *current, char *str)
 	int		i;
 	char	*tmp;
 
+	(void) forfree;
 	i = 1;
 	ft_param_loop(str, &i);
 	tmp = ft_substr(str, 0, i);
@@ -87,6 +90,7 @@ int	to_redirect(t_cmd *forfree, t_cmd *current, char *str)
 	char	*tmp;
 	char	*swap;
 
+	(void) forfree;
 	i = 1;
 	while (is_redirect_or_space(str[i]))
 		i++;

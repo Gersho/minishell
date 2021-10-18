@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/15 18:02:12 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:27:35 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 typedef struct	s_cmd	t_cmd;
 typedef struct	s_file_descriptors	t_fds;
+// typedef enum	e_type	t_type;
+// typedef struct	s_quotes	t_quotes;
+
 enum e_cmd_name
 {
 	ECHO,
@@ -39,6 +42,21 @@ enum e_open_param
 	RED_IN,
 	HERE_DOC
 };
+
+// enum e_type
+// {
+// 	SIMPLE,
+// 	DOUBLE,
+// 	NONE
+// };
+
+// struct s_quotes
+// {
+// 	int		start;
+// 	int		end;
+// 	t_type	type;
+// };
+
 
 struct s_cmd
 {

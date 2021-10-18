@@ -1,4 +1,4 @@
-SRCS		= srcs/exec_cmd.c srcs/get_cmd_path.c srcs/minishell.c srcs/redirect_handler.c srcs/utils.c srcs/exits.csrcs/main.c srcs/parse_input.c  srcs/s_cmd.c
+SRCS		= srcs/dollars.c srcs/exec_cmd.c srcs/echo.c srcs/get_cmd_path.c srcs/here_doc.c srcs/minishell.c srcs/redirect_handler.c srcs/utils.c srcs/exits.c srcs/main.c srcs/parse_input.c srcs/param_utils.c srcs/tools.c srcs/parse_tools.c srcs/s_cmd.c
 
 
 OBJS			= $(SRCS:.c=.o)
@@ -21,8 +21,8 @@ clean:
 				$(RM) $(OBJS)
 
 fclean:			clean
+				make fclean -C libft/
 				$(RM) minishell
-				$(RM) libft/libft.a
 
 re:			fclean all
 

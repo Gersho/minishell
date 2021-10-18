@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:12:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/17 14:03:09 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/18 13:38:01 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@ void	ft_free_cmd(t_cmd *cmd)
 {
 	if (cmd->red)
 		free(cmd->red);
-	
+	if (cmd->param)
+		ft_free_str_tab(cmd->param);
+	free(cmd);
 }
 
 void	ft_cmd_loop(t_cmd *cmd)
 {
 	t_cmd	*tmp;
 
-	while(cmd);
+	while(cmd)
 	{
 		tmp = cmd;
 		while (tmp)

@@ -84,7 +84,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 //	ft_putstr_nl_fd(" ouii", 1);
 	return (1);
 }
-
+/*
 int main(int ac, char **av, char **env)
 {
 	t_cmd *cmd;
@@ -105,3 +105,4 @@ int main(int ac, char **av, char **env)
 
 	exec_cmd(cmd, env);
 }
+*/
