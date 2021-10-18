@@ -4,6 +4,7 @@
 
 #include "../headers/minishell.h"
 
+
 int is_redirect(char c)
 {
 	if (c == '>' || c == '<')
@@ -17,7 +18,8 @@ static char *get_filename(char *str)
 	size_t i;
 	
 	i = 0;
-	while (str[i] && !is_redirect(str[i]))
+	//TODO if str[i] is redirect  "syntax error near unexpected token"
+	while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
 		i++;
 	filename = malloc(sizeof(char) * (i + 1));
 	if (filename == NULL)
@@ -30,6 +32,7 @@ static int open_with_param(char *filename, int redirect_mode, int mode)
 {
 	int 	file_fd;
 	
+	file_fd = 0;
 	if (redirect_mode == RED_OUT_T)
 		file_fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 00644);
 	else if (redirect_mode == RED_OUT_A)
@@ -42,22 +45,24 @@ static int open_with_param(char *filename, int redirect_mode, int mode)
 		exit (EXIT_FAILURE);
 	}
 	if (mode == STDOUT_FILENO)
-		dup2_close(file_fd, STDOUT_FILENO);//TODO close fd at every call of dup2
-	else
-		dup2_close(file_fd, STDIN_FILENO);
+		dup2_close(file_fd, STDOUT_FILENO);
+	else if (redirect_mode == RED_IN)
+		dup2_close(file_fd, 0);
 	return (1);
 }
 
-int	redirect_handler(char *red)
+int	redirect_handler(char *red, t_cmd *cmd)
 {
 	int		mode;
 	int 	redirect_mode;
 	char	*filename;
 	
-	mode = 0;
-	redirect_mode = 0;
 	while (*red)
 	{
+		mode = 0;
+		redirect_mode = 0;
+		red += skip_spaces(red);
+//		ft_putstr_nl_fd(red, 2);
 		if (*red == '>')
 		{
 			mode = STDOUT_FILENO;
@@ -73,7 +78,10 @@ int	redirect_handler(char *red)
 		{
 			mode = STDIN_FILENO;
 			if (*(red + 1) == '<')
+			{
 				redirect_mode = HERE_DOC;
+				red++;
+			}
 			else
 				redirect_mode = RED_IN;
 		}
@@ -83,7 +91,11 @@ int	redirect_handler(char *red)
 		if (filename == NULL)
 			return (-1);
 		red += ft_strlen(filename);
-		open_with_param(filename, redirect_mode, mode); //close fd if more redirect
+		if (redirect_mode == HERE_DOC)
+			here_doc(filename, cmd);
+		else
+			open_with_param(filename, redirect_mode, mode); //TODO close fd if more redirect
+		
 	}
 	return (1);
 }

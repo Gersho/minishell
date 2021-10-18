@@ -61,7 +61,7 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 	}
 	ft_free_str_tab(path_tab);
 	if (command_not_found(cmd->path, *cmd->param))
-		return (-1);//free and exit
+		exit (-1);//TODO free and exit
 	return (0);
 }
 
