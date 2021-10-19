@@ -18,7 +18,14 @@ static char *get_filename(char *str)
 	size_t i;
 	
 	i = 0;
-	//TODO if str[i] is redirect  "syntax error near unexpected token"
+	if (is_redirect(str[i]) || str[i] == '\0')
+	{
+		if (is_redirect(str[i]))
+			dprintf(2, "syntax error near unexpected token '%c'\n", str[i]);
+		else
+			dprintf(2, "syntax error near unexpected token 'newline'\n");
+		return (NULL);
+	}
 	while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
 		i++;
 	filename = malloc(sizeof(char) * (i + 1));
@@ -86,47 +93,21 @@ static int which_redirect(char **red)
 	redirect_in(red, &redirect_mode);
 	redirect_out(red, &redirect_mode);
 	(*red)++;
-	*red += skip_spaces(*red);//if is redirect syntax error near *red
+	*red += skip_spaces(*red);
 	return (redirect_mode);
 }
 
 int	redirect_handler(char *red, t_cmd *cmd)
 {
-	int		mode;
 	int 	redirect_mode;
 	char	*filename;
 	
 	while (*red)
 	{
-//		redirect_mode = 0;
-//		red += skip_spaces(red);
-//		if (*red == '>')
-//		{
-//			if (*(red + 1) == '>')
-//			{
-//				redirect_mode = RED_OUT_A;
-//				red++;
-//			}
-//			else
-//				redirect_mode = RED_OUT_T;
-//		}
-//		else if (*red == '<')
-//		{
-//			if (*(red + 1) == '<')
-//			{
-//				redirect_mode = HERE_DOC;
-//				red++;
-//			}
-//			else
-//				redirect_mode = RED_IN;
-//		}
 		redirect_mode = which_redirect(&red);
-//		red++;
-//		red += skip_spaces(red);
-		dprintf(2, "%s\n", red);
 		filename = get_filename(red);
 		if (filename == NULL)
-			return (-1);
+			exit(EXIT_FAILURE);//TODO free etc
 		red += ft_strlen(filename);
 		if (redirect_mode == HERE_DOC)
 			here_doc(filename, cmd);

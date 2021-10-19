@@ -21,7 +21,8 @@ int create_child_to_exec_cmd(t_cmd *cmd, char **path_tab, char **env, int *pid)
 	if (*pid == 0)
 	{
 		check_built_in(cmd->param);
-		get_cmd_path(cmd, path_tab);;
+		get_cmd_path(cmd, path_tab);
+		printf("cmd par |%s||%s||%s|\n", *cmd->param, cmd->param[1], cmd->param[2]);
 		execve(cmd->path, cmd->param, env);
 		perror("execve");
 	}
@@ -59,7 +60,7 @@ void set_pipe(t_cmd *cmd, t_fds *fds, int cmd_index)
 	cmd->fd = fds;
 	if (pipe(cmd->fd->pipe) == -1)
 		perror("pipe");
-	dprintf (2, "pipe[0] = %d | pipe[1] = %d\n", cmd->fd->pipe[0], cmd->fd->pipe[1]);
+//	dprintf (2, "pipe[0] = %d | pipe[1] = %d\n", cmd->fd->pipe[0], cmd->fd->pipe[1]);
 	if (cmd_index > 0) //if not first cmd, replace current input by previous pipe input
 		dup2_close(cmd->fd->prev_pipe_in, 0);
 	if (cmd->next) //if there is a next command replace current output by pipe output
@@ -70,8 +71,14 @@ void set_pipe(t_cmd *cmd, t_fds *fds, int cmd_index)
 
 void check_built_in(char **param)
 {
-	if (ft_strcmp("echo", *param) == 0)//TODO tmp = *param ; tmp in lower case +strcoomp
+	char *name;
+
+	name = str_in_lower_case(*param);
+	if (ft_strcmp("echo", name) == 0)//TODO tmp = *param ; tmp in lower case +strcoomp
+	{
+		free(name);
 		echo(param);
+	}
 //	else if (ft_strcmp("pwd", cmd) == 0)
 }
 
@@ -85,7 +92,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 	path_tab = split_env_path(env);//TODO liste chaine avec env
 	cmd_index = 0;
 	init_fd(&fds);
-	printf ("stdin = %d | stdout = %d\n", fds.std_in, fds.std_out);
+//	printf ("stdin = %d | stdout = %d\n", fds.std_in, fds.std_out);
 	while (cmd != NULL)
 	{
 		set_pipe(cmd, &fds, cmd_index);
@@ -105,19 +112,19 @@ int exec_cmd(t_cmd *cmd, char **env)
 }
 
 //TODO handle "echo blalba >" || "echo blabla ><"
-
+//TODO "e""c""h""o"
 int main(int ac, char **av, char **env)
 {
 	t_cmd *cmd;
 	//first cmd
 
 	cmd = ft_cmd_init();
-	cmd->param = ft_split("echo bonjour ca va ?", ' ');
-	cmd->red = ft_strdup(">< test.txt");
-	//second cmdgc
-//	cmd->next = ft_cmd_init();
-//	cmd->next->param = ft_split("ls", ' ');
-//	cmd->next->red = ft_strdup("<< oui");
+	cmd->param = ft_split("eCHo -ne bonjr", ' ');
+	cmd->red = ft_strdup(">> ");
+//	second cmdgc
+	cmd->next = ft_cmd_init();
+	cmd->next->param = ft_split("echo bjr", ' ');
+//	cmd->next->red = ft_strdup("");
 	
 //	cmd->next->next = ft_cmd_init();
 //	cmd->next->next->param = ft_split("wc -l", ' ');

@@ -80,6 +80,7 @@ int		skip_spaces(char *str);
 void	close_perror(int fd);
 void	dup2_close(int fd1, int fd2);
 void	close_fds(int nb, ...);
+char	*str_in_lower_case(char *s);
 //----Tools
 int		ft_str_index_c(char *str, char c);
 int		is_separator(char c);
