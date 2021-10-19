@@ -18,14 +18,14 @@ static char *get_filename(char *str)
 	size_t i;
 	
 	i = 0;
-	if (is_redirect(str[i]) || str[i] == '\0')
-	{
-		if (is_redirect(str[i]))
-			dprintf(2, "syntax error near unexpected token '%c'\n", str[i]);
-		else
-			dprintf(2, "syntax error near unexpected token 'newline'\n");
-		return (NULL);
-	}
+//	if (is_redirect(str[i]) || str[i] == '\0')
+//	{
+//		if (is_redirect(str[i]))
+//			dprintf(2, "syntax error near unexpected token '%c'\n", str[i]);
+//		else
+//			dprintf(2, "syntax error near unexpected token 'newline'\n");
+//		return (NULL);
+//	}
 	while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
 		i++;
 	filename = malloc(sizeof(char) * (i + 1));
@@ -112,8 +112,7 @@ int	redirect_handler(char *red, t_cmd *cmd)
 		if (redirect_mode == HERE_DOC)
 			here_doc(filename, cmd);
 		else
-			open_with_param(filename, redirect_mode); //TODO close fd if more redirect
-		
+			open_with_param(filename, redirect_mode);
 	}
 	return (1);
 }

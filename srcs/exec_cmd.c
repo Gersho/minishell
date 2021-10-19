@@ -22,7 +22,7 @@ int create_child_to_exec_cmd(t_cmd *cmd, char **path_tab, char **env, int *pid)
 	{
 		check_built_in(cmd->param);
 		get_cmd_path(cmd, path_tab);
-		printf("cmd par |%s||%s||%s|\n", *cmd->param, cmd->param[1], cmd->param[2]);
+//		dprintf(2, "cmd par |%s|\n", *cmd->param);
 		execve(cmd->path, cmd->param, env);
 		perror("execve");
 	}
@@ -89,6 +89,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 	int cmd_index;
 	t_fds fds;
 	
+	//TODO cat | heredoc, heredoc first
 	path_tab = split_env_path(env);//TODO liste chaine avec env
 	cmd_index = 0;
 	init_fd(&fds);
@@ -119,12 +120,13 @@ int main(int ac, char **av, char **env)
 	//first cmd
 
 	cmd = ft_cmd_init();
-	cmd->param = ft_split("eCHo -ne bonjr", ' ');
-	cmd->red = ft_strdup(">> ");
+	cmd->param = ft_split("cat test.txt", ' ');
+//	cmd->red = ft_strdup("<< oui");
 //	second cmdgc
+
 	cmd->next = ft_cmd_init();
-	cmd->next->param = ft_split("echo bjr", ' ');
-//	cmd->next->red = ft_strdup("");
+	cmd->next->param = ft_split("cat", ' ');
+//	cmd->next->red = ft_strdup("<< end");
 	
 //	cmd->next->next = ft_cmd_init();
 //	cmd->next->next->param = ft_split("wc -l", ' ');
