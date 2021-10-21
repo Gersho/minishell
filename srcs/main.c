@@ -13,7 +13,7 @@
 #include "../headers/minishell.h"
 #include <readline/readline.h>
 //#include <readline/history.h>
-
+//TODO printf_fd
 int main(int ac,char **av, char** env)
 {
 	char*	line;
@@ -23,39 +23,25 @@ int main(int ac,char **av, char** env)
 	(void)ac;
 	(void)av;
 
-	cmd = ft_cmd_init();
-
+	t_cmd*	tmp;
 	while (1)
 	{
-		line = readline("$");
+		line = readline(PROMPT);
+//		get_next_line(0, &line);
+		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
-		//exec
+//		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
+		if (*cmd->param)
+			exec_cmd(cmd, env);
+		while (cmd != NULL)
+		{
+			tmp = cmd->next;
+			free(cmd);
+			cmd = NULL;
+			cmd = tmp;
+		}
 		free(line);
-		exec_cmd(cmd, env);
+		line = NULL;
 	}
-		//printf("coucou\n");
-		// int i;
-		// int j = 0;
-		// tmp = cmd;
-
-		// while (tmp)
-		// {
-		// 	// printf("maillon cmd: %d", j);
-		// 	// j++;
-		// 	i = 0;
-		// 	while (tmp->param[i])
-		// 	{
-		// 		printf("----\n");	
-		// 		printf("j: %d | i: %d\n", j, i);
-		// 		//printf("%p\n", tmp->param);
-		// 		printf("cmd param: %s\n", tmp->param[i]);
-		// 		i++;
-		// 	}
-		// 	printf("reds: %s\n", tmp->red);
-		// 	j++;
-		// 	tmp = tmp->next;
-	//	}
-//	}
-	
 	return 0;
 }

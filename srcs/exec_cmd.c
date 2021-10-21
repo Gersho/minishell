@@ -77,8 +77,8 @@ void set_pipe(t_cmd *cmd, t_fds *fds, int cmd_index)
 	}
 	if (cmd->next) //if there is a next command replace current output by pipe output
 		dup2_close(cmd->fd->pipe[1], 1);
-	else if (cmd_index > 0 && !cmd->next) //if this is last cmd replace current output by stdout
-		dup2_close(cmd->fd->std_out, 1);
+//	else if (cmd_index > 0 && !cmd->next) //if this is last cmd replace current output by stdout
+//		dup2(cmd->fd->std_out, 1);
 }
 
 int check_built_in(char **param)
@@ -117,11 +117,10 @@ int exec_cmd(t_cmd *cmd, char **env)
 			create_child_to_exec_cmd(cmd, path_tab, env, &pid);//if return -1 free exit
 		if (cmd->next)
 			dup2_close(cmd->fd->pipe[0], 0);
+		else
+			dup2(cmd->fd->std_in, 0);
 //			cmd->fd->prev_pipe_in = dup(cmd->fd->pipe[0]);//dup2_close(cmd->fd->pipe[0], 0)?
-//		close_perror(cmd->fd->pipe[0]);
-//		close_perror(1);
-//		close_perror(0);
-//		dprintf(2,"prev pipe = %d\n", cmd->fd->prev_pipe_in);
+		dup2(cmd->fd->std_out, 1);
 		cmd = cmd->next;
 		cmd_index++;
 	}

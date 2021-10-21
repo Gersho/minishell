@@ -20,6 +20,8 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 
+#define PROMPT "Minishell_alpha: "
+
 typedef struct	s_cmd	t_cmd;
 typedef struct	s_file_descriptors	t_fds;
 enum e_cmd_name

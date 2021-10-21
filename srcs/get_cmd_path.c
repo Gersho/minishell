@@ -8,8 +8,9 @@ static int	command_not_found(char *path, char *name)
 {
 	if (path == NULL)
 	{
-		ft_putstr_fd(name, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		dprintf(2, "%s %s: command not found\n", PROMPT, name);
+//		ft_putstr_fd(name, 2);
+//		ft_putstr_fd(": command not found\n", 2);
 		return (1);
 	}
 	return (0);
@@ -92,10 +93,9 @@ char	**split_env_path(char **envp)
 	char	**paths_tab;
 
 	i = 0;
-	while (ft_strncmp(envp[i], "PATH=", 5))
+	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
-	envp[i] += 5;
-	paths_tab = ft_split(envp[i], ':');
+	paths_tab = ft_split(envp[i] + 5, ':');
 	if (paths_tab == NULL)
 		exit(EXIT_FAILURE);
 	add_slash_to_path(paths_tab);
