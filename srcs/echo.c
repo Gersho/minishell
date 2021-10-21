@@ -23,8 +23,6 @@ void echo(char **param)
 		if (param[i])
 			ft_putchar(' ');
 	}
-	ft_putstr(" builtin");
 	if (nl == 1)
 		ft_putchar('\n');
-	exit (EXIT_SUCCESS);
 }
