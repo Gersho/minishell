@@ -45,6 +45,6 @@ fclean:			clean
 				$(RM) minishell
 				$(RM) libft/libft.a
 
-re:			fclean all
+re:				fclean all
 
-.PHONY:		re fclean clean all
+.PHONY:			re fclean clean all
