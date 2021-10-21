@@ -111,7 +111,7 @@ int exec_cmd(t_cmd *cmd, char **env)
 			;
 	return (1);
 }
-
+/*
 //TODO handle "echo blalba >" || "echo blabla ><"
 //TODO "e""c""h""o"
 int main(int ac, char **av, char **env)
@@ -135,3 +135,4 @@ int main(int ac, char **av, char **env)
 
 	exec_cmd(cmd, env);
 }
+*/
