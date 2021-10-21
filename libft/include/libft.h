@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include "ft_printf.h"
 
 # define BUFFER_SIZE 2
 
@@ -38,7 +37,8 @@ char				*ft_ullitoa_base(unsigned long long n, char *base);
 char				*ft_itoa_base(int n, char *base);
 char				*ft_u_itoa_base(unsigned int n, char *base);
 char				*ft_u_itoa(unsigned int n);
-
+int					ft_printf(const char *str, ...);
+int					ft_printf_fd(int fd, const char *str, ...);
 int					ft_atoi(const char *nptr);
 char				*ft_itoa(int n);
 void				ft_bzero(void *s, size_t n);

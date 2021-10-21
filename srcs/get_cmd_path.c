@@ -50,7 +50,10 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 	i = 0;
 	while (path_tab[i])
 	{
-		path = ft_strjoin(path_tab[i++], *cmd->param);
+		if (i == 0)
+			path = ft_strdup(*cmd->param);
+		else
+			path = ft_strjoin(path_tab[i++], *cmd->param);
 		if (path == NULL)
 			return (-1);//TODO free path_tab and exit
 		if (path_exist(path, cmd) == 1)
