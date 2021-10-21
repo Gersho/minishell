@@ -16,6 +16,7 @@
 # include "../libft/include/libft.h"
 # include <errno.h>
 # include <stdio.h>
+# include <stdarg.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 
@@ -72,6 +73,7 @@ struct s_file_descriptors
 	int std_out;
 	int std_in;
 	int pipe[2];
+	int prev_pipe_in;
 };
 
 //----lst_cmd
@@ -95,6 +97,8 @@ void	ft_freestructs_exit(t_cmd* list, int err);
 int		skip_spaces(char *str);
 void	close_perror(int fd);
 void	dup2_close(int fd1, int fd2);
+void	close_fds(int nb, ...);
+char	*str_in_lower_case(char *s);
 //----Tools
 int		ft_str_index_c(char *str, char c);
 int		is_separator(char c);
@@ -109,6 +113,7 @@ int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, char **env);
 //----COMMANDS BUILT IN
+void	check_built_in(char **param);
 void	echo(char **param);
 
 #endif

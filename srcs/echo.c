@@ -6,20 +6,25 @@
 
 void echo(char **param)
 {
-	void (*put_str)(char *, int);
 	int i;
+	int nl;
 
-	put_str = &ft_putstr_nl_fd;
+	nl = 1;
 	i = 1;
 	if (param[i] && ft_strcmp("-n", param[i]) == 0)
 	{
-		put_str = &ft_putstr_fd;
+		nl = 0;
 		i++;
 	}
 	while (param[i])
 	{
-		put_str(param[i], 1);
+		ft_putstr(param[i]);
 		i++;
+		if (param[i])
+			ft_putchar(' ');
 	}
+	ft_putstr(" builtin");
+	if (nl == 1)
+		ft_putchar('\n');
 	exit (EXIT_SUCCESS);
 }

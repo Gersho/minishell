@@ -29,3 +29,20 @@ void dup2_close(int fd1, int fd2)
 		perror("dup2");
 	close_perror(fd1);
 }
+
+char *str_in_lower_case(char *s)
+{
+	int		i;
+	char	*str;
+	
+	i = 0;
+	str = ft_strdup(s);
+	if (str == NULL)
+		return (NULL);
+	while (str[i])
+	{
+		str[i] = ft_tolower((int)str[i]);
+		i++;
+	}
+	return (str);
+}
