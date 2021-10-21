@@ -73,6 +73,9 @@ t_cmd	*ft_cmd_init();
 t_cmd	*ft_cmd_last(t_cmd *cmd);
 void	ft_cmd_addback(t_cmd *start, t_cmd *new);
 size_t	ft_size_list(t_cmd *cmd_list);
+//----env
+char	**init_env_tab(char **env);
+char	*env_seeker(t_env *env_l, const char *name);
 //----list_env
 t_env	*get_env_list(char **env_main);
 void	print_list(t_env *env);//temporaire
@@ -106,9 +109,11 @@ int		redirect_handler(char *red, t_cmd *cmd);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
-int		exec_cmd(t_cmd *cmd, t_env *env);
+int		exec_cmd(t_cmd *cmd, t_env *env, char **env_t);
 //----COMMANDS BUILT IN
-int		check_built_in(char **param);
+int		check_built_in(char **param, t_env *env_l);
 void	echo(char **param);
+void	pwd(char **param, t_env *env_l);
+void	cd(char **param, t_env *env_l);
 
 #endif

@@ -14,7 +14,10 @@ SRCSF			= exec_cmd.c \
 				  parse_input.c  \
 				  s_cmd.c \
 				  echo.c \
-				  s_env.c
+				  s_env.c \
+				  env.c \
+				  pwd.c \
+				  cd.c
 
 SRCS			= $(addprefix srcs/, ${SRCSF})
 

@@ -31,7 +31,7 @@ int create_child_to_exec_cmd(t_cmd *cmd, char **path_tab, char **env, int *pid)
 	{
 //		check_built_in(cmd->param);
 		get_cmd_path(cmd, path_tab);
-//		dprintf(2, "cmd par |%s|\n", *cmd->param);
+//		dprintf(2, "cmd path |%s|\n", cmd->path);
 		execve(cmd->path, cmd->param, env);
 		perror("execve");
 	}
@@ -81,7 +81,7 @@ void set_pipe(t_cmd *cmd, t_fds *fds, int cmd_index)
 //		dup2(cmd->fd->std_out, 1);
 }
 
-int check_built_in(char **param)
+int check_built_in(char **param, t_env *env_l)
 {
 	int cmd;
 	
@@ -89,6 +89,10 @@ int check_built_in(char **param)
 	{
 		if (cmd == ECHO)
 			echo(param);
+		if (cmd == PWD)
+			pwd(param, env_l);
+		if (cmd == CD)
+			cd(param, env_l);
 //		 close (1);
 		return (1);
 	}
@@ -101,17 +105,16 @@ int	update_env_tab(char **env_t, t_env *env_l)
 	//afaire
 }
 
-int exec_cmd(t_cmd *cmd, t_env *env_l)
+int exec_cmd(t_cmd *cmd, t_env *env_l, char **env_t)
 {
 	char **path_tab;
 	int pid;
 	int cmd_index;
-	char **env_t;
 	t_fds fds;
 	//TODO check if cmd is absolute path
 	//TODO cat | heredoc, heredoc first
-	path_tab = split_env_path(env);//TODO update env in execve ?
-	update_env_tab(env_t);
+	path_tab = split_env_path(env_l);//TODO update env in execve ?
+//	update_env_tab(env_t);
 	cmd_index = 0;
 	init_fd(&fds);
 //	printf ("stdin = %d | stdout = %d\n", fds.std_in, fds.std_out);
@@ -120,7 +123,7 @@ int exec_cmd(t_cmd *cmd, t_env *env_l)
 		set_pipe(cmd, &fds, cmd_index);
 		if (cmd->red)
 			redirect_handler(cmd->red, cmd);
-		if (!check_built_in(cmd->param))
+		if (!check_built_in(cmd->param, env_l))
 			create_child_to_exec_cmd(cmd, path_tab, env_t, &pid);//if return -1 free exit
 		if (cmd->next)
 			dup2_close(cmd->fd->pipe[0], 0);

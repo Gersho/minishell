@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-#include <readline/readline.h>
 //#include <readline/history.h>
 //TODO printf_fd
 int main(int ac,char **av, char** env)
@@ -25,20 +24,20 @@ int main(int ac,char **av, char** env)
 	(void)av;
 
 	t_cmd*	tmp;
-	t_env	*env;
-	
-	env = get_env_list(env);
+	t_env	*env_l;
+
+	env_l = get_env_list(env);
 	env_t = init_env_tab(env);
-	print_list(env);
+//	print_list(env_l);
 	while (1)
 	{
 		line = readline(PROMPT);
-//		get_next_line(0, &line);
+////		get_next_line(0, &line);
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
-//		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
+////		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
 		if (*cmd->param)
-			exec_cmd(cmd, env);
+			exec_cmd(cmd, env_l, env_t);
 		while (cmd != NULL)
 		{
 			tmp = cmd->next;

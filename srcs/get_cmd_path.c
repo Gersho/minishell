@@ -94,7 +94,7 @@ char	**split_env_path(t_env *env)
 	//TODO what if path is deleted
 	while (env && env->next)
 	{
-		if (ft_strncmp(env->str, "PATH=", 5) != 0)
+		if (ft_strncmp(env->str, "PATH=", 5) == 0)
 			break ;
 		env = env->next;
 	}
