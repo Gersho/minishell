@@ -1,21 +1,42 @@
-SRCS		= srcs/exec_cmd.c srcs/get_cmd_path.c srcs/minishell.c srcs/here_doc.c srcs/param_utils.c srcs/redirect_handler.c srcs/utils.c srcs/exits.c srcs/tools.c srcs/main.c srcs/parse_tools.c srcs/parse_input.c  srcs/s_cmd.c srcs/echo.c srcs/s_env.c
+NAME			= minishell
 
+SRCSF			= exec_cmd.c \
+				  get_cmd_path.c \
+				  minishell.c \
+				  here_doc.c \
+				  param_utils.c \
+				  redirect_handler.c \
+				  utils.c \
+				  exits.c \
+				  tools.c \
+				  main.c \
+				  parse_tools.c \
+				  parse_input.c  \
+				  s_cmd.c \
+				  echo.c \
+				  s_env.c
+
+SRCS			= $(addprefix srcs/, ${SRCSF})
 
 OBJS			= $(SRCS:.c=.o)
 
-NAME			= minishell
 CC				= gcc
+
 RM				= rm -f
-CFLAGS			= -g
+
+CFLAGS			=
 
 all:			$(NAME)
 
-%.o: 			%.c	headers/minishell.h
+%.o: 			%.c	headers/minishell.h libft/include/libft.h
 				$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):		$(OBJS) headers/minishell.h
+$(NAME):		$(OBJS)
 				make -C libft/
-				$(CC) $(CFLAGS) libft/libft.a -Iheaders/minishell.h -lreadline -L /Users/$$USER/.brew/opt/readline/lib -I/Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS)
+				$(CC) $(CFLAGS) \
+				-L /Users/$$USER/.brew/opt/readline/lib \
+				-I/Users/$$USER/.brew/opt/readline/include \
+				-o $(NAME) $(OBJS) libft/libft.a -lreadline
 
 clean:			
 				$(RM) $(OBJS)
