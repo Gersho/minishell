@@ -24,6 +24,8 @@
 
 typedef struct	s_cmd	t_cmd;
 typedef struct	s_file_descriptors	t_fds;
+typedef struct	s_env_list t_env;
+
 enum e_cmd_name
 {
 	ECHO,
@@ -52,6 +54,12 @@ struct s_cmd
 	t_cmd*		next;
 };
 
+struct s_env_list
+{
+	char	*str;
+	t_env	*next;
+};
+
 struct s_file_descriptors
 {
 	int std_out;
@@ -60,11 +68,14 @@ struct s_file_descriptors
 	int prev_pipe_in;
 };
 
-//----lst_cmd
+//----list_cmd
 t_cmd	*ft_cmd_init();
 t_cmd	*ft_cmd_last(t_cmd *cmd);
 void	ft_cmd_addback(t_cmd *start, t_cmd *new);
 size_t	ft_size_list(t_cmd *cmd_list);
+//----list_env
+t_env	*get_env_list(char **env_main);
+void	print_list(t_env *env);//temporaire
 //----cmd->param
 char	**ft_param_init(t_cmd* cmd);
 char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);
@@ -88,14 +99,14 @@ int		ft_str_index_c(char *str, char c);
 int		is_separator(char c);
 int		is_redirect_or_space(char c);
 //----Get cmd path
-char	**split_env_path(char **envp);
+char	**split_env_path(t_env *envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);
 //----Redirect Handling
 int		redirect_handler(char *red, t_cmd *cmd);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
-int		exec_cmd(t_cmd *cmd, char **env);
+int		exec_cmd(t_cmd *cmd, t_env *env);
 //----COMMANDS BUILT IN
 int		check_built_in(char **param);
 void	echo(char **param);

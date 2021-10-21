@@ -87,15 +87,18 @@ static int	add_slash_to_path(char **path_tab)
 	return (1);
 }
 
-char	**split_env_path(char **envp)
+char	**split_env_path(t_env *env)
 {
-	int		i;
 	char	**paths_tab;
-
-	i = 0;
-	while (ft_strncmp(envp[i], "PATH=", 5) != 0)
-		i++;
-	paths_tab = ft_split(envp[i] + 5, ':');
+	
+	//TODO what if path is deleted
+	while (env && env->next)
+	{
+		if (ft_strncmp(env->str, "PATH=", 5) != 0)
+			break ;
+		env = env->next;
+	}
+	paths_tab = ft_split(env->str + 5, ':');
 	if (paths_tab == NULL)
 		exit(EXIT_FAILURE);
 	add_slash_to_path(paths_tab);

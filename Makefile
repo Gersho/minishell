@@ -1,4 +1,4 @@
-SRCS		= srcs/exec_cmd.c srcs/get_cmd_path.c srcs/minishell.c srcs/here_doc.c srcs/param_utils.c srcs/redirect_handler.c srcs/utils.c srcs/exits.c srcs/tools.c srcs/main.c srcs/parse_tools.c srcs/parse_input.c  srcs/s_cmd.c srcs/echo.c 
+SRCS		= srcs/exec_cmd.c srcs/get_cmd_path.c srcs/minishell.c srcs/here_doc.c srcs/param_utils.c srcs/redirect_handler.c srcs/utils.c srcs/exits.c srcs/tools.c srcs/main.c srcs/parse_tools.c srcs/parse_input.c  srcs/s_cmd.c srcs/echo.c srcs/s_env.c
 
 
 OBJS			= $(SRCS:.c=.o)

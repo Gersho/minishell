@@ -17,6 +17,7 @@
 int main(int ac,char **av, char** env)
 {
 	char*	line;
+	char	**env_t;
 	t_cmd*	cmd;
 	//t_cmd*	tmp;
 
@@ -24,6 +25,11 @@ int main(int ac,char **av, char** env)
 	(void)av;
 
 	t_cmd*	tmp;
+	t_env	*env;
+	
+	env = get_env_list(env);
+	env_t = init_env_tab(env);
+	print_list(env);
 	while (1)
 	{
 		line = readline(PROMPT);
