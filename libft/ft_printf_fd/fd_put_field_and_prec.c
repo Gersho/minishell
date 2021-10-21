@@ -36,7 +36,7 @@ int	fd_print_field(t_flags *flags, int fd)
 	return (char_printed);
 }
 
-int	print_precision(t_flags *flags, int fd)
+int	fd_print_precision(t_flags *flags, int fd)
 {
 	int	i;
 

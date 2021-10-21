@@ -30,7 +30,7 @@ int main(int ac,char **av, char** env)
 	env_t = init_env_tab(env);
 //	print_list(env_l);
 //	int fd = open("test.txt", O_CREAT | O_RDWR | O_TRUNC, 00644);
-//	ft_printf_fd(1, "\nret: %d\n", ft_printf_fd(1, "%s %10.3d oui", "bobjour", 123213));
+	ft_printf_fd(1, "\nret: %d\n", ft_printf_fd(1, "%s %10.3d oui", "bobjour", 123213));
 	ft_printf("%s %10.3d oui", "bobjour", 123213);
 //	printf("\nret: %d\n", printf("%s %10.3d oui", "bobjour", 123213));
 //	while (1)
