@@ -95,7 +95,7 @@ int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, char **env);
 //----COMMANDS BUILT IN
-void	check_built_in(char **param);
+int		check_built_in(char **param);
 void	echo(char **param);
 
 #endif
