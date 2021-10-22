@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/22 11:51:37 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 16:01:07 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,27 +57,12 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 	ft_parse_quotes(&vars, str, len, vars.quotes);
 
 
-	t_quotes *tmp;
-	tmp = vars.quotes;
-	printf("quotes:\n");
-	while (tmp)
-	{
-		printf("start:%d | end:%d | type:%d\n", tmp->start, tmp->end, tmp->type);
-		tmp = tmp->next;
-	}
-
-	tmp = vars.env;
-	printf("envs\n");
-	while (tmp)
-	{
-		printf("start:%d | end:%d | type:%d\n", tmp->start, tmp->end, tmp->type);
-		tmp = tmp->next;
-	}
-
-	exit(-2);
+	//ft_debug_quotes_env(&vars);
 
 
 	ft_handle_dollars(&vars);
+
+	exit(-2);
 	len = ft_strlen(str);
 	ft_parse_loop(cmd, str, len);
 

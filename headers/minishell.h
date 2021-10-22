@@ -6,12 +6,12 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/22 11:26:28 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 15:33:54 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H_
-# define MINISHELL_H_
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "../libft/include/libft.h"
 # include <errno.h>
@@ -141,4 +141,7 @@ int		exec_cmd(t_cmd *cmd, char **env);
 int		check_built_in(char **param);
 void	echo(char **param);
 
+
+//debug
+void ft_debug_quotes_env(t_vars *vars);
 #endif

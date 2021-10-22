@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/22 13:02:31 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 13:05:24 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,14 @@ void	ft_parse_quotes(t_vars *vars, char *str, int len, t_quotes *quotes)
 	t_quotes	tmp;
 
 	i = 0;
-	printf("len: %d\n", len);
+	// printf("len: %d\n", len);
 	while (str[i])
 	{
-		 printf("i: %d | c: %c\n", i, str[i]);
+		//  printf("i: %d | c: %c\n", i, str[i]);
 		if (ft_strncmp(&str[i], "\'", 1) == 0)
 		{
-			printf("in simple if\n");
-			printf("str index c: %d\n", ft_str_index_c((str + i + 1), '\''));
+			// printf("in simple if\n");
+			// printf("str index c: %d\n", ft_str_index_c((str + i + 1), '\''));
 			tmp.start = i;
 			tmp.end = ft_str_index_c((str + i + 1), '\'') + i + 1;
 			tmp.type = SIMPLE;
@@ -92,8 +92,8 @@ void	ft_parse_quotes(t_vars *vars, char *str, int len, t_quotes *quotes)
 		}
 		else if (ft_strncmp(&str[i], "\"", 1) == 0)
 		{
-			printf("in double if\n");
-			printf("str index c: %d\n", ft_str_index_c((str + i) + 1, '\"'));
+			// printf("in double if\n");
+			// printf("str index c: %d\n", ft_str_index_c((str + i) + 1, '\"'));
 			tmp.start = i;
 			tmp.end = ft_str_index_c((str + i + 1), '\"') + i + 1;
 			tmp.type = DOUBLE;
