@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/22 17:20:58 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 17:22:05 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
 	}
 	else
 	{
-
 		swap = ft_strjoin(partA, tmp);
 	}
 	final = ft_strjoin(swap, partB);

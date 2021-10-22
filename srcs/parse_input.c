@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/22 16:01:07 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 17:26:23 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 
 	ft_handle_dollars(&vars);
 
-	exit(-2);
-	len = ft_strlen(str);
-	ft_parse_loop(cmd, str, len);
+	//exit(-2);
+	printf("str after dolls:%s\n", vars.str);
+	len = ft_strlen(vars.str);
+	ft_parse_loop(vars.cmd, vars.str, len);
 
 }
