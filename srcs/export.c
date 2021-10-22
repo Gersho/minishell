@@ -42,7 +42,7 @@ void 	print_env_export(t_env *env)
 			env = env->next;
 		}
 		printf("Name=%s\n", save);
-		env_unlink(env)
+		env_unlink()
 		i++;
 	}
 	start = env;
