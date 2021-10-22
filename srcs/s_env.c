@@ -6,10 +6,13 @@
 
 t_env *new(char *str)
 {
-	t_env *env;
+	t_env	*env;
+	size_t	len;
 
+	len = ft_strchr(str, '=') - str;
 	env = malloc(sizeof (t_env));
-	env->str = ft_strdup(str);
+	env->name = ft_substr(str, 0, len);
+	env->value = ft_substr(str, len + 1, ft_strlen(str));
 	env->next = NULL;
 	return (env);
 }
@@ -67,8 +70,10 @@ void free_env_list(t_env *env)
 	while (env)
 	{
 		tmp = env->next;
-		free(env->str);
-		env->str = NULL;
+		free(env->name);
+		env->name = NULL;
+		free(env->value);
+		env->value = NULL;
 		free(env);
 		env = NULL;
 		env = tmp;
@@ -79,7 +84,7 @@ void print_list(t_env *env)
 {
 	while (env)
 	{
-		printf("%s\n", env->str);
+		printf("%s=%s\n", env->name, env->value);
 		env = env->next;
 	}
 }

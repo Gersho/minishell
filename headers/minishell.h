@@ -57,7 +57,8 @@ struct s_cmd
 
 struct s_env_list
 {
-	char	*str;
+	char	*name;
+	char	*value;
 	t_env	*next;
 };
 
@@ -76,8 +77,9 @@ void	ft_cmd_addback(t_cmd *start, t_cmd *new);
 size_t	ft_size_list(t_cmd *cmd_list);
 //----env_tools
 t_env	*get_env_list(char **env_main);
-char	*env_seeker(t_env *env_l, const char *name);
+t_env 	*env_seeker(t_env *env_l, const char *name);
 char	**get_env_tab(t_env *env);
+void	env_ch_value(t_env *old, char *new);
 //----list_env
 char	**init_env_tab(char **env);
 int		env_list_size(t_env *env);
