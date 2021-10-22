@@ -18,7 +18,8 @@ SRCSF			= exec_cmd.c \
 				  env.c \
 				  pwd.c \
 				  env_tools.c \
-				  cd.c
+				  cd.c \
+				  export.c
 
 SRCS			= $(addprefix srcs/, ${SRCSF})
 

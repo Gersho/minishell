@@ -22,6 +22,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 	s1b = (unsigned char *)s1;
 	s2b = (unsigned char *)s2;
 
+	if (!s1 || !s2)
+		return (-1);
 	while (s1b[i] || s2b[i])
 	{
 		if (s1b[i] != s2b[i])

@@ -93,6 +93,8 @@ char	**init_env_tab(char **env);
 int		env_list_size(t_env *env);
 void	free_env_list(t_env *env);
 void	print_list(t_env *env);
+t_env	*new(char *name, char *value);
+void	env_add_back(t_env **lst, t_env *new);
 //----cmd->param
 char	**ft_param_init(t_cmd* cmd);
 char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);
@@ -124,11 +126,12 @@ int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
 int		exec_cmd(t_cmd *cmd, t_env *env);
-//----COMMANDS BUILT IN
 int		check_built_in(char **param, t_env *env_l);
+//----COMMANDS BUILT IN
 void	echo(char **param);
 void	pwd(char **param, t_env *env_l);
 void	cd(char **param, t_env *env_l);
 void	env(t_env *env_l);
+void	export(char **param, t_env *env);
 
 #endif

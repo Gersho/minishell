@@ -4,15 +4,13 @@
 
 #include "../headers/minishell.h"
 
-t_env *new(char *str)
+t_env *new(char *name, char *value)
 {
 	t_env	*env;
-	size_t	len;
 
-	len = ft_strchr(str, '=') - str;
 	env = malloc(sizeof (t_env));
-	env->name = ft_substr(str, 0, len);
-	env->value = ft_substr(str, len + 1, ft_strlen(str));
+	env->name = name;
+	env->value = value;
 	env->next = NULL;
 	return (env);
 }
@@ -40,12 +38,16 @@ void env_add_back(t_env **lst, t_env *new)
 t_env *get_env_list(char **env_main)
 {
 	t_env	*env;
+	size_t	len;
 	int		i;
-	
+
 	i = -1;
+
 	env = NULL;
-	while (env_main[++i]) {
-		env_add_back(&env, new(env_main[i]));
+	while (env_main[++i])
+	{
+		len = ft_strchr(env_main[i], '=') - env_main[i];
+		env_add_back(&env, new(ft_substr(env_main[i], 0, len), ft_substr(env_main[i], len + 1, ft_strlen(env_main[i]))));
 	}
 	return (env);
 }

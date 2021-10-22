@@ -20,6 +20,8 @@ int is_build_in(char *param, int *cmd)
 		*cmd = CD;
 	else if (ft_strcmp("env", name) == 0)
 		*cmd = ENV;
+	else if (ft_strcmp("export", name) == 0)
+		*cmd = EXPORT;
 	free(name);
 	if (*cmd != -1)
 		return (1);
@@ -102,6 +104,8 @@ int check_built_in(char **param, t_env *env_l)
 			cd(param, env_l);
 		else if (cmd == ENV)
 			env(env_l);
+		else if (cmd == EXPORT)
+			export(param, env_l);
 //		 close (1);
 		return (1);
 	}
@@ -122,6 +126,7 @@ int exec_cmd(t_cmd *cmd, t_env *env_l)
 	t_fds fds;
 	//TODO check if cmd is absolute path
 	//TODO cat | heredoc, heredoc first
+	//TODO fix pipe again
 //	update_env_tab(env_t);
 	cmd_index = 0;
 	init_fd(&fds);
