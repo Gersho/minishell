@@ -6,12 +6,12 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/18 13:27:35 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 11:26:28 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H_
-#define MINISHELL_H_
+# define MINISHELL_H_
 
 # include "../libft/include/libft.h"
 # include <errno.h>
@@ -19,11 +19,14 @@
 # include <stdarg.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <stdlib.h>
 
-typedef struct	s_cmd	t_cmd;
-typedef struct	s_file_descriptors	t_fds;
-// typedef enum	e_type	t_type;
-// typedef struct	s_quotes	t_quotes;
+typedef struct s_cmd				t_cmd;
+typedef struct s_file_descriptors	t_fds;
+typedef enum e_type					t_type;
+typedef struct s_quotes				t_quotes;
+typedef struct s_vars				t_vars;
+
 
 enum e_cmd_name
 {
@@ -44,19 +47,20 @@ enum e_open_param
 	HERE_DOC
 };
 
-// enum e_type
-// {
-// 	SIMPLE,
-// 	DOUBLE,
-// 	NONE
-// };
+enum e_type
+{
+	SIMPLE,
+	DOUBLE,
+	NONE
+};
 
-// struct s_quotes
-// {
-// 	int		start;
-// 	int		end;
-// 	t_type	type;
-// };
+struct s_quotes
+{
+	int			start;
+	int			end;
+	t_type		type;
+	t_quotes	*next;
+};
 
 
 struct s_cmd
@@ -67,6 +71,15 @@ struct s_cmd
 	t_fds		*fd;
 	t_cmd*		next;
 };
+
+struct s_vars
+{
+	t_cmd		*cmd;
+	t_quotes	*quotes;
+	t_quotes	*env;
+	char		*str;
+};
+
 
 struct s_file_descriptors
 {
@@ -88,6 +101,17 @@ int		to_param_quote(t_cmd *forfree, t_cmd *current, char* str);
 int		to_param_dblquote(t_cmd *forfree, t_cmd *current, char* str);
 int		to_param_word(t_cmd *forfree, t_cmd *current, char* str);
 int		to_redirect(t_cmd *forfree, t_cmd *current, char* str);
+//----s_quotes
+t_quotes	*ft_quotes_init(t_vars *vars, int start, int end, t_type type);
+void		ft_parse_quotes(t_vars *vars, char *str, int len, t_quotes *quotes);
+void		ft_append_quote_data(t_vars *vars, char *str, t_quotes *quotes, t_quotes tmp);
+t_type		ft_get_type(t_quotes *quotes, int i);
+void		ft_update_quote_data(t_vars *vars, int size, int i);
+//----env expand
+void	ft_handle_dollars(t_vars *vars);
+void	ft_env_expand_double(t_vars *vars, int *i);
+void	ft_env_expand_none(t_vars *vars, char *str, t_quotes *quotes, int *i);
+int		ft_get_env_limit(char *str, t_quotes *quotes, int i);
 //----Parsing
 void	ft_parse_line(char *line, t_cmd *list);
 //----Error handling
@@ -103,6 +127,7 @@ char	*str_in_lower_case(char *s);
 int		ft_str_index_c(char *str, char c);
 int		is_separator(char c);
 int		is_redirect_or_space(char c);
+int		is_quote_or_dollar(char c);
 //----Get cmd path
 char	**split_env_path(char **envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);

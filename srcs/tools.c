@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/17 12:07:31 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/21 15:52:05 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ int	is_separator(char c)
 int	is_redirect_or_space(char c)
 {
 	if (c == 60 || c == 62 || c == 32)
+		return (1);
+	return (0);
+}
+
+int	is_quote_or_dollar(char c)
+{
+	if (c == 34 || c == 39 || c == 36)
 		return (1);
 	return (0);
 }

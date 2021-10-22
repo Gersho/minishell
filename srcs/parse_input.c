@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/18 13:18:16 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/22 11:51:37 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,43 @@ void	ft_parse_loop(t_cmd *cmd, char *str, int len)
 
 void	ft_parse_line(char *str, t_cmd *cmd)
 {
-	int		len;
+	int			len;
+	t_vars		vars;
 
+	vars.cmd = cmd;
+	vars.str = str;
 	len = ft_strlen(str);
-	//dollar ici ?
-	// if (ft_str_index_c(str, '$') != -1)
-	// 	ft_handle_dollars(cmd, str, len);
+	vars.quotes = ft_quotes_init(&vars, -1, -1, NONE);
+	vars.env = ft_quotes_init(&vars, -1, -1, NONE);
+	if (!vars.quotes)
+	{
+		//todo free
+	}
+	ft_parse_quotes(&vars, str, len, vars.quotes);
+
+
+	t_quotes *tmp;
+	tmp = vars.quotes;
+	printf("quotes:\n");
+	while (tmp)
+	{
+		printf("start:%d | end:%d | type:%d\n", tmp->start, tmp->end, tmp->type);
+		tmp = tmp->next;
+	}
+
+	tmp = vars.env;
+	printf("envs\n");
+	while (tmp)
+	{
+		printf("start:%d | end:%d | type:%d\n", tmp->start, tmp->end, tmp->type);
+		tmp = tmp->next;
+	}
+
+	exit(-2);
+
+
+	ft_handle_dollars(&vars);
+	len = ft_strlen(str);
 	ft_parse_loop(cmd, str, len);
-	//dollar la ?
+
 }
