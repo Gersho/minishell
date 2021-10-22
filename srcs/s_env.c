@@ -11,6 +11,7 @@ t_env *new(char *name, char *value)
 	env = malloc(sizeof (t_env));
 	env->name = name;
 	env->value = value;
+	env->prev = NULL;
 	env->next = NULL;
 	return (env);
 }
@@ -32,6 +33,7 @@ void env_add_back(t_env **lst, t_env *new)
 	{
 		tmp = env_last(*lst);
 		tmp->next = new;
+		new->prev = tmp;
 	}
 }
 

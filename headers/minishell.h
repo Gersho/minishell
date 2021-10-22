@@ -67,6 +67,7 @@ struct s_env_list
 {
 	char	*name;
 	char	*value;
+	t_env	*prev;
 	t_env	*next;
 };
 
@@ -95,6 +96,7 @@ void	free_env_list(t_env *env);
 void	print_list(t_env *env);
 t_env	*new(char *name, char *value);
 void	env_add_back(t_env **lst, t_env *new);
+t_env	*env_last(t_env *env);
 //----cmd->param
 char	**ft_param_init(t_cmd* cmd);
 char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);

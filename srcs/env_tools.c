@@ -41,7 +41,7 @@ t_env 	*env_seeker(t_env *env_l, const char *name)
 	size_t	len;
 
 	len = ft_strlen(name);
-	while (env_l && env_l->next)
+	while (env_l)
 	{
 		if (ft_strncmp(env_l->name, name, len) == 0)
 			return (env_l);
