@@ -18,22 +18,29 @@ int is_build_in(char *param, int *cmd)
 		*cmd = PWD;
 	else if (ft_strcmp("cd", name) == 0)
 		*cmd = CD;
+	else if (ft_strcmp("env", name) == 0)
+		*cmd = ENV;
 	free(name);
 	if (*cmd != -1)
 		return (1);
 	return (0);
 }
 
-int create_child_to_exec_cmd(t_cmd *cmd, char **path_tab, char **env, int *pid)
+int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 {
+	char	**env_t;
+	char	**path_tab;
+
 	*pid = fork();
 	if (*pid == 0)
 	{
-//		check_built_in(cmd->param);
+		path_tab = split_env_path(env_l);
 		get_cmd_path(cmd, path_tab);
-//		dprintf(2, "cmd path |%s|\n", cmd->path);
-		execve(cmd->path, cmd->param, env);
-		perror("execve");
+		env_t = get_env_tab(env_l);
+//		dprintf(2, "cmd path =%s | cmd* =%s\n", cmd->path, cmd->param[1]);
+		execve(cmd->path, cmd->param, env_t);
+		perror(*cmd->param);
+		exit(EXIT_FAILURE);
 	}
 	else if (*pid == -1)
 		perror("fork");
@@ -89,10 +96,12 @@ int check_built_in(char **param, t_env *env_l)
 	{
 		if (cmd == ECHO)
 			echo(param);
-		if (cmd == PWD)
+		else if (cmd == PWD)
 			pwd(param, env_l);
-		if (cmd == CD)
+		else if (cmd == CD)
 			cd(param, env_l);
+		else if (cmd == ENV)
+			env(env_l);
 //		 close (1);
 		return (1);
 	}
@@ -100,12 +109,12 @@ int check_built_in(char **param, t_env *env_l)
 	return (0);
 }
 
-int	update_env_tab(char **env_t, t_env *env_l)
-{
-	//afaire
-}
+//int	update_env_tab(char **env_t, t_env *env_l)
+//{
+//	//afaire
+//}
 
-int exec_cmd(t_cmd *cmd, t_env *env_l, char **env_t)
+int exec_cmd(t_cmd *cmd, t_env *env_l)
 {
 	char **path_tab;
 	int pid;
@@ -113,7 +122,6 @@ int exec_cmd(t_cmd *cmd, t_env *env_l, char **env_t)
 	t_fds fds;
 	//TODO check if cmd is absolute path
 	//TODO cat | heredoc, heredoc first
-	path_tab = split_env_path(env_l);//TODO update env in execve ?
 //	update_env_tab(env_t);
 	cmd_index = 0;
 	init_fd(&fds);
@@ -121,10 +129,11 @@ int exec_cmd(t_cmd *cmd, t_env *env_l, char **env_t)
 	while (cmd != NULL)
 	{
 		set_pipe(cmd, &fds, cmd_index);
+
 		if (cmd->red)
 			redirect_handler(cmd->red, cmd);
 		if (!check_built_in(cmd->param, env_l))
-			create_child_to_exec_cmd(cmd, path_tab, env_t, &pid);//if return -1 free exit
+			create_child_to_exec_cmd(cmd, env_l, &pid);//if return -1 free exit
 		if (cmd->next)
 			dup2_close(cmd->fd->pipe[0], 0);
 		else
@@ -143,22 +152,3 @@ int exec_cmd(t_cmd *cmd, t_env *env_l, char **env_t)
 
 //TODO handle "echo blalba >" || "echo blabla ><"
 //TODO "e""c""h""o" && close bad file descriptor probleme with multi here doc
-//int main(int ac, char **av, char **env)
-//{
-//	t_cmd *cmd;
-//	//first cmd
-//
-////	chdir("../");
-//	cmd = ft_cmd_init();
-//	cmd->param = ft_split("echo oui", ' ');
-////	cmd->red = ft_strdup("> test2.txt");
-//////	second cmdgc
-////
-////	cmd->next = ft_cmd_init();
-////	cmd->next->param = ft_split("grep o", ' ');
-////	cmd->next->red = ft_strdup("> test3.txt");
-////	cmd->next->next = ft_cmd_init();
-////	cmd->next->next->param = ft_split("wc -l", ' ');
-////	cmd->next->next->red = ft_strdup("> test1.txt");
-//	exec_cmd(cmd, env);
-//}

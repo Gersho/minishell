@@ -43,14 +43,41 @@ t_env *get_env_list(char **env_main)
 	env = NULL;
 	while (env_main[++i]) {
 		env_add_back(&env, new(env_main[i]));
-//		printf("%s\n", env->str);
 	}
 	return (env);
 }
 
+int	env_list_size(t_env *env)
+{
+	int i;
+
+	i = 0;
+	while (env)
+	{
+		env = env->next;
+		i++;
+	}
+	return (i);
+}
+
+void free_env_list(t_env *env)
+{
+	t_env *tmp;
+
+	while (env)
+	{
+		tmp = env->next;
+		free(env->str);
+		env->str = NULL;
+		free(env);
+		env = NULL;
+		env = tmp;
+	}
+}
+
 void print_list(t_env *env)
 {
-	while (env && env->next)
+	while (env)
 	{
 		printf("%s\n", env->str);
 		env = env->next;

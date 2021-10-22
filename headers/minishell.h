@@ -14,6 +14,7 @@
 #define MINISHELL_H_
 
 # include "../libft/include/libft.h"
+# include <limits.h>
 # include <errno.h>
 # include <stdio.h>
 # include <stdarg.h>
@@ -35,7 +36,7 @@ enum e_cmd_name
 	UNSET,
 	ENV,
 	EXIT
-};//probably useless but we never know
+};
 
 enum e_open_param
 {
@@ -73,12 +74,15 @@ t_cmd	*ft_cmd_init();
 t_cmd	*ft_cmd_last(t_cmd *cmd);
 void	ft_cmd_addback(t_cmd *start, t_cmd *new);
 size_t	ft_size_list(t_cmd *cmd_list);
-//----env
-char	**init_env_tab(char **env);
-char	*env_seeker(t_env *env_l, const char *name);
-//----list_env
+//----env_tools
 t_env	*get_env_list(char **env_main);
-void	print_list(t_env *env);//temporaire
+char	*env_seeker(t_env *env_l, const char *name);
+char	**get_env_tab(t_env *env);
+//----list_env
+char	**init_env_tab(char **env);
+int		env_list_size(t_env *env);
+void	free_env_list(t_env *env);
+void	print_list(t_env *env);
 //----cmd->param
 char	**ft_param_init(t_cmd* cmd);
 char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);
@@ -109,11 +113,12 @@ int		redirect_handler(char *red, t_cmd *cmd);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
-int		exec_cmd(t_cmd *cmd, t_env *env, char **env_t);
+int		exec_cmd(t_cmd *cmd, t_env *env);
 //----COMMANDS BUILT IN
 int		check_built_in(char **param, t_env *env_l);
 void	echo(char **param);
 void	pwd(char **param, t_env *env_l);
 void	cd(char **param, t_env *env_l);
+void	env(t_env *env_l);
 
 #endif

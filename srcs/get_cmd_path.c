@@ -48,12 +48,15 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 	char	*path;
 	
 	i = 0;
+	if (**cmd->param == '/')
+	{
+		ft_free_str_tab(path_tab);
+		cmd->path = *cmd->param;
+		return (0);
+	}
 	while (path_tab[i])
 	{
-		if (i == 0)
-			path = ft_strdup(*cmd->param);
-		else
-			path = ft_strjoin(path_tab[i++], *cmd->param);
+		path = ft_strjoin(path_tab[i], *cmd->param);
 		if (path == NULL)
 			return (-1);//TODO free path_tab and exit
 		if (path_exist(path, cmd) == 1)
@@ -61,6 +64,7 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 			free(path);
 			break ;
 		}
+		i++;
 		free(path);
 	}
 	ft_free_str_tab(path_tab);
