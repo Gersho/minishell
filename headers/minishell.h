@@ -135,5 +135,6 @@ void	pwd(char **param, t_env *env_l);
 void	cd(char **param, t_env *env_l);
 void	env(t_env *env_l);
 void	export(char **param, t_env *env);
-
+//----PROMPT
+char 	*set_prompt(t_env *env);
 #endif

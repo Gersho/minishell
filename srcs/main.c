@@ -28,9 +28,10 @@ int main(int ac,char **av, char** env)
 
 	env_l = get_env_list(env);
 //	print_list(env_l);
+//	printf("%s\n", set_prompt());
 	while (1)
 	{
-		line = readline(PROMPT);
+		line = readline(set_prompt(env_l));
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
 //		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
