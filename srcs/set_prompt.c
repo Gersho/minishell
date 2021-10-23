@@ -31,14 +31,13 @@ char	*ft_mega_str_join(int nb, ...)
 char 	*set_prompt(t_env *env)
 {
 	char	*prompt;
-	t_env	*see
-        T_env   *env-found;
+	t_env   *env_found;
 	char 	*curr_dir;
 
 	env_found = env_seeker(env, "PWD");
 	if (env_found)
 	{
-		curr_dir = strrchr(seek_dir->value, (int)'/') + 1;
+		curr_dir = ft_strrchr(env_found->value, (int)'/') + 1;
 	}
 	prompt = ft_mega_str_join(8, KCYN, \
 								curr_dir,

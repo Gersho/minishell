@@ -12,7 +12,7 @@ void cd(char **param, t_env *env_l)
 
 
 	i = 0;
-	env = env_seeker(env_l, "HOME=");
+	env = env_seeker(env_l, "HOME");
 	while (param[i])
 		i++;
 	if (param[1] == NULL || *param[1] == '~')
