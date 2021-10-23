@@ -31,11 +31,12 @@ char	*ft_mega_str_join(int nb, ...)
 char 	*set_prompt(t_env *env)
 {
 	char	*prompt;
-	t_env	*seek_dir;
+	t_env	*see
+        T_env   *env-found;
 	char 	*curr_dir;
 
-	seek_dir = env_seeker(env, "PWD");
-	if (seek_dir)
+	env_found = env_seeker(env, "PWD");
+	if (env_found)
 	{
 		curr_dir = strrchr(seek_dir->value, (int)'/') + 1;
 	}
