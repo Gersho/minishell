@@ -97,10 +97,11 @@ static int	add_slash_to_path(char **path_tab)
 char	**split_env_path(t_env *env)
 {
 	char	**paths_tab;
-	t_env 	*path;
+
 	//TODO what if path is deleted
-	path = env_seeker(env, "PATH");
-	paths_tab = ft_split(path->value, ':');
+	env_seeker(&env, "PATH");
+	if (env)
+		paths_tab = ft_split(env->value, ':');
 	if (paths_tab == NULL)
 		exit(EXIT_FAILURE);
 	add_slash_to_path(paths_tab);

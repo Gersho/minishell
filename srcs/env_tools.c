@@ -36,18 +36,18 @@ char	**get_env_tab(t_env *env_l)
 	return (env_t);
 }
 /*Renvoie la valeur de la variable env*/
-t_env 	*env_seeker(t_env *env_l, const char *name)
+int 	env_seeker(t_env **env_l, const char *name)
 {
 	size_t	len;
 
-	len = ft_strlen(env_l->name);
-	while (env_l)
+	len = ft_strlen((*env_l)->name);
+	while (*env_l)
 	{
-		if (ft_strncmp(env_l->name, name, len) == 0)
-			return (env_l);
-		env_l = env_l->next;
+		if (ft_strncmp((*env_l)->name, name, len) == 0)
+			return (1);
+		*env_l = (*env_l)->next;
 	}
-	return (NULL);
+	return (0);
 }
 
 void	env_ch_value(t_env *old, char *new)

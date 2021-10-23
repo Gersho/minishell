@@ -18,6 +18,7 @@ int main(int ac,char **av, char** env)
 	char*	line;
 	char	**env_t;
 	t_cmd*	cmd;
+	char 	*prompt;
 	//t_cmd*	tmp;
 
 	(void)ac;
@@ -32,12 +33,14 @@ int main(int ac,char **av, char** env)
 	//TODO segf if red alone ex: "echo >"
 	while (1)
 	{
-		line = readline(set_prompt(env_l));
+		prompt = set_prompt(env_l);
+		line = readline(prompt);
+//		printf("in main :%s\n", env_l->name);
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
 //		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
 		if (*cmd->param)
-			exec_cmd(cmd, env_l);
+			exec_cmd(cmd, &env_l);
 		while (cmd != NULL)
 		{
 			tmp = cmd->next;
@@ -45,6 +48,7 @@ int main(int ac,char **av, char** env)
 			cmd = NULL;
 			cmd = tmp;
 		}
+		free(prompt);
 		free(line);
 		line = NULL;
 	}

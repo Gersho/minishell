@@ -92,7 +92,7 @@ void set_pipe(t_cmd *cmd, t_fds *fds, int cmd_index)
 //		dup2(cmd->fd->std_out, 1);
 }
 
-int check_built_in(char **param, t_env *env_l)
+int check_built_in(char **param, t_env **env_l)
 {
 	int cmd;
 	
@@ -101,15 +101,16 @@ int check_built_in(char **param, t_env *env_l)
 		if (cmd == ECHO)
 			echo(param);
 		else if (cmd == PWD)
-			pwd(param, env_l);
+			pwd(param, *env_l);
 		else if (cmd == CD)
-			cd(param, env_l);
+			cd(param, *env_l);
 		else if (cmd == ENV)
-			env(env_l);
+			env(*env_l);
 		else if (cmd == EXPORT)
 			export(param, env_l);
 		else if (cmd == UNSET)
 			unset(param, env_l);
+//		printf("env after unlink=%s prev=%p next=%s\n",(*env_l)->name, (*env_l)->prev, (*env_l)->next->name);
 //		 close (1);
 		return (1);
 	}
@@ -122,12 +123,14 @@ int check_built_in(char **param, t_env *env_l)
 //	//afaire
 //}
 
-int exec_cmd(t_cmd *cmd, t_env *env_l)
+int exec_cmd(t_cmd *cmd, t_env **env_l)
 {
 	char **path_tab;
 	int pid;
 	int cmd_index;
 	t_fds fds;
+//	t_env *env_l = *env;
+//	*env_l = *env_l->next;
 	//TODO check if cmd is absolute path
 	//TODO cat | heredoc, heredoc first
 	//TODO fix pipe again
@@ -135,6 +138,9 @@ int exec_cmd(t_cmd *cmd, t_env *env_l)
 	cmd_index = 0;
 	init_fd(&fds);
 //	printf ("stdin = %d | stdout = %d\n", fds.std_in, fds.std_out);
+//	env_l = env_l->next;
+//	printf("in func :%s\n", (*env_l)->name);
+//	return 1;
 	while (cmd != NULL)
 	{
 		set_pipe(cmd, &fds, cmd_index);
@@ -142,7 +148,7 @@ int exec_cmd(t_cmd *cmd, t_env *env_l)
 		if (cmd->red)
 			redirect_handler(cmd->red, cmd);
 		if (!check_built_in(cmd->param, env_l))
-			create_child_to_exec_cmd(cmd, env_l, &pid);//if return -1 free exit
+			create_child_to_exec_cmd(cmd, *env_l, &pid);//if return -1 free exit
 		if (cmd->next)
 			dup2_close(cmd->fd->pipe[0], 0);
 		else
