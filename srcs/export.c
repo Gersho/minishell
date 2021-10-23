@@ -78,7 +78,7 @@ static int check_equality(char *param, t_env *env, int i)
 	}
 	return (0);
 }
-
+//TODO EXPORT unset IN MAJ == ERROR
 void	export(char **param, t_env *env)
 {
 	int	i;

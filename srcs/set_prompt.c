@@ -34,10 +34,10 @@ char 	*set_prompt(t_env *env)
 	char	*prompt;
 	t_env   *env_found;
 	char 	*curr_dir;
-
-	env_found = env_seeker(env, "PWD");
-	if (env_found)
-		curr_dir = ft_strrchr(env_found->value, (int)'/') + 1;
+	char 	buf[PATH_MAX];
+	
+	getcwd(buf, PATH_MAX);
+	curr_dir = ft_strrchr(buf, (int)'/') + 1;
 	prompt = ft_mega_str_join(9,
 							  	"🌻 ", \
 							  	KCYN, curr_dir,	" (", \

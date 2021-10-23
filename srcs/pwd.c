@@ -7,6 +7,7 @@
 void pwd(char **param, t_env *env_l)
 {
 	char buf[PATH_MAX];
+
 	if (param[1] != NULL)
 		ft_putstr_fd("pwd: too many arguments\n", 2);
 	else

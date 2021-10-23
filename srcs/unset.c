@@ -17,7 +17,7 @@ void	unset(char **param, t_env *env_l)
 		tmp = env_seeker(env_l, param[i]);
 		if (tmp == NULL)
 			continue ;
-		env_unlink(tmp);
+		env_l = env_unlink(tmp);
 	}
 	
 }
