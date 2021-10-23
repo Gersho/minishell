@@ -25,14 +25,15 @@ int main(int ac,char **av, char** env)
 
 	t_cmd*	tmp;
 	t_env	*env_l;
-
+	char *prompt;
 	env_l = get_env_list(env);
 //	print_list(env_l);
 //	printf("%s\n", set_prompt());
 	//TODO segf if red alone ex: "echo >"
 	while (1)
 	{
-		line = readline(set_prompt(env_l));
+		prompt = set_prompt(env_l);
+		line = readline(prompt);
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
 //		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
@@ -45,6 +46,7 @@ int main(int ac,char **av, char** env)
 			cmd = NULL;
 			cmd = tmp;
 		}
+		free(prompt);
 		free(line);
 		line = NULL;
 	}
