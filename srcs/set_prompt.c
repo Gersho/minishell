@@ -28,6 +28,7 @@ char	*ft_mega_str_join(int nb, ...)
 	return (mega_str);
 }
 
+//❌✖➜
 char 	*set_prompt(t_env *env)
 {
 	char	*prompt;
@@ -37,8 +38,8 @@ char 	*set_prompt(t_env *env)
 	env_found = env_seeker(env, "PWD");
 	if (env_found)
 		curr_dir = ft_strrchr(env_found->value, (int)'/') + 1;
-	prompt = ft_mega_str_join(11,
-							  	KGRN, "🌻 ", KNRM, \
+	prompt = ft_mega_str_join(9,
+							  	"🌻 ", \
 							  	KCYN, curr_dir,	" (", \
 							  	KRED, getenv("USER"), \
 						   		KCYN, "): ", \

@@ -97,6 +97,8 @@ void	print_list(t_env *env);
 t_env	*new(char *name, char *value);
 void	env_add_back(t_env **lst, t_env *new);
 t_env	*env_last(t_env *env);
+t_env	*env_dup(t_env *env);
+t_env	*env_unlink(t_env *env);
 //----cmd->param
 char	**ft_param_init(t_cmd* cmd);
 char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);
@@ -135,6 +137,7 @@ void	pwd(char **param, t_env *env_l);
 void	cd(char **param, t_env *env_l);
 void	env(t_env *env_l);
 void	export(char **param, t_env *env);
+void	unset(char **param, t_env *env_l);
 //----PROMPT
 char 	*set_prompt(t_env *env);
 #endif

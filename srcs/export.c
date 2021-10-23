@@ -4,41 +4,6 @@
 
 #include "../headers/minishell.h"
 
-t_env *env_dup(t_env *env)
-{
-	t_env *cpy;
-
-	cpy = NULL;
-	while (env)
-	{
-		env_add_back(&cpy, new(ft_strdup(env->name), ft_strdup(env->value)));
-		env = env->next;
-	}
-	return (cpy);
-}
-
-t_env	*env_unlink(t_env *env)
-{
-	t_env *start;
-
-	start = env;
-	if (env->prev)
-	{
-		env->prev->next = env->next;
-		while (start->prev)
-			start = start->prev;
-	}
-	else
-		start = start->next;
-	if (env->next)
-		env->next->prev = env->prev;
-	free(env->name);
-	free(env->value);
-	free(env);
-	env = NULL;
-	return (start);
-}
-
 void 	print_env_export(t_env *env)
 {
 	t_env 	*save;
@@ -54,66 +19,90 @@ void 	print_env_export(t_env *env)
 				save = cpy;
 			cpy = cpy->next;
 		}
-		printf("declare -x %s=%s\n", save->name, save->value);
+		printf("declare -x %s=\"%s\"\n", save->name, save->value);
 		cpy = env_unlink(save);
 	}
 }
-//export +AR=NON
+
+static int	is_plus_equal(char *param, char *name, t_env *env, int i)
+{
+	t_env	*env_l;
+	char	*tmp;
+
+	if (param[i] == '+' && param[i + 1] == '=')
+	{
+		env_l = env_seeker(env, name);
+		if (env_l == NULL)
+			env_add_back(&env, new(name, ft_substr(param, i + 2, ft_strlen(param))));
+		else
+		{
+			tmp = env_l->value;
+			env_l->value = ft_strjoin(env_l->value, param + i + 2);
+			free(tmp);
+		}
+		return (1);
+	}
+	return (0);
+}
+
+static int is_equal(char *param, char *name, t_env *env, int i)
+{
+	t_env	*env_l;
+
+	if (param[i] == '=')
+	{
+		env_l = env_seeker(env, name);
+		if (env_l == NULL)
+			env_add_back(&env, new(name, ft_substr(param, i + 1, ft_strlen(param))));
+		else
+		{
+			free(env_l->value);
+			env_l->value = ft_substr(param, i + 1, ft_strlen(param));
+		}
+		return (1);
+	}
+	return (0);
+}
+
+static int check_equality(char *param, t_env *env, int i)
+{
+	char	*name;
+
+	if (param[i] == '+' || param[i] == '=')
+	{
+		name = ft_substr(param, 0, i);
+		if (is_plus_equal(param, name, env, i))
+			return (1);
+		if (is_equal(param, name, env, i))
+			return (1);
+	}
+	return (0);
+}
+
 void	export(char **param, t_env *env)
 {
-	t_env *env_l;
-	char *name;
-	char *tmp;
 	int	i;
 	int j;
 
 
-	j = 1;
+	j = 0;
 	if (param[1] == NULL)
 		return (print_env_export(env));
-	if (ft_isdigit((int)param[1][i]))
-	{
-		ft_printf_fd(2, "export: not an identifier: %s\n", param[1]);
-		return ;
-	}
-	while (param[j])
+	while (param[++j])
 	{
 		i = 0;
+		if (!ft_isalpha((int)param[j][0]) && param[j][0] != '_')
+		{
+			ft_printf_fd(2, "export: not an identifier: %s\n", param[j]);
+			continue ;
+		}
 		while (param[j][i])
 		{
-			if (param[j][i] == '+' || param[j][i] == '=')
-			{
-				name = ft_substr(param[j], 0, i);
-				if (param[j][i] == '+' && param[j][i + 1] == '=')
-				{
-					env_l = env_seeker(env, name);
-					if (env_l == NULL)
-						env_add_back(&env, new(name, ft_substr(param[j], i + 2, ft_strlen(param[j]))));
-					else
-					{
-						tmp = env_l->value;
-						env_l->value = ft_strjoin(env_l->value, param[j] + i + 2);
-						free(tmp);
-					}
-					break;
-				}
-				else if (param[j][i] == '=')
-				{
-					env_l = env_seeker(env, name);
-					if (env_l == NULL)
-						env_add_back(&env, new(name, ft_substr(param[j], i + 1, ft_strlen(param[j]))));
-					else
-					{
-						free(env_l->value);
-						env_l->value = ft_substr(param[j], i + 1, ft_strlen(param[j]));
-					}
-					break;
-				}
-			}
+			if (check_equality(param[j], env, i))
+				break ;
 			i++;
 			if (param[j][i] == '\0')
 				env_add_back(&env, new(ft_strdup(param[j]), ft_strdup("")));
 		}
-		j++;
 	}
 }

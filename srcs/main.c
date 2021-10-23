@@ -29,6 +29,7 @@ int main(int ac,char **av, char** env)
 	env_l = get_env_list(env);
 //	print_list(env_l);
 //	printf("%s\n", set_prompt());
+	//TODO segf if red alone ex: "echo >"
 	while (1)
 	{
 		line = readline(set_prompt(env_l));

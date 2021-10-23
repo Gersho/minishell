@@ -92,3 +92,38 @@ void print_list(t_env *env)
 		env = env->next;
 	}
 }
+
+t_env *env_dup(t_env *env)
+{
+	t_env *cpy;
+	
+	cpy = NULL;
+	while (env)
+	{
+		env_add_back(&cpy, new(ft_strdup(env->name), ft_strdup(env->value)));
+		env = env->next;
+	}
+	return (cpy);
+}
+
+t_env	*env_unlink(t_env *env)
+{
+	t_env *start;
+	
+	start = env;
+	if (env->prev)
+	{
+		env->prev->next = env->next;
+		while (start->prev)
+			start = start->prev;
+	}
+	else
+		start = start->next;
+	if (env->next)
+		env->next->prev = env->prev;
+	free(env->name);
+	free(env->value);
+	free(env);
+	env = NULL;
+	return (start);
+}
