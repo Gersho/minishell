@@ -45,7 +45,6 @@ void 	print_env_export(t_env *env)
 	t_env 	*cpy;
 
 	cpy = env_dup(env);
-	save = cpy;
 	while (cpy)
 	{
 		save = cpy;
@@ -55,7 +54,7 @@ void 	print_env_export(t_env *env)
 				save = cpy;
 			cpy = cpy->next;
 		}
-		printf("%s=%s\n", save->name, save->value);
+		printf("declare -x %s=%s\n", save->name, save->value);
 		cpy = env_unlink(save);
 	}
 }

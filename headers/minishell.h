@@ -29,7 +29,7 @@
 # define KMAG  "\x1B[35m"
 # define KCYN  "\x1B[36m"
 # define KWHT  "\x1B[37m"
-# define PROMPT "\x1B[35mMinishell_alpha\x1B[0m: "
+# define PROMPT "💢: "
 
 typedef struct	s_cmd	t_cmd;
 typedef struct	s_file_descriptors	t_fds;

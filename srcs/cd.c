@@ -16,7 +16,11 @@ void cd(char **param, t_env *env_l)
 	while (param[i])
 		i++;
 	if (param[1] == NULL || *param[1] == '~')
+	{
+		env_ch_value(env_seeker(env_l, "OLDPWD"), getcwd(buf, PATH_MAX));
 		chdir(env->value);
+		env_ch_value(env_seeker(env_l, "PWD"), getcwd(buf, PATH_MAX));
+	}
 	else if (i > 4)
 		ft_putstr_fd("cd: too many arguments\n", 2);
 	else if (i == 3)
