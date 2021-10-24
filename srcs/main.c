@@ -18,6 +18,7 @@ int main(int ac,char **av, char** env)
 	char*	line;
 	char	**env_t;
 	t_cmd*	cmd;
+	char 	*prompt;
 	//t_cmd*	tmp;
 
 	(void)ac;
@@ -25,7 +26,7 @@ int main(int ac,char **av, char** env)
 
 	t_cmd*	tmp;
 	t_env	*env_l;
-	char *prompt;
+
 	env_l = get_env_list(env);
 //	print_list(env_l);
 //	printf("%s\n", set_prompt());
@@ -34,11 +35,12 @@ int main(int ac,char **av, char** env)
 	{
 		prompt = set_prompt(env_l);
 		line = readline(prompt);
+//		printf("in main :%s\n", env_l->name);
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
 //		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
 		if (*cmd->param)
-			exec_cmd(cmd, env_l);
+			exec_cmd(cmd, &env_l);
 		while (cmd != NULL)
 		{
 			tmp = cmd->next;

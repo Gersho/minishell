@@ -39,7 +39,7 @@ char 	*set_prompt(t_env *env)
 	getcwd(buf, PATH_MAX);
 	curr_dir = ft_strrchr(buf, (int)'/') + 1;
 	prompt = ft_mega_str_join(9,
-							  	"🌻 ", \
+								"🌻 ", \
 							  	KCYN, curr_dir,	" (", \
 							  	KRED, getenv("USER"), \
 						   		KCYN, "): ", \

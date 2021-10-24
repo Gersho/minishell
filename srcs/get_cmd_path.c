@@ -48,6 +48,7 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 	char	*path;
 	
 	i = 0;
+	path = NULL;
 	if (**cmd->param == '/')
 	{
 		ft_free_str_tab(path_tab);
@@ -97,12 +98,16 @@ static int	add_slash_to_path(char **path_tab)
 char	**split_env_path(t_env *env)
 {
 	char	**paths_tab;
-	t_env 	*path;
+
 	//TODO what if path is deleted
-	path = env_seeker(env, "PATH");
-	paths_tab = ft_split(path->value, ':');
-	if (paths_tab == NULL)
-		exit(EXIT_FAILURE);
-	add_slash_to_path(paths_tab);
+	paths_tab = NULL;
+	env_seeker(&env, "PATH");
+	if (env)
+	{
+		paths_tab = ft_split(env->value, ':');
+		if (paths_tab == NULL)
+			exit(EXIT_FAILURE);
+		add_slash_to_path(paths_tab);
+	}
 	return (paths_tab);
 }

@@ -106,24 +106,23 @@ t_env *env_dup(t_env *env)
 	return (cpy);
 }
 
-t_env	*env_unlink(t_env *env)
+void	env_unlink(t_env **env)
 {
-	t_env *start;
-	
-	start = env;
-	if (env->prev)
+	t_env *to_free;
+
+	to_free = *env;
+	if (to_free->prev)
 	{
-		env->prev->next = env->next;
-		while (start->prev)
-			start = start->prev;
+		to_free->prev->next = to_free->next;
+		while ((*env)->prev)
+			*env = (*env)->prev;
 	}
 	else
-		start = start->next;
-	if (env->next)
-		env->next->prev = env->prev;
-	free(env->name);
-	free(env->value);
-	free(env);
-	env = NULL;
-	return (start);
+		*env = (*env)->next;
+	if (to_free->next)
+		to_free->next->prev = to_free->prev;
+	free(to_free->name);
+	free(to_free->value);
+	free(to_free);
+	to_free = NULL;
 }

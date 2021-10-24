@@ -86,7 +86,7 @@ void	ft_cmd_addback(t_cmd *start, t_cmd *new);
 size_t	ft_size_list(t_cmd *cmd_list);
 //----env_tools
 t_env	*get_env_list(char **env_main);
-t_env 	*env_seeker(t_env *env_l, const char *name);
+int		env_seeker(t_env **env_l, const char *name);
 char	**get_env_tab(t_env *env);
 void	env_ch_value(t_env *old, char *new);
 //----list_env
@@ -98,7 +98,7 @@ t_env	*new(char *name, char *value);
 void	env_add_back(t_env **lst, t_env *new);
 t_env	*env_last(t_env *env);
 t_env	*env_dup(t_env *env);
-t_env	*env_unlink(t_env *env);
+void 	env_unlink(t_env **env);
 //----cmd->param
 char	**ft_param_init(t_cmd* cmd);
 char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);
@@ -129,15 +129,15 @@ int		redirect_handler(char *red, t_cmd *cmd);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
-int		exec_cmd(t_cmd *cmd, t_env *env);
-int		check_built_in(char **param, t_env *env_l);
+int 	exec_cmd(t_cmd *cmd, t_env **env);
+int		check_built_in(char **param, t_env **env_l);
 //----COMMANDS BUILT IN
 void	echo(char **param);
 void	pwd(char **param, t_env *env_l);
 void	cd(char **param, t_env *env_l);
 void	env(t_env *env_l);
-void	export(char **param, t_env *env);
-void	unset(char **param, t_env *env_l);
+void	export(char **param, t_env **env);
+void 	unset(char **param, t_env **env_l);
 //----PROMPT
 char 	*set_prompt(t_env *env);
 #endif
