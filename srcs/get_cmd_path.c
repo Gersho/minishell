@@ -68,7 +68,6 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 		i++;
 		free(path);
 	}
-	printf("free\n");
 	ft_free_str_tab(path_tab);
 	if (command_not_found(cmd->path, *cmd->param))
 		exit (-1);//TODO free and exit
