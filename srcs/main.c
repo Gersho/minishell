@@ -27,6 +27,7 @@ int main(int ac,char **av, char** env)
 	t_env	*env_l;
 
 	//TODO fix segfault with redirect without cmd->param
+	//TODO fix  < cat && > cat
 	env_l = get_env_list(env);
 //	print_list(env_l);
 	while (1)

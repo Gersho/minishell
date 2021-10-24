@@ -47,6 +47,7 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 //		dprintf(2, "cmd path =%s\n", cmd->path);
 		execve(cmd->path, cmd->param, env_t);
 		perror(*cmd->param);
+		dprintf(2, "cmd path =%s\n", cmd->path);
 		exit(EXIT_FAILURE);
 	}
 	else if (*pid == -1)
