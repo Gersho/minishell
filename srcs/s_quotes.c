@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/22 13:05:24 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/24 11:45:46 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,11 @@ void	ft_parse_quotes(t_vars *vars, char *str, int len, t_quotes *quotes)
 }
 
 
-void	ft_update_quote_data(t_vars *vars,int size, int i)
+void	ft_update_quote_data(t_vars *vars, t_quotes *quotes, int size, int i)
 {
 	t_quotes *tmp;
 	
-	tmp = vars->quotes;
+	tmp = quotes;
 	while (tmp)
 	{
 		if (tmp->start >= i)

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/21 15:52:05 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/24 16:05:18 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,38 @@ int	is_quote_or_dollar(char c)
 	if (c == 34 || c == 39 || c == 36)
 		return (1);
 	return (0);
+}
+
+char	*rm_redundant_spaces(t_vars *vars, char *str)
+{
+	char	**split;
+	char	*out;
+	char	*tmp;
+	int		i;
+
+
+	//TODO add protections
+	split = ft_split(str, ' ');
+	out = malloc(sizeof(char));
+	if (!out)
+	{
+
+	}
+	i = 0;
+	while (split[i])
+	{
+		tmp = ft_strjoin(out, split[i]);
+		free(out);
+		out = tmp;
+		if (split[i + 1])
+		{
+			tmp = ft_strjoin(out, " ");
+			free(out);
+			out = tmp;
+		}
+
+		i++;
+	}
+	//free(str);
+	return (out);
 }

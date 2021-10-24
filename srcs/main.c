@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/21 12:56:14 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/24 15:25:00 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int main(int ac,char **av, char** env)
 	// while (1)
 	// {
 		line = readline("$");
+		//exit(0);
 		ft_parse_line(line, cmd);
 		//exec
 		free(line);

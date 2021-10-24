@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/21 14:14:24 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/24 14:27:54 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ int	to_param_quote(t_cmd *forfree, t_cmd *current, char *str)
 
 	(void) forfree;
 	i = ft_str_index_c((str + 1), '\'') + 2;
-	if (i == 1)
+	if (i == 0)
 	{
+		//verifier valeur i si pas de closing quote (+2)
 		//pas de closing quote
 		printf("error: no closing quote\n");
 	}
@@ -58,7 +59,7 @@ int	to_param_dblquote(t_cmd *forfree, t_cmd *current, char *str)
 
 	(void) forfree;
 	i = ft_str_index_c((str + 1), '\"') + 2;
-	if (i == -1)
+	if (i == 0)
 	{
 		//pas de closing quote
 		printf("error: no closing quote\n");

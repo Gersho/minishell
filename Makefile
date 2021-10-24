@@ -6,7 +6,7 @@ OBJS			= $(SRCS:.c=.o)
 NAME			= minishell
 CC				= gcc
 RM				= rm -f
-CFLAGS			= 
+CFLAGS			= -g3# -Wall -Wextra -Werror
 
 all:			$(NAME)
 
