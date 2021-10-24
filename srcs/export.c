@@ -10,6 +10,7 @@ void 	print_env_export(t_env *env)
 	t_env 	*cpy;
 
 	save = env_dup(env);
+	ft_printf_fd(2, "yoo\n");
 	while (save)
 	{
 		cpy = save;

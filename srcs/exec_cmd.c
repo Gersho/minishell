@@ -39,6 +39,7 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 	if (*pid == 0)
 	{
 		path_tab = split_env_path(env_l);
+//		dprintf(2, "cmd path =%s\n", cmd->path);
 		get_cmd_path(cmd, path_tab);
 		env_t = get_env_tab(env_l);
 //		dprintf(2, "cmd path =%s\n", cmd->path);

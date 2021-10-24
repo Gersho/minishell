@@ -45,12 +45,13 @@ $(NAME):		$(OBJS)
 				-I/Users/$$USER/.brew/opt/readline/include \
 				-o $(NAME) $(OBJS) libft/libft.a -lreadline
 
-clean:			
+clean:
+				make clean -C libft/
 				$(RM) $(OBJS)
 
 fclean:			clean
 				$(RM) minishell
-				$(RM) libft/libft.a
+				make fclean -C libft/
 
 re:				fclean all
 

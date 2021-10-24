@@ -38,14 +38,19 @@ char	**get_env_tab(t_env *env_l)
 /*Renvoie la valeur de la variable env*/
 int 	env_seeker(t_env **env_l, const char *name)
 {
-	size_t	len;
+	t_env	*save;
 
-	len = ft_strlen((*env_l)->name);
-	while (*env_l)
+	if (env_l)
 	{
-		if (ft_strncmp((*env_l)->name, name, len) == 0)
-			return (1);
-		*env_l = (*env_l)->next;
+		save = *env_l;
+		while (*env_l)
+		{
+//		ft_printf_fd(2, "envseeker=%s\n", (*env_l)->name);
+			if (ft_strcmp((*env_l)->name, name) == 0)
+				return (1);
+			*env_l = (*env_l)->next;
+		}
+		*env_l = save;
 	}
 	return (0);
 }
