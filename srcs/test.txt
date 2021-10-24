@@ -1,0 +1,12 @@
+bonjour ca va ?
+stdin = 3 | stdout = 4
+stdin = 3 | stdout = 4
+bonjour ca va ?
+stdin = 3 | stdout = 4
+stdin = 3 | stdout = 4
+bonjour ca va ?
+bonjour ca va ?
+bonjour ca va ?
+bonjour ca va ?
+bonjour ca va ?
+bonjour ca va ?
