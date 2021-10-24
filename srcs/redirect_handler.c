@@ -102,19 +102,23 @@ int	redirect_handler(char *red, t_cmd *cmd)
 {
 	int 	redirect_mode;
 	char	*filename;
-	
-	while (*red)
+
+	if (red)
 	{
-		redirect_mode = which_redirect(&red);
-		filename = get_filename(red);
-		dprintf(2, "filename=|%s|\n", filename);
-		if (filename == NULL)
-			exit(EXIT_FAILURE);//TODO free etc
-		red += ft_strlen(filename);
-		if (redirect_mode == HERE_DOC)
-			here_doc(filename, cmd);
-		else
-			open_with_param(filename, redirect_mode);
+		while (*red)
+		{
+			redirect_mode = which_redirect(&red);
+			filename = get_filename(red);
+//		dprintf(2, "filename=|%s|\n", filename);
+			if (filename == NULL)
+				return (0);
+//			exit(EXIT_FAILURE);//TODO free etc
+			red += ft_strlen(filename);
+			if (redirect_mode == HERE_DOC)
+				here_doc(filename, cmd);
+			else
+				open_with_param(filename, redirect_mode);
+		}
 	}
 	return (1);
 }

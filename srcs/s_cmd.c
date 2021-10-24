@@ -60,3 +60,16 @@ size_t	ft_size_list(t_cmd *cmd_list)
 	}
 	return (i);
 }
+
+void	free_cmd_list(t_cmd *cmd)
+{
+	t_cmd *tmp;
+
+	while (cmd != NULL)
+	{
+		tmp = cmd->next;
+		free(cmd);
+		cmd = NULL;
+		cmd = tmp;
+	}
+}

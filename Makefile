@@ -21,7 +21,8 @@ SRCSF			= exec_cmd.c \
 				  cd.c \
 				  export.c \
 				  set_prompt.c \
-				  unset.c
+				  unset.c \
+				  exit.c
 
 SRCS			= $(addprefix srcs/, ${SRCSF})
 
@@ -31,7 +32,7 @@ CC				= gcc
 
 RM				= rm -f
 
-CFLAGS			= #-fsanitize=address
+CFLAGS			= -fsanitize=address
 
 all:			$(NAME)
 
@@ -51,7 +52,7 @@ clean:
 
 fclean:			clean
 				$(RM) minishell
-				make fclean -C libft/
+				$(RM) libft/libft.a
 
 re:				fclean all
 

@@ -84,6 +84,7 @@ t_cmd	*ft_cmd_init();
 t_cmd	*ft_cmd_last(t_cmd *cmd);
 void	ft_cmd_addback(t_cmd *start, t_cmd *new);
 size_t	ft_size_list(t_cmd *cmd_list);
+void	free_cmd_list(t_cmd *cmd);
 //----env_tools
 t_env	*get_env_list(char **env_main);
 int		env_seeker(t_env **env_l, const char *name);
@@ -138,6 +139,7 @@ void	cd(char **param, t_env *env_l);
 void	env(t_env *env_l);
 void	export(char **param, t_env **env);
 void 	unset(char **param, t_env **env_l);
+void 	exit_shell(char **param, t_env *env);
 //----PROMPT
 char 	*set_prompt(t_env *env);
 #endif

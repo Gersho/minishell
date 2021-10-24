@@ -24,6 +24,8 @@ int is_build_in(char *param, int *cmd)
 		*cmd = EXPORT;
 	else if (ft_strcmp("unset", name) == 0)
 		*cmd = UNSET;
+	else if (ft_strcmp("exit", name) == 0)
+		*cmd = EXIT;
 	free(name);
 	if (*cmd != -1)
 		return (1);
@@ -111,18 +113,12 @@ int check_built_in(char **param, t_env **env_l)
 			export(param, env_l);
 		else if (cmd == UNSET)
 			unset(param, env_l);
-//		printf("env after unlink=%s prev=%p next=%s\n",(*env_l)->name, (*env_l)->prev, (*env_l)->next->name);
-//		 close (1);
+		else if (cmd == EXIT)
+			exit_shell(param, *env_l);
 		return (1);
 	}
-//	else if (ft_strcmp("pwd", cmd) == 0)
 	return (0);
 }
-
-//int	update_env_tab(char **env_t, t_env *env_l)
-//{
-//	//afaire
-//}
 
 int exec_cmd(t_cmd *cmd, t_env **env_l)
 {
@@ -145,9 +141,11 @@ int exec_cmd(t_cmd *cmd, t_env **env_l)
 	while (cmd != NULL)
 	{
 		set_pipe(cmd, &fds, cmd_index);
-
-		if (cmd->red)
-			redirect_handler(cmd->red, cmd);
+		if(!redirect_handler(cmd->red, cmd))
+		{
+			dup2_close(cmd->fd->std_out, 1);
+			return 1;
+		}
 		if (!check_built_in(cmd->param, env_l))
 			create_child_to_exec_cmd(cmd, *env_l, &pid);//if return -1 free exit
 		if (cmd->next)
