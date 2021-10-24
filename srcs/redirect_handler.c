@@ -107,9 +107,9 @@ int	redirect_handler(char *red, t_cmd *cmd)
 	{
 		redirect_mode = which_redirect(&red);
 		filename = get_filename(red);
-		dprintf(2, "filename=|%s|\n", filename);
+//		dprintf(2, "filename=|%s|\n", filename);
 		if (filename == NULL)
-			exit(EXIT_FAILURE);//TODO free etc
+			exit (EXIT_FAILURE);//TODO free etc set var at exitfailure not exit
 		red += ft_strlen(filename);
 		if (redirect_mode == HERE_DOC)
 			here_doc(filename, cmd);
