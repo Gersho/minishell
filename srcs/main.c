@@ -38,10 +38,15 @@ int main(int ac,char **av, char** env)
 			free(prompt);
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
-		printf("param: %s | red: %s\n", cmd->param[0], cmd->red);
+//		printf("param: %s | red: %s\n", cmd->param[0], cmd->red);
 //		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
 		if (*cmd->param || cmd->red)
 			exec_cmd(cmd, &env_l);
+//		while (cmd != NULL)
+//		{
+//			printf("cmd->param=%s\n", cmd->param[0]);
+//			cmd = cmd->next;
+//		}
 		free_cmd_list(cmd);
 		free(line);
 		line = NULL;

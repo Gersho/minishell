@@ -35,7 +35,29 @@ static char *get_filename(char *str)
 	return (filename);
 }
 
-static int open_with_param(char *filename, int redirect_mode)
+//static int open_with_param(char *filename, int redirect_mode)
+//{
+//	int 	file_fd;
+//
+//	if (redirect_mode == RED_OUT_T)
+//		file_fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 00644);
+//	else if (redirect_mode == RED_OUT_A)
+//		file_fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 00644);
+//	else if (redirect_mode == RED_IN)
+//		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
+//	if (file_fd == -1)
+//	{
+//		perror(filename);
+//		return (EXIT_FAILURE);
+//	}
+//	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
+//		dup2_close(file_fd, STDOUT_FILENO);
+//	else
+//		dup2_close(file_fd, STDIN_FILENO);
+//	return (1);
+//}
+
+static int open_with_param(t_cmd *cmd, char *filename, int redirect_mode)
 {
 	int 	file_fd;
 
@@ -51,9 +73,9 @@ static int open_with_param(char *filename, int redirect_mode)
 		return (EXIT_FAILURE);
 	}
 	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
-		dup2_close(file_fd, STDOUT_FILENO);
+		cmd->out = file_fd;
 	else
-		dup2_close(file_fd, STDIN_FILENO);
+		cmd->in = file_fd;
 	return (1);
 }
 
@@ -97,25 +119,71 @@ static int which_redirect(char **red)
 	return (redirect_mode);
 }
 
-int	redirect_handler(char *red, t_cmd *cmd)
+//int	redirect_handler(char *red, t_cmd *cmd)
+//{
+//	int 	redirect_mode;
+//	char	*filename;
+//
+//	if (red)
+//	{
+//		while (*red)
+//		{
+//			redirect_mode = which_redirect(&red);
+//			filename = get_filename(red);
+//			if (filename == NULL)
+//				return (0);
+//			red += ft_strlen(filename);
+//			if (redirect_mode == HERE_DOC)
+//				here_doc(filename, cmd);
+//			else
+//				open_with_param(filename, redirect_mode);
+//		}
+//	}
+//	return (1);
+//}
+
+void	redirect_handlerv2(t_cmd *cmd)
 {
+	char	*red_str;
 	int 	redirect_mode;
 	char	*filename;
+	int 	pipe_fd[2];
+	int 	first_cmd = 1;
 
-	if (red)
+	while (cmd)
 	{
-		while (*red)
+		printf("CMD=%s\n", *cmd->param);
+		if (first_cmd)
+			cmd->in = dup(0);
+		else
+			cmd->in = pipe_fd[0];
+		pipe(pipe_fd);
+		if (cmd->next)
+			cmd->out = pipe_fd[1];
+		else
 		{
-			redirect_mode = which_redirect(&red);
-			filename = get_filename(red);
-			if (filename == NULL)
-				return (0);
-			red += ft_strlen(filename);
-			if (redirect_mode == HERE_DOC)
-				here_doc(filename, cmd);
-			else
-				open_with_param(filename, redirect_mode);
+			close_perror(pipe_fd[0]);
+			close_perror(pipe_fd[1]);
+			cmd->out = dup(1);
 		}
+		if (cmd->red)
+		{
+			red_str = cmd->red;
+			while (*red_str)
+			{
+				redirect_mode = which_redirect(&red_str);
+				filename = get_filename(red_str);
+				if (filename == NULL)
+					return;
+				red_str += ft_strlen(filename);
+				if (redirect_mode == HERE_DOC)
+					here_doc(filename, cmd);
+				else
+					open_with_param(cmd, filename, redirect_mode);
+			}
+		}
+//		close_fds(2, pipe_fd[0], pipe_fd[1]);
+		first_cmd = 0;
+		cmd = cmd->next;
 	}
-	return (1);
 }

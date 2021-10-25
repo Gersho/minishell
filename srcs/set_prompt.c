@@ -42,15 +42,17 @@ char 	*set_prompt(t_env *env)
 	char 	*curr_dir;
 	char 	buf[PATH_MAX];
 
-	def = "bash$: ";
 	getcwd(buf, PATH_MAX);
 	curr_dir = ft_strrchr(buf, (int)'/') + 1;
-	prompt = ft_mega_str_join(11,
-								KGRN, "➜  ",\
-							  	KCYN, curr_dir,	\
-							  	KBLU, " (", \
-							  	KRED, getenv("USER"), \
-						   		KBLU, "): ", \
-						   		KNRM);
+//	prompt = ft_mega_str_join(11,
+//								KGRN, "➜  ",\
+//							  	KCYN, curr_dir,	\
+//							  	KBLU, " (", \
+//							  	KRED, getenv("USER"), \
+//						   		KBLU, "): ", \
+//						   		KNRM);
+//	if (!prompt)
+//		prompt = ft_strdup("bash$ ");
+		prompt = ft_mega_str_join(3, KGRN, "bash$ ", KNRM);
 	return (prompt);
 }

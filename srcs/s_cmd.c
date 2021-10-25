@@ -23,6 +23,8 @@ t_cmd	*ft_cmd_init(void)
 	cmd->red = NULL;
 	cmd->next = NULL;
 	cmd->path = NULL;
+	cmd->in = 0;
+	cmd->out = 1;
 	return (cmd);
 }
 

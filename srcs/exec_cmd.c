@@ -116,6 +116,8 @@ int check_built_in(char **param, t_env **env_l)
 	return (0);
 }
 
+
+
 int exec_cmd(t_cmd *cmd, t_env **env_l)
 {
 	char **path_tab;
@@ -129,27 +131,41 @@ int exec_cmd(t_cmd *cmd, t_env **env_l)
 	//TODO fix pipe again
 //	update_env_tab(env_t);
 	cmd_index = 0;
-	init_fd(&fds);
-//	printf ("stdin = %d | stdout = %d\n", fds.std_in, fds.std_out);
+	init_fd(&fds);//do this once in main
+	printf ("stdin = %d | stdout = %d\n", fds.std_in, fds.std_out);
 //	env_l = env_l->next;
 //	printf("in func :%s\n", (*env_l)->name);
 //	return 1;
-	while (cmd != NULL)
-	{
-		set_pipe(cmd, &fds, cmd_index);
-		if(!redirect_handler(cmd->red, cmd))
-		{
-			dup2_close(cmd->fd->std_out, 1);
-			return 1;
-		}
+//	printf("CMD\n");
+	redirect_handlerv2(cmd);
 
-		if (!check_built_in(cmd->param, env_l))
+
+
+	while (cmd)
+	{
+		cmd->fd = &fds;
+//		ft_printf_fd(2, "CMD=%s\n", *cmd->param);
+		dprintf(2, "out=%d in=%d\n", cmd->out, cmd->in);
+		dup2_close(cmd->in, 0);
+		dup2_close(cmd->out, 1);
+//		set_pipe(cmd, &fds, cmd_index);
+//		if(!redirect_handler(cmd->red, cmd))
+//		{
+//			dup2_close(cmd->fd->std_out, 1);
+//			return 1;
+//		}
+//		ft_printf_fd(2, "red=\"%s\"\n", cmd->red);
+		if (!check_built_in(cmd->param, env_l)) {
 			create_child_to_exec_cmd(cmd, *env_l, &pid);
-		if (cmd->next)
-			dup2_close(cmd->fd->pipe[0], 0);
-		else
-			dup2(cmd->fd->std_in, 0);
+//			if (cmd->next && cmd->next->in != 0)
+//				dup2_close(cmd->in, 0);//dup2_close(cmd->fd->pipe[0], 0);
+//			else
+		}
+		dup2(cmd->fd->std_in, 0);
 		dup2(cmd->fd->std_out, 1);
+//		ft_printf_fd(2, "haa2\n");
+//		close_perror(cmd->in);
+//		close_perror(cmd->out);
 		cmd = cmd->next;
 		cmd_index++;
 	}

@@ -59,6 +59,8 @@ struct s_cmd
 	char*		path;
 	char**		param;
 	char*		red;
+	int 		in;
+	int 		out;
 	t_fds		*fd;
 	t_cmd*		next;
 };
@@ -127,6 +129,7 @@ char	**split_env_path(t_env *envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);
 //----Redirect Handling
 int		redirect_handler(char *red, t_cmd *cmd);
+void	redirect_handlerv2(t_cmd *cmd);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
