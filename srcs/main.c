@@ -36,9 +36,9 @@ int main(int ac,char **av, char** env)
 		line = readline(prompt);
 		if (prompt)
 			free(prompt);
-//		printf("in main :%s\n", env_l->name);
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
+		printf("param: %s | red: %s\n", cmd->param[0], cmd->red);
 //		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
 		if (*cmd->param || cmd->red)
 			exec_cmd(cmd, &env_l);

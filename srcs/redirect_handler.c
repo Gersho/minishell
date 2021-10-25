@@ -47,9 +47,8 @@ static int open_with_param(char *filename, int redirect_mode)
 		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
 	if (file_fd == -1)
 	{
-//		dprintf(2, "yooo\n");
 		perror(filename);
-		exit (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
 		dup2_close(file_fd, STDOUT_FILENO);
@@ -109,10 +108,8 @@ int	redirect_handler(char *red, t_cmd *cmd)
 		{
 			redirect_mode = which_redirect(&red);
 			filename = get_filename(red);
-//		dprintf(2, "filename=|%s|\n", filename);
 			if (filename == NULL)
 				return (0);
-//			exit(EXIT_FAILURE);//TODO free etc
 			red += ft_strlen(filename);
 			if (redirect_mode == HERE_DOC)
 				here_doc(filename, cmd);
