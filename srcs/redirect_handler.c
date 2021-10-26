@@ -18,17 +18,17 @@ static char *get_filename(char *str)
 	size_t i;
 	
 	i = 0;
-//	if (is_redirect(str[i]) || str[i] == '\0')
-//	{
-//		if (is_redirect(str[i]))
-//			dprintf(2, "syntax error near unexpected token '%c'\n", str[i]);
-//		else
-//			dprintf(2, "syntax error near unexpected token 'newline'\n");
-//		return (NULL);
-//	}
+	if (is_redirect(str[i]) || str[i] == '\0')
+	{
+		if (is_redirect(str[i]))
+			dprintf(2, "syntax error near unexpected token '%c'\n", str[i]);
+		else
+			dprintf(2, "syntax error near unexpected token 'newline'\n");
+		return (NULL);
+	}
 	while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
 		i++;
-	filename = malloc(sizeof(char) * (i + 1));
+	filename = ft_calloc(i + 1, sizeof(char));
 	if (filename == NULL)
 		return (NULL);
 	ft_strlcpy(filename, str, i + 1);
@@ -47,6 +47,7 @@ static int open_with_param(char *filename, int redirect_mode)
 		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
 	if (file_fd == -1)
 	{
+//		dprintf(2, "yooo\n");
 		perror(filename);
 		exit (EXIT_FAILURE);
 	}
@@ -106,8 +107,9 @@ int	redirect_handler(char *red, t_cmd *cmd)
 	{
 		redirect_mode = which_redirect(&red);
 		filename = get_filename(red);
+//		dprintf(2, "filename=|%s|\n", filename);
 		if (filename == NULL)
-			exit(EXIT_FAILURE);//TODO free etc
+			exit (EXIT_FAILURE);//TODO free etc set var at exitfailure not exit
 		red += ft_strlen(filename);
 		if (redirect_mode == HERE_DOC)
 			here_doc(filename, cmd);

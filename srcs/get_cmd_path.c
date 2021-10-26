@@ -8,8 +8,9 @@ static int	command_not_found(char *path, char *name)
 {
 	if (path == NULL)
 	{
-		ft_putstr_fd(name, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_printf_fd(2, "%s%s%s%s: command not found\n",KRED, PROMPT, KNRM, name);//TODO need prompt str
+//		ft_putstr_fd(name, 2);
+//		ft_putstr_fd(": command not found\n", 2);
 		return (1);
 	}
 	return (0);
@@ -47,9 +48,16 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 	char	*path;
 	
 	i = 0;
+	path = NULL;
+	if (**cmd->param == '/')
+	{
+		ft_free_str_tab(path_tab);
+		cmd->path = *cmd->param;
+		return (0);
+	}
 	while (path_tab[i])
 	{
-		path = ft_strjoin(path_tab[i++], *cmd->param);
+		path = ft_strjoin(path_tab[i], *cmd->param);
 		if (path == NULL)
 			return (-1);//TODO free path_tab and exit
 		if (path_exist(path, cmd) == 1)
@@ -57,6 +65,7 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 			free(path);
 			break ;
 		}
+		i++;
 		free(path);
 	}
 	ft_free_str_tab(path_tab);
@@ -86,18 +95,19 @@ static int	add_slash_to_path(char **path_tab)
 	return (1);
 }
 
-char	**split_env_path(char **envp)
+char	**split_env_path(t_env *env)
 {
-	int		i;
 	char	**paths_tab;
 
-	i = 0;
-	while (ft_strncmp(envp[i], "PATH=", 5))
-		i++;
-	envp[i] += 5;
-	paths_tab = ft_split(envp[i], ':');
-	if (paths_tab == NULL)
-		exit(EXIT_FAILURE);
-	add_slash_to_path(paths_tab);
+	//TODO what if path is deleted
+	paths_tab = NULL;
+	env_seeker(&env, "PATH");
+	if (env)
+	{
+		paths_tab = ft_split(env->value, ':');
+		if (paths_tab == NULL)
+			exit(EXIT_FAILURE);
+		add_slash_to_path(paths_tab);
+	}
 	return (paths_tab);
 }
