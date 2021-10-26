@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/24 14:27:54 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 11:33:27 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	to_param_quote(t_cmd *forfree, t_cmd *current, char *str)
 		printf("error: no closing quote\n");
 	}
 	ft_param_loop(str, &i);
-	tmp = ft_substr(str, 0, i);
+	tmp = ft_substr(str, 0, i - 1);
 	current->param = ft_param_append_word(forfree, current->param, tmp);
 	free(tmp);
 	return (i);
@@ -65,7 +65,8 @@ int	to_param_dblquote(t_cmd *forfree, t_cmd *current, char *str)
 		printf("error: no closing quote\n");
 	}
 	ft_param_loop(str, &i);
-	tmp = ft_substr(str, 0, i);
+	tmp = ft_substr(str, 0, i - 1);
+	printf("tmp:%s\n", tmp);
 	current->param = ft_param_append_word(forfree, current->param, tmp);
 	free(tmp);
 	return (i);

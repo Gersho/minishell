@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/24 15:25:00 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 11:33:49 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int ac,char **av, char** env)
 		//exit(0);
 		ft_parse_line(line, cmd);
 		//exec
-		free(line);
+	//	free(line); // line est deja free a la fin de ft_parse_line
 		//exec_cmd(cmd, env);
 //	}
 		//printf("coucou\n");
@@ -45,6 +45,8 @@ int main(int ac,char **av, char** env)
 			// printf("maillon cmd: %d", j);
 			// j++;
 			i = 0;
+			printf("#########\n");
+			printf("reds: %s\n", tmp->red);
 			while (tmp->param[i])
 			{
 				printf("----\n");	
@@ -53,7 +55,6 @@ int main(int ac,char **av, char** env)
 				printf("cmd param: %s\n", tmp->param[i]);
 				i++;
 			}
-			printf("reds: %s\n", tmp->red);
 			j++;
 			tmp = tmp->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/24 16:16:55 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/26 11:03:15 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
 	//rajouter les protections
 	partA = ft_substr(vars->str, 0, limits.start);
 	env.start = ft_strlen(partA);
-	env.end = ft_strlen(partA) + ft_strlen(tmp) + 1;
+	env.end = ft_strlen(partA) + ft_strlen(tmp) - 1;
 	env.type = ENVS;
 	ft_append_quote_data(vars, vars->str, vars->env, env);
 	partB = ft_substr(vars->str, limits.end, ft_strlen(vars->str));
