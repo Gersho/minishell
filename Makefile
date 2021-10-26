@@ -22,7 +22,8 @@ SRCSF			= exec_cmd.c \
 				  export.c \
 				  set_prompt.c \
 				  unset.c \
-				  exit.c
+				  exit.c \
+				  set_cmd.c
 
 SRCS			= $(addprefix srcs/, ${SRCSF})
 

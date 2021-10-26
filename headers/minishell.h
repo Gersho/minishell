@@ -20,6 +20,7 @@
 # include <stdarg.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <sys/ioctl.h>
 
 # define KNRM  "\x1B[0m"
 # define KRED  "\x1B[31m"
@@ -145,4 +146,8 @@ void 	unset(char **param, t_env **env_l);
 void 	exit_shell(char **param, t_env *env);
 //----PROMPT
 char 	*set_prompt(t_env *env);
+//----INIT?
+void	init_fd(t_fds *fd);
+
+void	set_cmd_std_fd(t_cmd *cmd, t_fds *fds);
 #endif

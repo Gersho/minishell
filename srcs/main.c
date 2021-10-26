@@ -25,10 +25,12 @@ int main(int ac,char **av, char** env)
 
 	t_cmd*	tmp;
 	t_env	*env_l;
+	t_fds fds;
 
 	//TODO fix segfault with redirect without cmd->param
 	//TODO fix  < cat && > cat
 	env_l = get_env_list(env);
+	init_fd(&fds);//do this once in main
 //	print_list(env_l);
 	while (1)
 	{
@@ -38,6 +40,7 @@ int main(int ac,char **av, char** env)
 			free(prompt);
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
+		set_cmd_std_fd(cmd, &fds);
 //		printf("param: %s | red: %s\n", cmd->param[0], cmd->red);
 //		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
 		if (*cmd->param || cmd->red)

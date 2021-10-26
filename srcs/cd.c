@@ -3,7 +3,7 @@
 //
 
 #include "../headers/minishell.h"
-
+//TODO start OLDPWD AT NULL | IF UNSET PWD and cd nana OLDPWD=NULL
 void cd(char **param, t_env *env_l)
 {
 	int		i;
