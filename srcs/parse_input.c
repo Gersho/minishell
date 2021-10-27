@@ -6,17 +6,19 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/26 11:36:57 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 12:46:42 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-void	ft_parse_loop(t_vars *vars, int len)
+void	ft_parse_loop(t_vars *vars)
 {
 	t_cmd	*tmp;
 	int		i;
+	int		len;
 
+	len = ft_strlen(vars->str);
 	tmp = vars->cmd;
 	i = 0;
 	while (i < len)
@@ -42,30 +44,24 @@ void	ft_parse_loop(t_vars *vars, int len)
 
 void	ft_parse_line(char *str, t_cmd *cmd)
 {
-	int			len;
 	t_vars		vars;
 
-	vars.cmd = cmd;
-	vars.str = str;
-	len = ft_strlen(str);
-	vars.quotes = ft_quotes_init(&vars, -1, -1, NONE);
-	vars.env = ft_quotes_init(&vars, -1, -1, NONE);
-	if (!vars.quotes)
-	{
-		//todo free
-	}
-	ft_parse_quotes(&vars, str, len, vars.quotes);
+	ft_init_vars(&vars, cmd, str);
 
-
-
-
+	ft_parse_quotes(&vars);
 	ft_handle_dollars(&vars);
 
-	//exit(-2);
 	printf("str after dolls:%s\n", vars.str);
 	ft_debug_quotes_env(&vars);
-	len = ft_strlen(vars.str);
-	ft_parse_loop(&vars, len);
+	
+	//exit(0);
+
+
+	
+	ft_parse_loop(&vars);
+
+
+
 	//free stuff from vars
 	free(vars.str);
 }

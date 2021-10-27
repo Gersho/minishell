@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/26 11:56:36 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 12:46:19 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,12 @@ int		to_param_word(t_cmd *forfree, t_cmd *current, char* str);
 int		to_redirect(t_cmd *forfree, t_cmd *current, char* str);
 //----s_quotes
 t_quotes	*ft_quotes_init(t_vars *vars, int start, int end, t_type type);
-void		ft_parse_quotes(t_vars *vars, char *str, int len, t_quotes *quotes);
-void		ft_append_quote_data(t_vars *vars, char *str, t_quotes *quotes, t_quotes tmp);
+void		ft_parse_quotes(t_vars *vars);
+void		ft_append_quote_data(t_vars *vars, t_quotes *quotes, t_quotes tmp);
 t_type		ft_get_type(t_quotes *quotes, int i);
 void		ft_update_quote_data(t_vars *vars, t_quotes *quotes, int size, int i);
+//----s_vars
+void	ft_init_vars(t_vars *vars, t_cmd *cmd, char *str);
 //----env expand
 void	ft_handle_dollars(t_vars *vars);
 void	ft_env_expand_double(t_vars *vars, int *i);
@@ -153,7 +155,7 @@ void	ft_env_expand_none(t_vars *vars, int *i);
 int		ft_get_env_limit(char *str, int i);
 //----Parsing
 void	ft_parse_line(char *line, t_cmd *list);
-void	ft_parse_loop(t_vars *vars, int len);
+void	ft_parse_loop(t_vars *vars);
 //----Error handling
 void	ft_error_exit(int err);
 void	ft_freestructs_exit(t_cmd* list, int err);
@@ -181,10 +183,6 @@ int 	exec_cmd(t_cmd *cmd, t_env **env);
 int		check_built_in(char **param, t_env **env_l);
 //----COMMANDS BUILT IN
 void	echo(char **param);
-
-
-//debug
-void ft_debug_quotes_env(t_vars *vars);
 void	pwd(char **param, t_env *env_l);
 void	cd(char **param, t_env *env_l);
 void	env(t_env *env_l);
@@ -192,4 +190,6 @@ void	export(char **param, t_env **env);
 void 	unset(char **param, t_env **env_l);
 //----PROMPT
 char 	*set_prompt(t_env *env);
+//debug
+void ft_debug_quotes_env(t_vars *vars);
 #endif

@@ -21,7 +21,12 @@ SRCSF			= exec_cmd.c \
 				  cd.c \
 				  export.c \
 				  set_prompt.c \
-				  unset.c
+				  unset.c \
+				  dollars.c \
+				  s_vars.c \
+				  debug.c \
+				  s_quotes.c \
+				  
 
 SRCS			= $(addprefix srcs/, ${SRCSF})
 
