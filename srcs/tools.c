@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/24 16:05:18 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 17:15:56 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,36 @@ char	*rm_redundant_spaces(t_vars *vars, char *str)
 	}
 	//free(str);
 	return (out);
+}
+
+char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
+{
+	int		cut;
+	char	*tmp;
+	int		i;
+
+	cut = ft_get_quote_count(vars, start, end);
+	printf("start:%d -- end:%d -- cut:%d -- malloc:%d\n",start, end, cut, (end - start - cut));
+	tmp = malloc(sizeof(char) * (end - start - cut + 1));
+	if (!tmp)
+	{
+
+	}
+	i = 0;
+	while (start <= end)
+	{
+		if(ft_is_quote_data(vars, start) == 1)
+		{
+			start++;
+		}
+		else
+		{
+			tmp[i] = vars->str[start];
+			i++;
+			start++;
+		}
+	}
+	tmp[i] = '\0';
+	printf("tmp:%s\n", tmp);
+	return (tmp);
 }

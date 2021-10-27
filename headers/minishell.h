@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/27 12:46:19 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 15:27:54 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,17 +135,19 @@ t_env	*env_dup(t_env *env);
 void 	env_unlink(t_env **env);
 //----cmd->param
 char	**ft_param_init(t_cmd* cmd);
-char	**ft_param_append_word(t_cmd* cmd, char** param, char* new);
-int		to_param_quote(t_cmd *forfree, t_cmd *current, char* str);
-int		to_param_dblquote(t_cmd *forfree, t_cmd *current, char* str);
-int		to_param_word(t_cmd *forfree, t_cmd *current, char* str);
-int		to_redirect(t_cmd *forfree, t_cmd *current, char* str);
+char	**ft_param_append_word(t_vars *vars, char** param, char* new);
+int		to_param_quote(t_vars *vars, t_cmd *current, int i);
+int		to_param_dblquote(t_vars *vars, t_cmd *current, int i);
+int		to_param_word(t_vars *vars, t_cmd *current, char* str);
+int		to_redirect(t_vars *vars, t_cmd *current, char* str);
 //----s_quotes
 t_quotes	*ft_quotes_init(t_vars *vars, int start, int end, t_type type);
 void		ft_parse_quotes(t_vars *vars);
 void		ft_append_quote_data(t_vars *vars, t_quotes *quotes, t_quotes tmp);
 t_type		ft_get_type(t_quotes *quotes, int i);
 void		ft_update_quote_data(t_vars *vars, t_quotes *quotes, int size, int i);
+int			ft_get_quote_count(t_vars *vars, int start, int end);
+int			ft_is_quote_data(t_vars *vars, int i);
 //----s_vars
 void	ft_init_vars(t_vars *vars, t_cmd *cmd, char *str);
 //----env expand
@@ -158,7 +160,7 @@ void	ft_parse_line(char *line, t_cmd *list);
 void	ft_parse_loop(t_vars *vars);
 //----Error handling
 void	ft_error_exit(int err);
-void	ft_freestructs_exit(t_cmd* list, int err);
+void	ft_freestructs_exit(t_vars *vars, int err);
 //----Utils
 int		skip_spaces(char *str);
 void	close_perror(int fd);
@@ -171,6 +173,7 @@ int		is_separator(char c);
 int		is_redirect_or_space(char c);
 int		is_quote_or_dollar(char c);
 char	*rm_redundant_spaces(t_vars *vars, char *str);
+char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end);
 //----Get cmd path
 char	**split_env_path(t_env *envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/27 12:46:42 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 17:11:36 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ void	ft_parse_loop(t_vars *vars)
 	i = 0;
 	while (i < len)
 	{
+		//printf("cur i: %d --- cur c:%c\n", i, vars->str[i]);
 		if (ft_strncmp(&vars->str[i], " ", 1) == 0)
 			i += skip_spaces(&vars->str[i]);
 		else if (ft_strncmp(&vars->str[i], "\'", 1) == 0 && ft_get_type(vars->env, i) != ENVS)
-			i += to_param_quote(vars->cmd, tmp, &vars->str[i + 1]) + 1;
+			i += to_param_quote(vars, tmp, i) + 1;
 		else if (ft_strncmp(&vars->str[i], "\"", 1) == 0 && ft_get_type(vars->env, i) != ENVS)
-			i += to_param_dblquote(vars->cmd, tmp, &vars->str[i + 1]) + 1;
+			i += to_param_dblquote(vars, tmp, i) + 1;
 		else if (ft_strncmp(&vars->str[i], "|", 1) == 0 && ft_get_type(vars->env, i) != ENVS)
 		{
 			tmp->next = ft_cmd_init();
@@ -36,9 +37,9 @@ void	ft_parse_loop(t_vars *vars)
 			i++;
 		}
 		else if ((vars->str[i] == 60 || vars->str[i] == 62) && ft_get_type(vars->env, i) != ENVS)
-			i += to_redirect(vars->cmd, tmp, &vars->str[i]);
+			i += to_redirect(vars, tmp, &vars->str[i]);
 		else
-			i += to_param_word(vars->cmd, tmp, &vars->str[i]);
+			i += to_param_word(vars, tmp, &vars->str[i]);
 	}
 }
 

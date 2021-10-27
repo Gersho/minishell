@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/27 12:33:04 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 16:40:03 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_env_expand_double(t_vars *vars, int *i)
 	tmp = ft_build_newstr(vars, limits, swap);
 	free(vars->str);
 	vars->str = tmp;
-	printf("------->new str:%s\n", vars->str);
+	//printf("------->new str:%s\n", vars->str);
 }
 
 void	ft_env_expand_none(t_vars *vars, int *i)
@@ -97,7 +97,7 @@ void	ft_env_expand_none(t_vars *vars, int *i)
 	tmp = ft_build_newstr(vars, limits, swap);
 	free(vars->str);
 	vars->str = tmp;
-	printf("------->new str:%s\n", vars->str);
+	//printf("------->new str:%s\n", vars->str);
 
 }
 

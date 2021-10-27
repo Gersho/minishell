@@ -1,9 +1,5 @@
-$"e""c""h""o" "$USER" "$USER" "$PWD" "$ABC"
-------->new str:"e""c""h""o" "kzennoun" "$USER" "$PWD" "$ABC"
-------->new str:"e""c""h""o" "kzennoun" "kzennoun" "$PWD" "$ABC"
-------->new str:"e""c""h""o" "kzennoun" "kzennoun" "/Users/kzennoun/code/minishell" "$ABC"
-------->new str:"e""c""h""o" "kzennoun" "kzennoun" "/Users/kzennoun/code/minishell" ""
-str after dolls:"e""c""h""o" "kzennoun" "kzennoun" "/Users/kzennoun/code/minishell" ""
+$"e""c""h""o" "$USER" "$USER" "$PWD" "$ABC" "'''" '"""'
+str after dolls:"e""c""h""o" "kzennoun" "kzennoun" "/Users/kzennoun/code/minishell" "" "'''" '"""'
 quotes:
 start:0 | end:2 | type:1
 start:3 | end:5 | type:1
@@ -13,25 +9,59 @@ start:13 | end:22 | type:1
 start:24 | end:33 | type:1
 start:35 | end:66 | type:1
 start:68 | end:69 | type:1
+start:71 | end:75 | type:1
+start:77 | end:81 | type:0
 envs
 start:14 | end:21 | type:3
 start:25 | end:32 | type:3
 start:36 | end:65 | type:3
 start:69 | end:68 | type:3
+i:0 --- j:3
+test:"e""c""h""o" "kzennoun" "kzennoun" "/Users/kzennoun/code/minishell" "" "'''" '"""'
+start:0 -- end:12 -- cut:8 -- malloc:4
+tmp:echo 
+i:13 --- j:23
+test:"kzennoun" "kzennoun" "/Users/kzennoun/code/minishell" "" "'''" '"""'
+start:13 -- end:23 -- cut:2 -- malloc:8
+tmp:kzennoun 
+i:24 --- j:34
+test:"kzennoun" "/Users/kzennoun/code/minishell" "" "'''" '"""'
+start:24 -- end:34 -- cut:2 -- malloc:8
+tmp:kzennoun 
+i:35 --- j:67
+test:"/Users/kzennoun/code/minishell" "" "'''" '"""'
+start:35 -- end:67 -- cut:2 -- malloc:30
+tmp:/Users/kzennoun/code/minishell 
+i:68 --- j:70
+test:"" "'''" '"""'
+start:68 -- end:70 -- cut:2 -- malloc:0
+tmp: 
+i:71 --- j:76
+test:"'''" '"""'
+start:71 -- end:76 -- cut:2 -- malloc:3
+tmp:''' 
+start:77 -- end:82 -- cut:2 -- malloc:3
+tmp:"""
 #########
 reds: (null)
 ----
 j: 0 | i: 0
-cmd param: e""c""h""o
+cmd param: echo 
 ----
 j: 0 | i: 1
-cmd param: kzennoun
+cmd param: kzennoun 
 ----
 j: 0 | i: 2
-cmd param: kzennoun
+cmd param: kzennoun 
 ----
 j: 0 | i: 3
-cmd param: /Users/kzennoun/code/minishell
+cmd param: /Users/kzennoun/code/minishell 
 ----
 j: 0 | i: 4
-cmd param: 
+cmd param:  
+----
+j: 0 | i: 5
+cmd param: ''' 
+----
+j: 0 | i: 6
+cmd param: """

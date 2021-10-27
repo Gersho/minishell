@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:12:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/21 11:51:53 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/27 13:09:49 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void	ft_error_exit(int err)
 	exit(err);
 }
 
-void	ft_freestructs_exit(t_cmd *cmd, int err)
+void	ft_freestructs_exit(t_vars *vars, int err)
 {
 	//(void)cmd;
 	//free stuff, starting from end and with sub chains
-	ft_cmd_loop(cmd);
-	ft_error_exit(err);
+	// ft_cmd_loop(cmd);
+	// ft_error_exit(err);
 }
