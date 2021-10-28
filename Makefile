@@ -22,8 +22,11 @@ SRCSF			= exec_cmd.c \
 				  export.c \
 				  set_prompt.c \
 				  unset.c \
-				  exit.c \
-				  set_cmd.c
+				  dollars.c \
+				  s_vars.c \
+				  debug.c \
+				  s_quotes.c \
+				  
 
 SRCS			= $(addprefix srcs/, ${SRCSF})
 
@@ -52,8 +55,9 @@ clean:
 				$(RM) $(OBJS)
 
 fclean:			clean
+				make fclean -C libft/
 				$(RM) minishell
-				$(RM) libft/libft.a
+				make fclean -C libft/
 
 re:				fclean all
 

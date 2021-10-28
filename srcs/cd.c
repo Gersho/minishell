@@ -16,9 +16,8 @@ void cd(char **param, t_env *env_l)
 		i++;
 	if (param[1] == NULL || *param[1] == '~')
 	{
-		if (!env_seeker(&env_l, "HOME")) {
+		if (!env_seeker(&env_l, "HOME"))
 			return (ft_putstr_fd("bash: cd: HOME not set\n", 2));
-		}
 		env = env_l;
 		if (env_seeker(&env_l, "OLDPWD"))
 			env_ch_value(env_l, getcwd(buf, PATH_MAX));
