@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/27 17:14:28 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/28 04:43:42 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,24 @@
 
 void	ft_param_loop(t_vars *vars, int *i)
 {
-	t_quotes	tmp;
-
 	while (vars->str[*i])
 	{
+		//printf("paramloop i:%d | char:%c\n", *i, vars->str[*i]);
 		if (is_separator(vars->str[*i]))
 		{
 			break ;
 		}
 		else if (ft_strncmp(&vars->str[*i], "\'", 1) == 0)
 		{
-			//tmp.start = *i;
 			*i += ft_str_index_c((&vars->str[*i] + 1), '\'') + 1;
-			// tmp.end = *i - 1;
-			// tmp.type = SIMPLE;
-			// ft_append_quote_data(vars, vars->quotes, tmp);
 		}
 		else if (ft_strncmp(&vars->str[*i], "\"", 1) == 0)
 		{
-			//tmp.start = *i;
 			*i += ft_str_index_c((&vars->str[*i] + 1), '\"') + 1;
-			// tmp.end = *i - 1;
-			// tmp.type = DOUBLE;
-			// ft_append_quote_data(vars, vars->quotes, tmp);
 		}
 		*i += 1;
 	}
+//	printf("going out\n");
 }
 
 int	to_param_quote(t_vars *vars, t_cmd *current, int i)
@@ -75,7 +67,7 @@ int	to_param_dblquote(t_vars *vars, t_cmd *current, int i)
 
 	(void) vars;
 	j = ft_str_index_c((vars->str + i + 1), '\"') + i + 2;
-	printf("i:%d --- j:%d\n", i, j);
+	//printf("i:%d --- j:%d\n", i, j);
 	if (j == 0)
 	{
 		//pas de closing quote
@@ -83,7 +75,7 @@ int	to_param_dblquote(t_vars *vars, t_cmd *current, int i)
 	}
 	ft_param_loop(vars, &j);
 
-	printf("test:%s\n", vars->str + i);
+	//printf("test:%s\n", vars->str + i);
 	//tmp = ft_substr(vars->str, i + 1, j - i - 2);
 //	printf("to param dble quote:i:%d ---j:%d\n", i, j);
 	tmp = ft_no_signifiant_quote_substr(vars, i, j);
@@ -95,18 +87,20 @@ int	to_param_dblquote(t_vars *vars, t_cmd *current, int i)
 	return (j - i - 1);
 }
 
-int	to_param_word(t_vars *vars, t_cmd *current, char *str)
+int	to_param_word(t_vars *vars, t_cmd *current, int i)
 {
-	int		i;
+	int		j;
 	char	*tmp;
 
-	(void) vars;
-	i = 1;
-	ft_param_loop(vars, &i);
-	tmp = ft_substr(str, 0, i);
+	//(void) vars;
+	j = i + 1;
+	ft_param_loop(vars, &j);
+	//printf("107 j:%d\n", j);
+	//tmp = ft_substr(vars->str, i, j - i);
+	tmp = ft_no_signifiant_quote_substr(vars, i, j);
 	current->param = ft_param_append_word(vars, current->param, tmp);
 	free(tmp);
-	return (i);
+	return (j - i);
 }
 
 int	to_redirect(t_vars *vars, t_cmd *current, char *str)
