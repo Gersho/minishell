@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/29 00:02:43 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 00:25:24 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,12 @@ void	ft_red_loop(t_vars *vars, int *i)
 {
 	while (vars->str[*i])
 	{
-		//printf("redloop i:%d | char:%c\n", *i, vars->str[*i]);
-		if (vars->str[*i] == 32 && ft_get_type(vars->env, *i) != ENVS)
+		//printf("redloop i:%d | char:%c*\n", *i, vars->str[*i]);
+		if ((vars->str[*i] == 32 || vars->str[*i] == 124 )&& ft_get_type(vars->env, *i) != ENVS)
+		{
+			//printf("yoyoyo\n");
 			break ;
+		}
 		if (vars->str[*i] == 62 || vars->str[*i] == 60 || vars->str[*i] == 124)
 		{
 			if (ft_get_type(vars->env, *i) == ENVS)
@@ -154,8 +157,8 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 	j += skip_spaces(&vars->str[j]);
 
 	ft_red_loop(vars, &j);
-
-	tmp = ft_substr(vars->str, i, j - 1);
+	//printf("after redloop j:%d*\n", j);
+	tmp = ft_substr(vars->str, i, j- i);
 	if (current->red == NULL)
 	{
 		current->red = ft_strjoin("", tmp);
@@ -167,7 +170,7 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 		free(swap);
 	}
 	free(tmp);
-	return (j);
+	return (j - i);
 }
 
 
