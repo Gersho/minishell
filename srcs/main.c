@@ -41,7 +41,7 @@ int main(int ac,char **av, char** env)
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
 		set_cmd_std_fd(cmd, &fds);
-//		printf("param: %s | red: %s\n", cmd->param[0], cmd->red);
+		printf("param: |%s| | red: %s\n", cmd->param[0], cmd->red);
 //		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
 		if (*cmd->param || cmd->red)
 			exec_cmd(cmd, &env_l);
@@ -50,8 +50,8 @@ int main(int ac,char **av, char** env)
 //			printf("cmd->param=%s\n", cmd->param[0]);
 //			cmd = cmd->next;
 //		}
-		free_cmd_list(cmd);
-		free(line);
+//		free_cmd_list(cmd);
+//		free(line);
 		line = NULL;
 	}
 	free_env_list(env_l);

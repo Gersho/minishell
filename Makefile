@@ -26,6 +26,8 @@ SRCSF			= exec_cmd.c \
 				  s_vars.c \
 				  debug.c \
 				  s_quotes.c \
+				  exit.c \
+				  set_cmd.c
 				  
 
 SRCS			= $(addprefix srcs/, ${SRCSF})

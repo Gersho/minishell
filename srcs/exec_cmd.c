@@ -138,7 +138,7 @@ int exec_cmd(t_cmd *cmd, t_env **env_l)
 //	printf("in func :%s\n", (*env_l)->name);
 //	return 1;
 //	printf("CMD\n");
-	redirect_handlerv2(cmd);
+	redirect_handler(cmd);
 
 
 

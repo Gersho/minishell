@@ -150,7 +150,7 @@ static int which_redirect(char **red)
 //	return (1);
 //}
 
-void	redirect_handlerv2(t_cmd *cmd)
+void	redirect_handler(t_cmd *cmd)
 {
 	char	*red_str;
 	int 	redirect_mode;
