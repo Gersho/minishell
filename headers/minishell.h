@@ -21,6 +21,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <stdlib.h>
+# include <signal.h>
 
 typedef struct s_cmd				t_cmd;
 typedef struct s_file_descriptors	t_fds;

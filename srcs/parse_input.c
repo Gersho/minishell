@@ -56,8 +56,8 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 	ft_parse_quotes(&vars);
 	ft_handle_dollars(&vars);
 
-	printf("str after dolls:%s\n", vars.str);
-	ft_debug_quotes_env(&vars);
+//	printf("str after dolls:%s\n", vars.str);
+//	ft_debug_quotes_env(&vars);
 	
 	//exit(0);
 

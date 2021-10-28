@@ -152,14 +152,23 @@ int exec_cmd(t_cmd *cmd, t_env **env_l)
 		dup2_close(cmd->out, 1);
 		if (!check_built_in(cmd->param, env_l))
 			create_child_to_exec_cmd(cmd, *env_l, &pid);
-		dup2(cmd->fd->std_in, 0);
-		dup2(cmd->fd->std_out, 1);
+		char *std_ing;
+		char *std_out;
+		
+		std_ing = ttyname(0);
+		std_out = ttyname(1);
+		int fdin = open(std_ing, O_RDWR);
+		int fdout = open(std_out, O_RDWR);
+		dup2(fdin, 0);
+		dup2(fdout, 1);
+//		dup2(cmd->fd->std_in, 0);
+//		dup2(cmd->fd->std_out, 1);
 		cmd = cmd->next;
 		cmd_index++;
 //		dprintf(2, " \n\n");
 	}
 //	dup2(cmd->fd->std_in, 0);
-//	dup2(cmd->fd->std_out, 1);
+//	dup2(cmd->fd->std_out, 1)
 	waitpid(pid, NULL, 0);
 	if (cmd_index > 1)
 		while (wait(NULL) != -1)
