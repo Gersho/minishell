@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/27 17:15:56 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/28 02:28:56 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 	int		i;
 
 	cut = ft_get_quote_count(vars, start, end);
-	printf("start:%d -- end:%d -- cut:%d -- malloc:%d\n",start, end, cut, (end - start - cut));
+	//printf("start:%d -- end:%d -- cut:%d -- malloc:%d\n",start, end, cut, (end - start - cut));
 	tmp = malloc(sizeof(char) * (end - start - cut + 1));
 	if (!tmp)
 	{
@@ -109,6 +109,6 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 		}
 	}
 	tmp[i] = '\0';
-	printf("tmp:%s\n", tmp);
+	//printf("tmp:%s\n", tmp);
 	return (tmp);
 }

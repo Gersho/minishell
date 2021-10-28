@@ -65,3 +65,11 @@ cmd param: '''
 ----
 j: 0 | i: 6
 cmd param: """
+
+
+
+"e""c""h""o" test/home/karim/code/minishell"/home/karim/code/minishell" "/home/karim/code/minishell"
+
+
+
+echo test/home/karim/code/minishell"/home/karim/code/minishell" "/home/karim/code/minishell"
