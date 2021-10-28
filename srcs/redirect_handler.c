@@ -26,8 +26,16 @@ static char *get_filename(char *str)
 			dprintf(2, "syntax error near unexpected token 'newline'\n");
 		return (NULL);
 	}
-	while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
+	if (str[i] == '"')
+	{
 		i++;
+		while (str[i] != '"')
+			i++;
+		i--;
+	}
+	else
+		while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
+			i++;
 	filename = ft_calloc(i + 1, sizeof(char));
 	if (filename == NULL)
 		return (NULL);
@@ -73,9 +81,9 @@ static int open_with_param(t_cmd *cmd, char *filename, int redirect_mode)
 		return (EXIT_FAILURE);
 	}
 	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
-		cmd->out = file_fd;
+		dup2_close(file_fd, cmd->out);
 	else
-		cmd->in = file_fd;
+		dup2_close(file_fd, cmd->in);
 	return (1);
 }
 
@@ -152,17 +160,20 @@ void	redirect_handlerv2(t_cmd *cmd)
 
 	while (cmd)
 	{
-		printf("CMD=%s\n", *cmd->param);
 		if (first_cmd)
 			cmd->in = dup(0);
-		else
+		else {
 			cmd->in = pipe_fd[0];
+//			close_perror(pipe_fd[0]);
+		}
 		pipe(pipe_fd);
 		if (cmd->next)
 			cmd->out = pipe_fd[1];
 		else
 		{
+//			dprintf(2, "cmd|%s| close pipe[0] ", cmd->param[0]);
 			close_perror(pipe_fd[0]);
+//			dprintf(2, "cmd|%s| close pipe[1] ", cmd->param[0]);
 			close_perror(pipe_fd[1]);
 			cmd->out = dup(1);
 		}

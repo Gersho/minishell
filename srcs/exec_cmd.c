@@ -41,10 +41,9 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 	*pid = fork();
 	if (*pid == 0)
 	{
-//		int tslot;
-//		tslot = ttyslot();
-//		dprintf(2, "ttyslot in fork=%d \n",tslot);
+//		dprintf(2, "fork ttyslot=%d\n", ttyslot());
 		path_tab = split_env_path(env_l);
+//		dprintf(2, "%s isatty=%d\n",cmd->param[0], isatty(0));
 //		dprintf(2, "cmd path =%s\n", cmd->path);
 		get_cmd_path(cmd, path_tab);
 		env_t = get_env_tab(env_l);
@@ -131,12 +130,10 @@ int exec_cmd(t_cmd *cmd, t_env **env_l)
 	
 //	t_env *env_l = *env;
 //	*env_l = *env_l->next;
-	//TODO check if cmd is absolute path
-	//TODO cat | heredoc, heredoc first
-	//TODO fix pipe again
+	//TODO cat | <<  yo random segf
 //	update_env_tab(env_t);
 	cmd_index = 0;
-	printf ("stdin = %d | stdout = %d\n", cmd->fd->std_in, cmd->fd->std_out);
+//	printf ("stdin = %d | stdout = %d\n", cmd->fd->std_in, cmd->fd->std_out);
 //	env_l = env_l->next;
 //	printf("in func :%s\n", (*env_l)->name);
 //	return 1;
@@ -147,45 +144,19 @@ int exec_cmd(t_cmd *cmd, t_env **env_l)
 
 	while (cmd)
 	{
-		char *fd_path = 0;
-		struct stat buf;
-		int tslot = 0;
-//		ft_printf_fd(2, "CMD=%s\n", *cmd->param);
-		if (fstat(1, &buf) == -1)
-			perror("fstat");
-		printf("fstat: id=%llu\n", buf.st_ino);
-		dprintf(2, "CMD=%s\nout = %d | in = %d\n",*cmd->param, cmd->out, cmd->in);
-		fd_path = ttyname(2);
-		if (fd_path == NULL)
-			perror("ttyname");
-		dprintf(2, "name fd %d =%s\n",1, fd_path);
-		tslot = ttyslot();
+//		dprintf(2, "CMD=%s\nout = %d | in = %d\n",*cmd->param, cmd->out, cmd->in);
+//		dprintf(2, "isatty=%d\n", isatty(cmd->out));
+//		dprintf(2, "isatty=%d\n", isatty(cmd->in));
 		dup2_close(cmd->in, 0);
+//		cmd->in = dup(0);
 		dup2_close(cmd->out, 1);
-//		dprintf(2, "ttyslot=%d \n",tslot);
-//		ioctl(cmd->out, )
-//		close_perror(0);
-//		set_pipe(cmd, &fds, cmd_index);
-//		if(!redirect_handler(cmd->red, cmd))
-//		{
-//			dup2_close(cmd->fd->std_out, 1);
-//			return 1;
-//		}
-//		ft_printf_fd(2, "red=\"%s\"\n", cmd->red);
-		if (!check_built_in(cmd->param, env_l)) {
+		if (!check_built_in(cmd->param, env_l))
 			create_child_to_exec_cmd(cmd, *env_l, &pid);
-//			if (cmd->next && cmd->next->in != 0)
-//				dup2_close(cmd->in, 0);//dup2_close(cmd->fd->pipe[0], 0);
-//			else
-		}
 		dup2(cmd->fd->std_in, 0);
 		dup2(cmd->fd->std_out, 1);
-//		ft_printf_fd(2, "haa2\n");
-//		close_perror(0);
-//		close_perror(1);
 		cmd = cmd->next;
 		cmd_index++;
-		dprintf(2, " \n\n");
+//		dprintf(2, " \n\n");
 	}
 //	dup2(cmd->fd->std_in, 0);
 //	dup2(cmd->fd->std_out, 1);

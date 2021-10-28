@@ -16,10 +16,10 @@ int skip_spaces(char *str)
 
 void	close_perror(int fd)
 {
-	dprintf(2, "closed %d\n", fd);
+//	dprintf(2, "closed %d\n", fd);
 	if (close(fd) == -1)
 	{
-		dprintf(2, "failed %d\n", fd);
+//		dprintf(2, "failed %d\n", fd);
 		perror("close");
 		//TODO free all and exit ???
 	}
