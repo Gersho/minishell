@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/28 04:43:42 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/28 14:29:15 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	to_param_word(t_vars *vars, t_cmd *current, int i)
 	ft_param_loop(vars, &j);
 	//printf("107 j:%d\n", j);
 	//tmp = ft_substr(vars->str, i, j - i);
-	tmp = ft_no_signifiant_quote_substr(vars, i, j);
+	tmp = ft_no_signifiant_quote_substr(vars, i, j - 1);
+	//printf("tmp:%s*\n", tmp);
 	current->param = ft_param_append_word(vars, current->param, tmp);
 	free(tmp);
 	return (j - i);
