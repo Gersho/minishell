@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/28 03:53:27 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/28 22:47:55 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ char	**ft_param_append_word(t_vars *vars, char** param, char* new);
 int		to_param_quote(t_vars *vars, t_cmd *current, int i);
 int		to_param_dblquote(t_vars *vars, t_cmd *current, int i);
 int		to_param_word(t_vars *vars, t_cmd *current, int i);
-int		to_redirect(t_vars *vars, t_cmd *current, char* str);
+int		to_redirect(t_vars *vars, t_cmd *current, int i);
 //----s_quotes
 t_quotes	*ft_quotes_init(t_vars *vars, int start, int end, t_type type);
 void		ft_parse_quotes(t_vars *vars);

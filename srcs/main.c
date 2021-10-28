@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/26 14:20:11 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/28 14:25:30 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int main()
 		// j++;
 		i = 0;
 		printf("#########\n");
-		printf("reds: %s\n", tmp->red);
+		printf("reds: %s*\n", tmp->red);
 		while (tmp->param[i])
 		{
 			printf("----\n");	
 			printf("j: %d | i: %d\n", j, i);
 			//printf("%p\n", tmp->param);
-			printf("cmd param: %s\n", tmp->param[i]);
+			printf("cmd param: %s*\n", tmp->param[i]);
 			i++;
 		}
 		j++;
