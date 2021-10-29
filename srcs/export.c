@@ -6,21 +6,25 @@
 
 void 	print_env_export(t_env *env, int out)
 {
-	t_env 	*save;
+	t_env 	*to_parse;
 	t_env 	*cpy;
+	t_env	*save;
 
-	save = env_dup(env);
-	while (save)
+	cpy = env_dup(env);
+	save = cpy;
+	while (cpy)
 	{
-		cpy = save;
-		while (cpy)
+
+		to_parse = save;
+		while (to_parse)
 		{
-			if (ft_strcmp(save->name, cpy->name) > 0)
-				save = cpy;
-			cpy = cpy->next;
+			if (ft_strcmp(cpy->name, to_parse->name) > 0)
+				save = to_parse;
+			to_parse = to_parse->next;
 		}
 		ft_printf_fd(out, "declare -x %s=\"%s\"\n", save->name, save->value);
-		env_unlink(&save);
+		cpy = env_unlink(cpy, save->name);
+		save = cpy;
 	}
 }
 
@@ -31,7 +35,7 @@ static int	is_plus_equal(char *param, char *name, t_env *env, int i)
 	if (param[i] == '+' && param[i + 1] == '=')
 	{
 		if (!env_seeker(&env, name))
-			env_add_back(&env, new(name, ft_substr(param, i + 2, ft_strlen(param))));
+			env_add_back(&env, new_env(name, ft_substr(param, i + 2, ft_strlen(param))));
 		else
 		{
 			tmp = env->value;
@@ -48,7 +52,7 @@ static int is_equal(char *param, char *name, t_env *env, int i)
 	if (param[i] == '=')
 	{
 		if (!env_seeker(&env, name))
-			env_add_back(&env, new(name, ft_substr(param, i + 1, ft_strlen(param))));
+			env_add_back(&env, new_env(name, ft_substr(param, i + 1, ft_strlen(param))));
 		else
 		{
 			free(env->value);
@@ -97,7 +101,7 @@ void	export(char **param, t_env **env, int out)
 				break ;
 			i++;
 			if (param[j][i] == '\0')
-				env_add_back(env, new(ft_strdup(param[j]), ft_strdup("")));
+				env_add_back(env, new_env(ft_strdup(param[j]), ft_strdup("")));
 		}
 	}
 }

@@ -14,25 +14,15 @@ void 	unset(char **param, t_env **env_l)
 	i = 0;
 	if (param[1] == NULL)
 		return (ft_putstr_fd("unset: not enough arguments\n", 2));
-	tmp = *env_l;
+
 	while (param[++i])
 	{
-//		printf("param[i]=%s\n", param[i]);
-		if (!env_seeker(&tmp, param[i])) {
-			tmp = *env_l;
-//			printf("env before unlink=%s\n", tmp->name);
-			continue ;
-		}
-//		printf("before=%s\n", tmp->name);
-		env_unlink(&tmp);
-		if (tmp == NULL)
+		tmp = *env_l;
+		if (env_seeker(&tmp, param[i]))
 		{
-			env_l = NULL;
-			return ;
+			*env_l = env_unlink(*env_l, tmp->name);
+			if (*env_l == NULL)
+				break ;
 		}
-//		printf("after=%s | next=%s\n\n",tmp->name, tmp->next->name);
-//		printf("after unlink=%s prev=%p next=%s\n", env_l->name, env_l->prev, env_l->next->name);
 	}
-	*env_l = tmp;
-//	while (1);
 }

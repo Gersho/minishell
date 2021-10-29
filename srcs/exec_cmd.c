@@ -3,13 +3,12 @@
 //
 
 #include "../headers/minishell.h"
-#include <sys/stat.h>
 
 int is_build_in(char *param, int *cmd)
 {
 	char *name;
 	
-	*cmd = -1;;
+	*cmd = -1;
 	name = str_in_lower_case(param);
 	if (name == NULL)
 		return (-1);

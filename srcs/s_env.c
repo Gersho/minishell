@@ -4,7 +4,7 @@
 
 #include "../headers/minishell.h"
 
-t_env *new(char *name, char *value)
+t_env *new_env(char *name, char *value)
 {
 	t_env	*env;
 
@@ -49,7 +49,7 @@ t_env *get_env_list(char **env_main)
 	while (env_main[++i])
 	{
 		len = ft_strchr(env_main[i], '=') - env_main[i];
-		env_add_back(&env, new(ft_substr(env_main[i], 0, len), ft_substr(env_main[i], len + 1, ft_strlen(env_main[i]))));
+		env_add_back(&env, new_env(ft_substr(env_main[i], 0, len), ft_substr(env_main[i], len + 1, ft_strlen(env_main[i]))));
 	}
 	return (env);
 }
@@ -100,33 +100,53 @@ t_env *env_dup(t_env *env)
 	cpy = NULL;
 	while (env)
 	{
-		env_add_back(&cpy, new(ft_strdup(env->name), ft_strdup(env->value)));
+		env_add_back(&cpy, new_env(ft_strdup(env->name), ft_strdup(env->value)));
 		env = env->next;
 	}
 	return (cpy);
 }
 
-void	env_unlink(t_env **env)
-{
-	t_env *to_free;
+//char	**env_unlink(char *name)
+//{
+//	t_env *to_free;
+//
+//	to_free = *env;
+//	if (to_free->prev)
+//	{
+//		to_free->prev->next = to_free->next;
+//		while ((*env)->prev)
+//			*env = (*env)->prev;
+//	}
+//	else if (to_free->next)
+//		*env = (*env)->next;
+//	else
+//		*env = NULL;
+//	if (to_free->next)
+//		to_free->next->prev = to_free->prev;
+//	free(to_free->name);
+//	free(to_free->value);
+//	to_free->name = NULL;
+//	to_free->value = NULL;
+//	free(to_free);
+//	to_free = NULL;
+//}
 
-	to_free = *env;
-	if (to_free->prev)
+t_env 	*env_unlink(t_env *env_l, char *name)
+{
+	t_env *new;
+	t_env *tmp;
+
+	new = NULL;
+	while (env_l)
 	{
-		to_free->prev->next = to_free->next;
-		while ((*env)->prev)
-			*env = (*env)->prev;
+		if (ft_strcmp(env_l->name, name) != 0)
+			env_add_back(&new, new_env(ft_strdup(env_l->name), ft_strdup(env_l->value)));
+		tmp = env_l->next;
+		free(env_l->name);
+		free(env_l->value);
+		free(env_l);
+		env_l = NULL;
+		env_l = tmp;
 	}
-	else if (to_free->next)
-		*env = (*env)->next;
-	else
-		*env = NULL;
-	if (to_free->next)
-		to_free->next->prev = to_free->prev;
-	free(to_free->name);
-	free(to_free->value);
-	to_free->name = NULL;
-	to_free->value = NULL;
-	free(to_free);
-	to_free = NULL;
+	return (new);
 }
