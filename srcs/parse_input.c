@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/29 00:24:42 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 22:04:06 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_parse_loop(t_vars *vars)
 	i = 0;
 	while (i < len)
 	{
-		printf("cur i: %d --- cur c:%c\n", i, vars->str[i]);
+		//printf("cur i: %d --- cur c:%c\n", i, vars->str[i]);
 		if (ft_strncmp(&vars->str[i], " ", 1) == 0)
 			i += skip_spaces(&vars->str[i]);
 		else if (ft_strncmp(&vars->str[i], "\'", 1) == 0 && ft_get_type(vars->env, i) != ENVS)

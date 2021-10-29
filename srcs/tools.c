@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/28 02:28:56 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 01:25:34 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ char	*rm_redundant_spaces(t_vars *vars, char *str)
 	char	*tmp;
 	int		i;
 
-
+	if (!str || str[0] == '\0');
+		return (str);
 	//TODO add protections
 	split = ft_split(str, ' ');
 	out = malloc(sizeof(char));

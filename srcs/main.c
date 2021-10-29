@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/28 14:25:30 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/29 21:16:19 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ int main()
 	t_cmd*	cmd;
 	t_cmd*	tmp;
 
+
+	// printf("%p*\n", getenv("ABC"));
+	// printf("%s*\n", getenv("ABC"));
+	// printf("%p*\n", getenv("A"));
+	// printf("%s*\n", getenv("A"));
+	// exit(0);
 	line = readline("$");
 	//exit(0);
 	cmd = ft_cmd_init();
@@ -37,9 +43,9 @@ int main()
 		while (tmp->param[i])
 		{
 			printf("----\n");	
-			printf("j: %d | i: %d\n", j, i);
+			printf("j:%d | i:%d\n", j, i);
 			//printf("%p\n", tmp->param);
-			printf("cmd param: %s*\n", tmp->param[i]);
+			printf("cmd param:%s*\n", tmp->param[i]);
 			i++;
 		}
 		j++;
