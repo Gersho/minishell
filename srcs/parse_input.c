@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/29 22:04:06 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 01:38:42 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 	ft_parse_quotes(&vars);
 	ft_handle_dollars(&vars);
 
-	printf("%s*:str after dolls\n", vars.str);
-	ft_debug_quotes_env(&vars);
+	//printf("%s*:str after dolls\n", vars.str);
+	//ft_debug_quotes_env(&vars);
 	
 	//exit(0);
 
