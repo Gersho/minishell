@@ -10,7 +10,7 @@ void 	print_env_export(t_env *env)
 	t_env 	*cpy;
 
 	save = env_dup(env);
-	ft_printf_fd(2, "yoo\n");
+//	ft_printf_fd(2, "yoo\n");
 	while (save)
 	{
 		cpy = save;
@@ -27,13 +27,11 @@ void 	print_env_export(t_env *env)
 
 static int	is_plus_equal(char *param, char *name, t_env *env, int i)
 {
-//	t_env	*env_l;
 	char	*tmp;
 
 	if (param[i] == '+' && param[i + 1] == '=')
 	{
-		env_seeker(&env, name);
-		if (env == NULL)
+		if (!env_seeker(&env, name))
 			env_add_back(&env, new(name, ft_substr(param, i + 2, ft_strlen(param))));
 		else
 		{
@@ -48,12 +46,9 @@ static int	is_plus_equal(char *param, char *name, t_env *env, int i)
 
 static int is_equal(char *param, char *name, t_env *env, int i)
 {
-	t_env	*env_l;
-
 	if (param[i] == '=')
 	{
-		env_seeker(&env, name);
-		if (env == NULL)
+		if (!env_seeker(&env, name))
 			env_add_back(&env, new(name, ft_substr(param, i + 1, ft_strlen(param))));
 		else
 		{
@@ -65,13 +60,14 @@ static int is_equal(char *param, char *name, t_env *env, int i)
 	return (0);
 }
 
-static int check_equality(char *param, t_env *env, int i)
+static int check_sign(char *param, t_env *env, int i)
 {
 	char	*name;
 
 	if (param[i] == '+' || param[i] == '=')
 	{
 		name = ft_substr(param, 0, i);
+		printf ("name = %s | env = %s\n", name, env->name);
 		if (is_plus_equal(param, name, env, i))
 			return (1);
 		if (is_equal(param, name, env, i))
@@ -99,7 +95,7 @@ void	export(char **param, t_env **env)
 		}
 		while (param[j][i])
 		{
-			if (check_equality(param[j], *env, i))//TODO peut etre pas
+			if (check_sign(param[j], *env, i))//TODO peut etre pas
 				break ;
 			i++;
 			if (param[j][i] == '\0')

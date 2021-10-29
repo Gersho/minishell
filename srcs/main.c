@@ -6,50 +6,56 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/29 21:16:19 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 01:52:53 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-
-int main()
+//#include <readline/history.h>
+//TODO printf_fd
+int main(int ac,char **av, char** env)
 {
 	char*	line;
+	char	**env_t;
 	t_cmd*	cmd;
+	char 	*prompt;
+
+
+	(void)ac;
+	(void)av;
+
 	t_cmd*	tmp;
+	t_env	*env_l;
+	t_fds fds;
 
-
-	// printf("%p*\n", getenv("ABC"));
-	// printf("%s*\n", getenv("ABC"));
-	// printf("%p*\n", getenv("A"));
-	// printf("%s*\n", getenv("A"));
-	// exit(0);
-	line = readline("$");
-	//exit(0);
-	cmd = ft_cmd_init();
-	ft_parse_line(line, cmd);
-
-	int i;
-	int j = 0;
-	tmp = cmd;
-
-	while (tmp)
+	//TODO fix segfault with redirect without cmd->param
+	//TODO fix  < cat && > cat
+	env_l = get_env_list(env);
+	init_fd(&fds);//do this once in main
+//	print_list(env_l);
+	while (1)
 	{
-		// printf("maillon cmd: %d", j);
-		// j++;
-		i = 0;
-		printf("#########\n");
-		printf("reds: %s*\n", tmp->red);
-		while (tmp->param[i])
-		{
-			printf("----\n");	
-			printf("j:%d | i:%d\n", j, i);
-			//printf("%p\n", tmp->param);
-			printf("cmd param:%s*\n", tmp->param[i]);
-			i++;
-		}
-		j++;
-		tmp = tmp->next;
+
+		prompt = set_prompt(env_l);
+		line = readline(prompt);
+		if (prompt)
+			free(prompt);
+		cmd = ft_cmd_init();
+		ft_parse_line(line, cmd);
+		set_cmd_std_fd(cmd, &fds);
+		printf("param: |%s| | red: %s\n", cmd->param[0], cmd->red);
+//		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
+		if (*cmd->param || cmd->red)
+			exec_cmd(cmd, &env_l);
+//		while (cmd != NULL)
+//		{
+//			printf("cmd->param=%s\n", cmd->param[0]);
+//			cmd = cmd->next;
+//		}
+//		free_cmd_list(cmd);
+//		free(line);
+		line = NULL;
 	}
-	exit(0);
+	free_env_list(env_l);
+	return 0;
 }

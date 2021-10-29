@@ -23,6 +23,8 @@ t_cmd	*ft_cmd_init(void)
 	cmd->red = NULL;
 	cmd->next = NULL;
 	cmd->path = NULL;
+	cmd->in = 0;
+	cmd->out = 1;
 	return (cmd);
 }
 
@@ -59,4 +61,17 @@ size_t	ft_size_list(t_cmd *cmd_list)
 		cmd_list = cmd_list->next;
 	}
 	return (i);
+}
+
+void	free_cmd_list(t_cmd *cmd)
+{
+	t_cmd *tmp;
+
+	while (cmd != NULL)
+	{
+		tmp = cmd->next;
+		free(cmd);
+		cmd = NULL;
+		cmd = tmp;
+	}
 }

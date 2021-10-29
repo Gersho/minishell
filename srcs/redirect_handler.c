@@ -26,8 +26,16 @@ static char *get_filename(char *str)
 			dprintf(2, "syntax error near unexpected token 'newline'\n");
 		return (NULL);
 	}
-	while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
+	if (str[i] == '"')
+	{
 		i++;
+		while (str[i] != '"')
+			i++;
+		i--;
+	}
+	else
+		while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
+			i++;
 	filename = ft_calloc(i + 1, sizeof(char));
 	if (filename == NULL)
 		return (NULL);
@@ -35,7 +43,29 @@ static char *get_filename(char *str)
 	return (filename);
 }
 
-static int open_with_param(char *filename, int redirect_mode)
+//static int open_with_param(char *filename, int redirect_mode)
+//{
+//	int 	file_fd;
+//
+//	if (redirect_mode == RED_OUT_T)
+//		file_fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 00644);
+//	else if (redirect_mode == RED_OUT_A)
+//		file_fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 00644);
+//	else if (redirect_mode == RED_IN)
+//		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
+//	if (file_fd == -1)
+//	{
+//		perror(filename);
+//		return (EXIT_FAILURE);
+//	}
+//	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
+//		dup2_close(file_fd, STDOUT_FILENO);
+//	else
+//		dup2_close(file_fd, STDIN_FILENO);
+//	return (1);
+//}
+
+static int open_with_param(t_cmd *cmd, char *filename, int redirect_mode)
 {
 	int 	file_fd;
 
@@ -47,14 +77,13 @@ static int open_with_param(char *filename, int redirect_mode)
 		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
 	if (file_fd == -1)
 	{
-//		dprintf(2, "yooo\n");
 		perror(filename);
-		exit (EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
-		dup2_close(file_fd, STDOUT_FILENO);
+		dup2_close(file_fd, cmd->out);
 	else
-		dup2_close(file_fd, STDIN_FILENO);
+		dup2_close(file_fd, cmd->in);
 	return (1);
 }
 
@@ -98,23 +127,74 @@ static int which_redirect(char **red)
 	return (redirect_mode);
 }
 
-int	redirect_handler(char *red, t_cmd *cmd)
+//int	redirect_handler(char *red, t_cmd *cmd)
+//{
+//	int 	redirect_mode;
+//	char	*filename;
+//
+//	if (red)
+//	{
+//		while (*red)
+//		{
+//			redirect_mode = which_redirect(&red);
+//			filename = get_filename(red);
+//			if (filename == NULL)
+//				return (0);
+//			red += ft_strlen(filename);
+//			if (redirect_mode == HERE_DOC)
+//				here_doc(filename, cmd);
+//			else
+//				open_with_param(filename, redirect_mode);
+//		}
+//	}
+//	return (1);
+//}
+
+void	redirect_handler(t_cmd *cmd)
 {
+	char	*red_str;
 	int 	redirect_mode;
 	char	*filename;
-	
-	while (*red)
+	int 	pipe_fd[2];
+	int 	first_cmd = 1;
+
+	while (cmd)
 	{
-		redirect_mode = which_redirect(&red);
-		filename = get_filename(red);
-//		dprintf(2, "filename=|%s|\n", filename);
-		if (filename == NULL)
-			exit (EXIT_FAILURE);//TODO free etc set var at exitfailure not exit
-		red += ft_strlen(filename);
-		if (redirect_mode == HERE_DOC)
-			here_doc(filename, cmd);
+		if (first_cmd)
+			cmd->in = dup(0);
+		else {
+			cmd->in = pipe_fd[0];
+//			close_perror(pipe_fd[0]);
+		}
+		pipe(pipe_fd);
+		if (cmd->next)
+			cmd->out = pipe_fd[1];
 		else
-			open_with_param(filename, redirect_mode);
+		{
+//			dprintf(2, "cmd|%s| close pipe[0] ", cmd->param[0]);
+			close_perror(pipe_fd[0]);
+//			dprintf(2, "cmd|%s| close pipe[1] ", cmd->param[0]);
+			close_perror(pipe_fd[1]);
+			cmd->out = dup(1);
+		}
+		if (cmd->red)
+		{
+			red_str = cmd->red;
+			while (*red_str)
+			{
+				redirect_mode = which_redirect(&red_str);
+				filename = get_filename(red_str);
+				if (filename == NULL)
+					return;
+				red_str += ft_strlen(filename);
+				if (redirect_mode == HERE_DOC)
+					here_doc(filename, cmd);
+				else
+					open_with_param(cmd, filename, redirect_mode);
+			}
+		}
+//		close_fds(2, pipe_fd[0], pipe_fd[1]);
+		first_cmd = 0;
+		cmd = cmd->next;
 	}
-	return (1);
 }
