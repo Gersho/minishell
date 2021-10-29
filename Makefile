@@ -28,7 +28,7 @@ SRCSF			= exec_cmd.c \
 				  s_quotes.c \
 				  exit.c \
 				  set_cmd.c
-				  
+
 
 SRCS			= $(addprefix srcs/, ${SRCSF})
 
@@ -38,7 +38,7 @@ CC				= gcc
 
 RM				= rm -f
 
-CFLAGS			= -g #-fsanitize=address
+CFLAGS			= -g3 #-fsanitize=address
 
 all:			$(NAME)
 

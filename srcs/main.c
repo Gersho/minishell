@@ -17,7 +17,14 @@ void sig_handler(int sig)
 {
 	printf("\n%s%s%s", KGRN, "bash$ ", KNRM);
 }
-
+// todo export ne remplace pas une valeure existante quand tu fais export a a a a
+// todo "export a" la value n'est pas NULL
+// todo export Z="ls -l" ; $Z --> segfault
+// todo peut pas lancer minishell dans minishell
+// todo ctrl + D --> segfault
+// todo exit doit afficher un exit
+// todo quand ya des pipe les built-in ce lancent dans des fork
+// todo command echo -nnnn -n -n -nq lol ne fait pas la meme chose que dans le bash
 int main(int ac,char **av, char** env)
 {
 	char*	line;
@@ -48,6 +55,5 @@ int main(int ac,char **av, char** env)
 		if (*cmd->param || cmd->red)
 			exec_cmd(cmd, &env_l);
 	}
-	free_env_list(env_l);
 	return 0;
 }
