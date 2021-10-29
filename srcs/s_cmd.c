@@ -69,6 +69,12 @@ void	free_cmd_list(t_cmd *cmd)
 
 	while (cmd != NULL)
 	{
+		if (cmd->param)
+			ft_free_str_tab(cmd->param);
+		if (cmd->red)
+			free(cmd->red);
+		if (cmd->path)
+			free(cmd->path);
 		tmp = cmd->next;
 		free(cmd);
 		cmd = NULL;

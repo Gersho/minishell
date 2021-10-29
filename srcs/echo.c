@@ -4,7 +4,8 @@
 
 #include "../headers/minishell.h"
 
-void echo(char **param)
+//TODO -nnnnnnnn works
+void echo(char **param, int out)
 {
 	int i;
 	int nl;
@@ -18,11 +19,11 @@ void echo(char **param)
 	}
 	while (param[i])
 	{
-		ft_putstr(param[i]);
+		ft_putstr_fd(param[i], out);
 		i++;
 		if (param[i])
-			ft_putchar(' ');
+			ft_putchar_fd(' ', out);
 	}
 	if (nl == 1)
-		ft_putchar('\n');
+		ft_putchar_fd('\n', out);
 }

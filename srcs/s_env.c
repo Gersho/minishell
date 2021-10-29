@@ -84,11 +84,11 @@ void free_env_list(t_env *env)
 	}
 }
 
-void print_list(t_env *env)
+void print_list(t_env *env, int out)
 {
 	while (env)
 	{
-		printf("%s=%s\n", env->name, env->value);
+		ft_printf_fd(out, "%s=%s\n", env->name, env->value);
 		env = env->next;
 	}
 }
@@ -117,12 +117,16 @@ void	env_unlink(t_env **env)
 		while ((*env)->prev)
 			*env = (*env)->prev;
 	}
-	else
+	else if (to_free->next)
 		*env = (*env)->next;
+	else
+		*env = NULL;
 	if (to_free->next)
 		to_free->next->prev = to_free->prev;
 	free(to_free->name);
 	free(to_free->value);
+	to_free->name = NULL;
+	to_free->value = NULL;
 	free(to_free);
 	to_free = NULL;
 }

@@ -4,7 +4,7 @@
 
 #include "../headers/minishell.h"
 
-void	env(t_env *env_l)
+void	env(t_env *env_l, int out)
 {
-	print_list(env_l);
+	print_list(env_l, out);
 }

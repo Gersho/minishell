@@ -38,7 +38,7 @@ CC				= gcc
 
 RM				= rm -f
 
-CFLAGS			= #-fsanitize=address
+CFLAGS			= -g #-fsanitize=address
 
 all:			$(NAME)
 

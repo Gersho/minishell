@@ -4,13 +4,12 @@
 
 #include "../headers/minishell.h"
 
-void 	print_env_export(t_env *env)
+void 	print_env_export(t_env *env, int out)
 {
 	t_env 	*save;
 	t_env 	*cpy;
 
 	save = env_dup(env);
-//	ft_printf_fd(2, "yoo\n");
 	while (save)
 	{
 		cpy = save;
@@ -20,7 +19,7 @@ void 	print_env_export(t_env *env)
 				save = cpy;
 			cpy = cpy->next;
 		}
-		printf("declare -x %s=\"%s\"\n", save->name, save->value);
+		ft_printf_fd(out, "declare -x %s=\"%s\"\n", save->name, save->value);
 		env_unlink(&save);
 	}
 }
@@ -67,7 +66,6 @@ static int check_sign(char *param, t_env *env, int i)
 	if (param[i] == '+' || param[i] == '=')
 	{
 		name = ft_substr(param, 0, i);
-		printf ("name = %s | env = %s\n", name, env->name);
 		if (is_plus_equal(param, name, env, i))
 			return (1);
 		if (is_equal(param, name, env, i))
@@ -76,7 +74,7 @@ static int check_sign(char *param, t_env *env, int i)
 	return (0);
 }
 //TODO EXPORT unset IN MAJ == ERROR
-void	export(char **param, t_env **env)
+void	export(char **param, t_env **env, int out)
 {
 	int	i;
 	int j;
@@ -84,7 +82,7 @@ void	export(char **param, t_env **env)
 
 	j = 0;
 	if (param[1] == NULL)
-		return (print_env_export(*env));
+		return (print_env_export(*env, out));
 	while (param[++j])
 	{
 		i = 0;

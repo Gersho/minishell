@@ -24,7 +24,6 @@
 # include <signal.h>
 
 typedef struct s_cmd				t_cmd;
-typedef struct s_file_descriptors	t_fds;
 typedef enum e_type					t_type;
 typedef struct s_quotes				t_quotes;
 typedef struct s_vars				t_vars;
@@ -40,8 +39,6 @@ typedef struct s_vars				t_vars;
 # define KWHT  "\x1B[37m"
 # define PROMPT "💢: "
 
-typedef struct	s_cmd	t_cmd;
-typedef struct	s_file_descriptors	t_fds;
 typedef struct	s_env_list t_env;
 
 enum e_cmd_name
@@ -87,7 +84,6 @@ struct s_cmd
 	char*		red;
 	int 		in;
 	int 		out;
-	t_fds		*fd;
 	t_cmd*		next;
 };
 
@@ -108,14 +104,6 @@ struct s_env_list
 	t_env	*next;
 };
 
-struct s_file_descriptors
-{
-	int std_out;
-	int std_in;
-	int pipe[2];
-	int prev_pipe_in;
-};
-
 //----list_cmd
 t_cmd	*ft_cmd_init();
 t_cmd	*ft_cmd_last(t_cmd *cmd);
@@ -131,7 +119,7 @@ void	env_ch_value(t_env *old, char *new);
 char	**init_env_tab(char **env);
 int		env_list_size(t_env *env);
 void	free_env_list(t_env *env);
-void	print_list(t_env *env);
+void	print_list(t_env *env, int out);
 t_env	*new(char *name, char *value);
 void	env_add_back(t_env **lst, t_env *new);
 t_env	*env_last(t_env *env);
@@ -187,18 +175,16 @@ int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
 int 	exec_cmd(t_cmd *cmd, t_env **env);
-int		check_built_in(char **param, t_env **env_l);
+int		check_built_in(t_cmd *cmd, t_env **env_l);
 //----COMMANDS BUILT IN
-void	echo(char **param);
-void	pwd(char **param, t_env *env_l);
+void	echo(char **param, int out);
+void	pwd(char **param, t_env *env_l, int out);
 void	cd(char **param, t_env *env_l);
-void	env(t_env *env_l);
-void	export(char **param, t_env **env);
+void	env(t_env *env_l, int out);
+void	export(char **param, t_env **env, int out);
 void 	unset(char **param, t_env **env_l);
-void 	exit_shell(char **param, t_env *env);
+void 	exit_shell(t_cmd *cmd, t_env *env);
 //----SET CMD
-void	set_cmd_std_fd(t_cmd *cmd, t_fds *fds);
-void	init_fd(t_fds *fd);
 //----PROMPT
 char 	*set_prompt(t_env *env);
 //debug

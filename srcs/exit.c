@@ -4,7 +4,7 @@
 
 #include "../headers/minishell.h"
 
-void 	exit_shell(char **param, t_env *env)
+void 	exit_shell(t_cmd *cmd, t_env *env)
 {
 	//TODO free all
 	free_env_list(env);

@@ -28,7 +28,6 @@ int main(int ac,char **av, char** env)
 	(void)ac;//error if != 1 ?
 	(void)av;
 	t_env	*env_l;
-	t_fds fds;
 
 //	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = &sig_handler;
@@ -36,8 +35,6 @@ int main(int ac,char **av, char** env)
 	//TODO fix  < cat && > cat
 	//TODO fix segf ctrl+d
 	env_l = get_env_list(env);
-	init_fd(&fds);//do this once in main
-//	print_list(env_l);
 	sigaction(SIGINT, &sa, NULL);
 	while (1)
 	{
@@ -47,19 +44,9 @@ int main(int ac,char **av, char** env)
 			free(prompt);
 		cmd = ft_cmd_init();
 		ft_parse_line(line, cmd);
-//		free(line);
 		line = NULL;
-		set_cmd_std_fd(cmd, &fds);
-//		printf("param: |%s| | red: %s\n", cmd->param[0], cmd->red);
-//		dprintf(2, "line = |%s| cmd = |%s|\n", line, *cmd->param);
 		if (*cmd->param || cmd->red)
 			exec_cmd(cmd, &env_l);
-//		while (cmd != NULL)
-//		{
-//			printf("cmd->param=%s\n", cmd->param[0]);
-//			cmd = cmd->next;
-//		}
-		free_cmd_list(cmd);
 	}
 	free_env_list(env_l);
 	return 0;

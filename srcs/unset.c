@@ -25,10 +25,14 @@ void 	unset(char **param, t_env **env_l)
 		}
 //		printf("before=%s\n", tmp->name);
 		env_unlink(&tmp);
-		if (!tmp)
-			break ;
+		if (tmp == NULL)
+		{
+			env_l = NULL;
+			return ;
+		}
 //		printf("after=%s | next=%s\n\n",tmp->name, tmp->next->name);
 //		printf("after unlink=%s prev=%p next=%s\n", env_l->name, env_l->prev, env_l->next->name);
 	}
 	*env_l = tmp;
+//	while (1);
 }

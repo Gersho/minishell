@@ -37,33 +37,32 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 {
 	char	**env_t;
 	char	**path_tab;
-
+	t_cmd  *ptr;
 	*pid = fork();
 	if (*pid == 0)
 	{
-//		dprintf(2, "fork ttyslot=%d\n", ttyslot());
+		dup2_close(cmd->in, 0);
+		dup2_close(cmd->out, 1);
+		if (cmd->next)
+		{
+			ptr = cmd->next;
+			while (ptr)
+			{
+				close_perror(ptr->in);
+				close_perror(ptr->out);
+				ptr = ptr->next;
+			}
+		}
 		path_tab = split_env_path(env_l);
-//		dprintf(2, "%s isatty=%d\n",cmd->param[0], isatty(0));
-//		dprintf(2, "cmd path =%s\n", cmd->path);
 		get_cmd_path(cmd, path_tab);
 		env_t = get_env_tab(env_l);
-//		dprintf(2, "cmd path =%s\n", cmd->path);
-//		dprintf(2, "name fd =%s\n", ttyname(cmd->out));
 		execve(cmd->path, cmd->param, env_t);
 		perror(*cmd->param);
-//		dprintf(2, "cmd path =%s\n", cmd->path);
 		exit(EXIT_FAILURE);
 	}
 	else if (*pid == -1)
 		perror("fork");
 	return (-1);
-}
-
-void init_fd(t_fds *fd)
-{
-	fd->std_in = dup(0);
-	fd->std_out = dup(1);
-	fd->prev_pipe_in = 0;
 }
 
 void close_fds(int nb, ...)
@@ -83,40 +82,31 @@ void close_fds(int nb, ...)
 	va_end(fd_list);
 }
 
-void set_pipe(t_cmd *cmd, t_fds *fds, int cmd_index)
-{
-	cmd->fd = fds;
-	if (pipe(cmd->fd->pipe) == -1)
-		perror("pipe");
-	if (cmd->next) //if there is a next command replace current output by pipe output
-		dup2_close(cmd->fd->pipe[1], 1);
-}
 
-int check_built_in(char **param, t_env **env_l)
+int check_built_in(t_cmd *cmd, t_env **env_l)
 {
-	int cmd;
-	if (*param)
+	int command;
+	if (*cmd->param)
 	{
-		if (is_build_in(*param, &cmd))
+		if (is_build_in(*cmd->param, &command))
 		{
-			if (cmd == ECHO)
-				echo(param);
-			else if (cmd == PWD)
-				pwd(param, *env_l);
-			else if (cmd == CD)
-				cd(param, *env_l);
-			else if (cmd == ENV)
-				env(*env_l);
-			else if (cmd == EXPORT)
-				export(param, env_l);
-			else if (cmd == UNSET)
-				unset(param, env_l);
-			else if (cmd == EXIT)
-				exit_shell(param, *env_l);
+			if (command == ECHO)
+				echo(cmd->param, cmd->out);
+			else if (command == PWD)
+				pwd(cmd->param, *env_l, cmd->out);
+			else if (command == CD)
+				cd(cmd->param, *env_l);
+			else if (command == ENV)
+				env(*env_l, cmd->out);
+			else if (command == EXPORT)
+				export(cmd->param, env_l, cmd->out);
+			else if (command == UNSET)
+				unset(cmd->param, env_l);
+			else if (command == EXIT)
+				exit_shell(cmd, *env_l);
 			return (1);
 		}
 	}
-//	ft_printf_fd(2, "yoo\n");
 	return (0);
 }
 
@@ -124,55 +114,26 @@ int check_built_in(char **param, t_env **env_l)
 
 int exec_cmd(t_cmd *cmd, t_env **env_l)
 {
-	char **path_tab;
 	int pid;
 	int cmd_index;
 	
-//	t_env *env_l = *env;
-//	*env_l = *env_l->next;
-	//TODO cat | <<  yo random segf
-//	update_env_tab(env_t);
+	//TODO cat | <<  yo random segf && echo yo | exit
 	cmd_index = 0;
-//	printf ("stdin = %d | stdout = %d\n", cmd->fd->std_in, cmd->fd->std_out);
-//	env_l = env_l->next;
-//	printf("in func :%s\n", (*env_l)->name);
-//	return 1;
-//	printf("CMD\n");
 	redirect_handler(cmd);
-
-
-
 	while (cmd)
 	{
-//		dprintf(2, "CMD=%s\nout = %d | in = %d\n",*cmd->param, cmd->out, cmd->in);
-//		dprintf(2, "isatty=%d\n", isatty(cmd->out));
-//		dprintf(2, "isatty=%d\n", isatty(cmd->in));
-		dup2_close(cmd->in, 0);
-//		cmd->in = dup(0);
-		dup2_close(cmd->out, 1);
-		if (!check_built_in(cmd->param, env_l))
+		if (!check_built_in(cmd, env_l))
 			create_child_to_exec_cmd(cmd, *env_l, &pid);
-		char *std_ing;
-		char *std_out;
-		
-		std_ing = ttyname(0);
-		std_out = ttyname(1);
-		int fdin = open(std_ing, O_RDWR);
-		int fdout = open(std_out, O_RDWR);
-		dup2(fdin, 0);
-		dup2(fdout, 1);
-//		dup2(cmd->fd->std_in, 0);
-//		dup2(cmd->fd->std_out, 1);
+		close_perror(cmd->in);
+		close_perror(cmd->out);
 		cmd = cmd->next;
 		cmd_index++;
-//		dprintf(2, " \n\n");
 	}
-//	dup2(cmd->fd->std_in, 0);
-//	dup2(cmd->fd->std_out, 1)
 	waitpid(pid, NULL, 0);
 	if (cmd_index > 1)
 		while (wait(NULL) != -1)
 			;
+	free_cmd_list(cmd);
 	return (1);
 }
 

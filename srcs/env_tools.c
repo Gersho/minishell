@@ -45,13 +45,17 @@ int 	env_seeker(t_env **env_l, const char *name)
 		save = *env_l;
 		while (*env_l)
 		{
-//		ft_printf_fd(2, "envseeker=%s\n", (*env_l)->name);
+		ft_printf_fd(2, "envseeker=%s\n", (*env_l)->name);
 			if (ft_strcmp((*env_l)->name, name) == 0)
+			{
+				ft_printf_fd(2, "\n\n");
 				return (1);
+			}
 			*env_l = (*env_l)->next;
 		}
 		*env_l = save;
 	}
+	ft_printf_fd(2, "%s not found\n\n", name);
 	return (0);
 }
 
