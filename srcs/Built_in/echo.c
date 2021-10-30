@@ -2,7 +2,7 @@
 // Created by Stellar on 14/10/2021.
 //
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 static int check_minus_n(char **param, int *nl)
 {

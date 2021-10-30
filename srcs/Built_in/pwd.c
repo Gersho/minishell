@@ -2,7 +2,7 @@
 // Created by Stellar on 21/10/2021.
 //
 //lol
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 int	pwd(char **param, t_env *env_l)
 {
