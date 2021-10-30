@@ -2,7 +2,7 @@
 // Created by Stellar on 21/10/2021.
 //
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 int cd(char **param, t_env *env_l)
 {

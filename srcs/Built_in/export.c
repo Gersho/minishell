@@ -2,7 +2,7 @@
 // Created by Johan Chevet on 10/22/21.
 //
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 void 	print_env_export(t_env *env)
 {
