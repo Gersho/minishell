@@ -55,6 +55,8 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 				ptr = ptr->next;
 			}
 		}
+		shell->cmd->in = 0;
+		shell->cmd->out = 1;
 		if (check_built_in(shell))
 			exit(EXIT_SUCCESS);//TODO peut pas que sucess
 		path_tab = split_env_path(shell->env);
@@ -91,20 +93,21 @@ void close_fds(int nb, ...)
 int check_built_in(t_shell *shell)
 {
 	int command;
+
 	if (*shell->cmd->param)
 	{
 		if (is_built_in(*shell->cmd->param, &command))
 		{
 			if (command == ECHO)
-				echo(shell->cmd->param, 1);
+				echo(shell->cmd->param, shell->cmd->out);
 			else if (command == PWD)
-				pwd(shell->cmd->param, shell->env, 1);
+				pwd(shell->cmd->param, shell->env, shell->cmd->out);
 			else if (command == CD)
 				cd(shell->cmd->param, shell->env);
 			else if (command == ENV)
-				env(shell->env, 1);
+				env(shell->env, shell->cmd->out);
 			else if (command == EXPORT)
-				export(shell->cmd->param, &shell->env, 1);
+				export(shell->cmd->param, &shell->env, shell->cmd->out);
 			else if (command == UNSET)
 				unset(shell->cmd->param, &shell->env);
 			else if (command == EXIT)
