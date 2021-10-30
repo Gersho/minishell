@@ -8,7 +8,7 @@ static int	command_not_found(char *path, char *name)
 {
 	if (path == NULL)
 	{
-		ft_printf_fd(2, "%s%s%s%s: command not found\n", KRED, PROMPT, KNRM, name);//TODO need prompt str
+		ft_printf_fd(2, "%s%s%s: %s: command not found\n", KRED, PROMPTERR, KNRM, name);//TODO need prompt str
 		return (1);
 	}
 	return (0);

@@ -21,6 +21,7 @@ void sig_handler(int sig)
 		printf("yo\n");
 }
 
+// todo change prompt err everywhere
 // todo export Z="ls -l" ; $Z --> segfault
 // todo ctrl + D --> segfault
 // todo exit doit afficher un exit

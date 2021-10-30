@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <string.h>
 
 typedef struct s_cmd				t_cmd;
 typedef enum e_type					t_type;
@@ -37,7 +38,7 @@ typedef struct s_vars				t_vars;
 # define KMAG  "\x1B[35m"
 # define KCYN  "\x1B[36m"
 # define KWHT  "\x1B[37m"
-# define PROMPT "💢: "
+# define PROMPTERR "💢"
 
 typedef struct	s_env_list t_env;
 
