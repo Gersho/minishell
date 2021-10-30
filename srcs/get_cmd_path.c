@@ -47,7 +47,7 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 	
 	i = 0;
 	path = NULL;
-	if (**cmd->param == '/')
+	if (**cmd->param == '/' || **cmd->param == '.')
 	{
 		ft_free_str_tab(path_tab);
 		cmd->path = *cmd->param;
@@ -57,7 +57,7 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 	{
 		path = ft_strjoin(path_tab[i], *cmd->param);
 		if (path == NULL)
-			return (0);//TODO free path_tab and exit
+			return (0);
 		if (path_exist(path, cmd))
 		{
 			free(path);

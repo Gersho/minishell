@@ -60,6 +60,7 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 		path_tab = split_env_path(env_l);
 		get_cmd_path(cmd, path_tab);
 		env_t = get_env_tab(env_l);
+//		free_env_list(env_l);
 		execve(cmd->path, cmd->param, env_t);
 		perror(*cmd->param);
 		exit(EXIT_FAILURE);

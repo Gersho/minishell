@@ -33,9 +33,8 @@ static char *get_filename(char *str)
 			i++;
 		i--;
 	}
-	else
-		while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
-			i++;
+	while (str[i] && !is_redirect(str[i]) && str[i] != ' ')//TODO ' ' && tab ?
+		i++;
 	filename = ft_calloc(i + 1, sizeof(char));
 	if (filename == NULL)
 		return (NULL);
@@ -127,29 +126,6 @@ static int which_redirect(char **red)
 	return (redirect_mode);
 }
 
-//int	redirect_handler(char *red, t_cmd *cmd)
-//{
-//	int 	redirect_mode;
-//	char	*filename;
-//
-//	if (red)
-//	{
-//		while (*red)
-//		{
-//			redirect_mode = which_redirect(&red);
-//			filename = get_filename(red);
-//			if (filename == NULL)
-//				return (0);
-//			red += ft_strlen(filename);
-//			if (redirect_mode == HERE_DOC)
-//				here_doc(filename, cmd);
-//			else
-//				open_with_param(filename, redirect_mode);
-//		}
-//	}
-//	return (1);
-//}
-
 void	redirect_handler(t_cmd *cmd)
 {
 	char	*red_str;
@@ -162,10 +138,9 @@ void	redirect_handler(t_cmd *cmd)
 	{
 		if (first_cmd)
 			cmd->in = dup(0);
-		else {
+		else
 			cmd->in = pipe_fd[0];
-//			close_perror(pipe_fd[0]);
-		}
+
 		pipe(pipe_fd);
 		if (cmd->next)
 			cmd->out = pipe_fd[1];
