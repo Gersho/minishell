@@ -137,9 +137,8 @@ int exec_cmd(t_cmd *cmd, t_env **env_l)
 		cmd_index++;
 	}
 	waitpid(pid, NULL, 0);
-	if (cmd_index > 1)
-		while (wait(NULL) != -1)
-			;
+	while (wait(NULL) != -1)
+		;
 	free_cmd_list(cmd);
 	return (1);
 }

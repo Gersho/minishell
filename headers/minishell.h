@@ -28,7 +28,7 @@ typedef struct s_cmd				t_cmd;
 typedef enum e_type					t_type;
 typedef struct s_quotes				t_quotes;
 typedef struct s_vars				t_vars;
-
+typedef struct s_shell				t_shell;
 
 # define KNRM  "\x1B[0m"
 # define KRED  "\x1B[31m"
@@ -103,6 +103,13 @@ struct s_env_list
 	char	*value;
 	t_env	*prev;
 	t_env	*next;
+};
+
+struct s_shell
+{
+	t_cmd	*cmd;
+	t_env 	*env;
+	int 	exit_status;
 };
 
 //----list_cmd
@@ -187,7 +194,7 @@ void 	unset(char **param, t_env **env_l);
 void 	exit_shell(t_cmd *cmd, t_env *env);
 //----SET CMD
 //----PROMPT
-char 	*set_prompt(t_env *env);
+char 	*set_prompt(t_shell *shell);
 //debug
 void ft_debug_quotes_env(t_vars *vars);
 #endif
