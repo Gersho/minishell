@@ -117,29 +117,31 @@ int check_built_in(t_cmd *cmd, t_env **env_l)
 
 
 
-int exec_cmd(t_cmd *cmd, t_env **env_l)
+int exec_cmd(t_shell *shell)
 {
 	int pid;
 	int cmd_index;
-	
+	int status;
+
 	//TODO cat | <<  yo random segf && echo yo | exit
 	cmd_index = 0;
-	redirect_handler(cmd);
-	while (cmd)
+	redirect_handler(shell->cmd);
+	while (shell->cmd)
 	{
-		if (cmd_index == 0 && !cmd->next && is_built_in(*cmd->param, NULL))
-			check_built_in(cmd, env_l);
+		if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
+			check_built_in(shell->cmd, &shell->env);
 		else
-			create_child_to_exec_cmd(cmd, *env_l, &pid);
-		close_perror(cmd->in);
-		close_perror(cmd->out);
-		cmd = cmd->next;
+			create_child_to_exec_cmd(shell->cmd, shell->env, &pid);
+		close_perror(shell->cmd->in);
+		close_perror(shell->cmd->out);
+		shell->cmd = shell->cmd->next;
 		cmd_index++;
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	shell->exit_status = WEXITSTATUS(status);
 	while (wait(NULL) != -1)
 		;
-	free_cmd_list(cmd);
+	free_cmd_list(shell->cmd);
 	return (1);
 }
 

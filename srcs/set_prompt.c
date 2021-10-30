@@ -52,10 +52,10 @@ char 	*set_prompt(t_shell *shell)
 	curr_dir = ft_strrchr(buf, (int)'/') + 1;
 	prompt = ft_mega_str_join(10,
 								status,\
-							  	KCYN, curr_dir,	\
-							  	KBLU, " (", \
-							  	KRED, getenv("USER"), \
-						   		KBLU, "): ", \
+							  	KBLU, curr_dir,	\
+							  	KMAG, " (", \
+							  	KCYN, getenv("USER"), \
+						   		KMAG, "): ", \
 						   		KNRM);
 	if (!prompt)
 		prompt = ft_strdup("bash$ ");

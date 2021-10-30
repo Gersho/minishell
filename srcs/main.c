@@ -28,7 +28,7 @@ int main(int ac,char **av, char** env)
 {
 	t_shell shell;
 	char*	line;
-	t_cmd*	cmd;
+//	t_cmd*	cmd;
 	char 	*prompt;
 	struct sigaction sa;
 
@@ -55,11 +55,11 @@ int main(int ac,char **av, char** env)
 			printf("exit\n");
 			exit(EXIT_SUCCESS);
 		}
-		cmd = ft_cmd_init();
-		ft_parse_line(line, cmd);
+		shell.cmd = ft_cmd_init();
+		ft_parse_line(line, shell.cmd);
 		line = NULL;
-		if (*cmd->param || cmd->red)
-			exec_cmd(cmd, &shell.env);
+		if (*shell.cmd->param || shell.cmd->red)
+			exec_cmd(&shell);
 	}
 	return 0;
 }

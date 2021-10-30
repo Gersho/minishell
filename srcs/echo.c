@@ -4,7 +4,6 @@
 
 #include "../headers/minishell.h"
 
-//TODO -nnnnnnnn works
 void echo(char **param, int out)
 {
 	int i;
