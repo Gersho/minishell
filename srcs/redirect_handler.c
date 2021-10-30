@@ -146,9 +146,7 @@ void	redirect_handler(t_cmd *cmd)
 			cmd->out = pipe_fd[1];
 		else
 		{
-//			dprintf(2, "cmd|%s| close pipe[0] ", cmd->param[0]);
 			close_perror(pipe_fd[0]);
-//			dprintf(2, "cmd|%s| close pipe[1] ", cmd->param[0]);
 			close_perror(pipe_fd[1]);
 			cmd->out = dup(1);
 		}
@@ -168,7 +166,6 @@ void	redirect_handler(t_cmd *cmd)
 					open_with_param(cmd, filename, redirect_mode);
 			}
 		}
-//		close_fds(2, pipe_fd[0], pipe_fd[1]);
 		first_cmd = 0;
 		cmd = cmd->next;
 	}

@@ -4,12 +4,12 @@
 //lol
 #include "../headers/minishell.h"
 
-void pwd(char **param, t_env *env_l, int out)
+void pwd(char **param, t_env *env_l)
 {
 	char buf[PATH_MAX];
 
 	if (param[1] != NULL)
 		ft_putstr_fd("pwd: too many arguments\n", 2);
 	else
-		ft_printf_fd(out, "%s\n", getcwd(buf, PATH_MAX));
+		ft_printf_fd(1, "%s\n", getcwd(buf, PATH_MAX));
 }

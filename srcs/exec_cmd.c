@@ -35,34 +35,36 @@ int is_built_in(char *param, int *cmd)
 	return (0);
 }
 
+void 	close_unused_fd(t_shell *shell)
+{
+	t_cmd *ptr;
+
+	ptr = shell->cmd->next;
+	while (ptr)
+	{
+		close_perror(ptr->in);
+		close_perror(ptr->out);
+		ptr = ptr->next;
+	}
+	close_perror(shell->std_out);
+	close_perror(shell->std_in);
+}
+
 int create_child_to_exec_cmd(t_shell *shell, int *pid)
 {
 	char	**env_t;
 	char	**path_tab;
-	t_cmd  *ptr;
+
 	*pid = fork();
 	if (*pid == 0)
 	{
-		dup2_close(shell->cmd->in, 0);
-		dup2_close(shell->cmd->out, 1);
 		if (shell->cmd->next)
-		{
-			ptr = shell->cmd->next;
-			while (ptr)
-			{
-				close_perror(ptr->in);
-				close_perror(ptr->out);
-				ptr = ptr->next;
-			}
-		}
-		shell->cmd->in = 0;
-		shell->cmd->out = 1;
+			close_unused_fd(shell);
 		if (check_built_in(shell))
 			exit(EXIT_SUCCESS);//TODO peut pas que sucess
 		path_tab = split_env_path(shell->env);
 		get_cmd_path(shell->cmd, path_tab);
 		env_t = get_env_tab(shell->env);
-//		free_env_list(env_l);
 		execve(shell->cmd->path, shell->cmd->param, env_t);
 		perror(*shell->cmd->param);
 		exit(EXIT_FAILURE);
@@ -99,15 +101,15 @@ int check_built_in(t_shell *shell)
 		if (is_built_in(*shell->cmd->param, &command))
 		{
 			if (command == ECHO)
-				echo(shell->cmd->param, shell->cmd->out);
+				echo(shell->cmd->param);
 			else if (command == PWD)
-				pwd(shell->cmd->param, shell->env, shell->cmd->out);
+				pwd(shell->cmd->param, shell->env);
 			else if (command == CD)
 				cd(shell->cmd->param, shell->env);
 			else if (command == ENV)
-				env(shell->env, shell->cmd->out);
+				env(shell->env);
 			else if (command == EXPORT)
-				export(shell->cmd->param, &shell->env, shell->cmd->out);
+				export(shell->cmd->param, &shell->env);
 			else if (command == UNSET)
 				unset(shell->cmd->param, &shell->env);
 			else if (command == EXIT)
@@ -131,12 +133,17 @@ int exec_cmd(t_shell *shell)
 	redirect_handler(shell->cmd);
 	while (shell->cmd)
 	{
+		dup2_close(shell->cmd->in, 0);
+		dup2_close(shell->cmd->out, 1);
 		if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
 			check_built_in(shell);
 		else
 			create_child_to_exec_cmd(shell, &pid);
-		close_perror(shell->cmd->in);
-		close_perror(shell->cmd->out);
+		if (!shell->cmd->next)
+		{
+			dup2(shell->std_in, 0);
+			dup2(shell->std_out, 1);
+		}
 		shell->cmd = shell->cmd->next;
 		cmd_index++;
 	}

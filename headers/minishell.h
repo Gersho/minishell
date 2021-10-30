@@ -109,6 +109,8 @@ struct s_shell
 {
 	t_cmd	*cmd;
 	t_env 	*env;
+	int		std_out;
+	int 	std_in;
 	int 	exit_status;
 };
 
@@ -127,7 +129,7 @@ void	env_ch_value(t_env *old, char *new);
 char	**init_env_tab(char **env);
 int		env_list_size(t_env *env);
 void	free_env_list(t_env *env);
-void	print_list(t_env *env, int out);
+void	print_list(t_env *env);
 t_env	*new_env(char *name, char *value);
 void	env_add_back(t_env **lst, t_env *new);
 t_env	*env_last(t_env *env);
@@ -185,11 +187,11 @@ int 	here_doc(char* limiter, t_cmd *cmd);
 int 	exec_cmd(t_shell *shell);
 int		check_built_in(t_shell *shell);
 //----COMMANDS BUILT IN
-void	echo(char **param, int out);
-void	pwd(char **param, t_env *env_l, int out);
+void	echo(char **param);
+void	pwd(char **param, t_env *env_l);
 void	cd(char **param, t_env *env_l);
-void	env(t_env *env_l, int out);
-void	export(char **param, t_env **env, int out);
+void	env(t_env *env_l);
+void	export(char **param, t_env **env);
 void 	unset(char **param, t_env **env_l);
 void 	exit_shell(t_cmd *cmd, t_env *env);
 //----SET CMD

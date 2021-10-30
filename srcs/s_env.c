@@ -85,12 +85,12 @@ void free_env_list(t_env *env)
 	}
 }
 
-void print_list(t_env *env, int out)
+void print_list(t_env *env)
 {
 	while (env)
 	{
 		if (env->value)
-			ft_printf_fd(out, "%s=%s\n", env->name, env->value);
+			ft_printf_fd(1, "%s=%s\n", env->name, env->value);
 		env = env->next;
 	}
 }

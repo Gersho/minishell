@@ -4,7 +4,7 @@
 
 #include "../headers/minishell.h"
 
-void echo(char **param, int out)
+void echo(char **param)
 {
 	int i;
 	int	j;
@@ -27,11 +27,11 @@ void echo(char **param, int out)
 	}
 	while (param[i])
 	{
-		ft_putstr_fd(param[i], out);
+		ft_putstr_fd(param[i], 1);
 		i++;
 		if (param[i])
-			ft_putchar_fd(' ', out);
+			ft_putchar_fd(' ', 1);
 	}
 	if (nl == 1)
-		ft_putchar_fd('\n', out);
+		ft_putchar_fd('\n', 1);
 }

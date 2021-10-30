@@ -42,6 +42,8 @@ int main(int ac,char **av, char** env)
 	//TODO fix  < cat && > cat
 	//TODO fix segf ctrl+d
 	shell.env = get_env_list(env);
+	shell.std_in = dup(0);
+	shell.std_out = dup(1);
 	sigaction(SIGINT, &sa, NULL);
 	while (1)
 	{
