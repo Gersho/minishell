@@ -101,17 +101,17 @@ int check_built_in(t_shell *shell)
 		if (is_built_in(*shell->cmd->param, &command))
 		{
 			if (command == ECHO)
-				echo(shell->cmd->param);
+				shell->ret = echo(shell->cmd->param);
 			else if (command == PWD)
-				pwd(shell->cmd->param, shell->env);
+				shell->ret = pwd(shell->cmd->param, shell->env);
 			else if (command == CD)
-				cd(shell->cmd->param, shell->env);
+				shell->ret = cd(shell->cmd->param, shell->env);
 			else if (command == ENV)
-				env(shell->env);
+				shell->ret = env(shell->env);
 			else if (command == EXPORT)
-				export(shell->cmd->param, &shell->env);
+				shell->ret = export(shell->cmd->param, &shell->env);
 			else if (command == UNSET)
-				unset(shell->cmd->param, &shell->env);
+				shell->ret = unset(shell->cmd->param, &shell->env);
 			else if (command == EXIT)
 				exit_shell(shell->cmd, shell->env);
 			return (1);
@@ -148,7 +148,8 @@ int exec_cmd(t_shell *shell)
 		cmd_index++;
 	}
 	waitpid(pid, &status, 0);
-	shell->exit_status = WEXITSTATUS(status);
+	if (cmd_index > 0)
+		shell->ret = WEXITSTATUS(status);
 	while (wait(NULL) != -1)
 		;
 	free_cmd_list(shell->cmd);

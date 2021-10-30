@@ -80,16 +80,21 @@ static int check_sign(char *param, t_env *env, int i)
 	}
 	return (0);
 }
-//TODO EXPORT unset IN MAJ == ERROR
-void	export(char **param, t_env **env)
+
+int	export(char **param, t_env **env)
 {
 	int	i;
 	int j;
 	t_env *envptr;
+	int ret;
 
+	ret = 0;
 	j = 0;
 	if (param[1] == NULL)
-		return (print_env_export(*env));
+	{
+		print_env_export(*env);
+		return (EXIT_SUCCESS);
+	}
 	while (param[++j])
 	{
 		envptr = *env;
@@ -97,6 +102,7 @@ void	export(char **param, t_env **env)
 		if (!ft_isalpha((int)param[j][0]) && param[j][0] != '_')
 		{
 			ft_printf_fd(2, "export: not an identifier: %s\n", param[j]);
+			ret = 1;
 			continue ;
 		}
 		while (param[j][i])
@@ -111,4 +117,5 @@ void	export(char **param, t_env **env)
 			}
 		}
 	}
+	return (ret);
 }

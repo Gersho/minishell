@@ -111,7 +111,7 @@ struct s_shell
 	t_env 	*env;
 	int		std_out;
 	int 	std_in;
-	int 	exit_status;
+	int 	ret;
 };
 
 //----list_cmd
@@ -187,12 +187,12 @@ int 	here_doc(char* limiter, t_cmd *cmd);
 int 	exec_cmd(t_shell *shell);
 int		check_built_in(t_shell *shell);
 //----COMMANDS BUILT IN
-void	echo(char **param);
-void	pwd(char **param, t_env *env_l);
-void	cd(char **param, t_env *env_l);
-void	env(t_env *env_l);
-void	export(char **param, t_env **env);
-void 	unset(char **param, t_env **env_l);
+int 	echo(char **param);
+int 	pwd(char **param, t_env *env_l);
+int 	cd(char **param, t_env *env_l);
+int 	env(t_env *env_l);
+int 	export(char **param, t_env **env);
+int 	unset(char **param, t_env **env_l);
 void 	exit_shell(t_cmd *cmd, t_env *env);
 //----SET CMD
 //----PROMPT

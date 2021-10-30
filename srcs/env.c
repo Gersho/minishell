@@ -4,7 +4,8 @@
 
 #include "../headers/minishell.h"
 
-void	env(t_env *env_l)
+int	env(t_env *env_l)
 {
 	print_list(env_l);
+	return (EXIT_SUCCESS);
 }
