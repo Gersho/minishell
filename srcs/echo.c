@@ -8,14 +8,21 @@
 void echo(char **param, int out)
 {
 	int i;
+	int	j;
 	int nl;
 
+	j = 1;
 	nl = 1;
 	i = 1;
-	if (param[i] && ft_strcmp("-n", param[i]) == 0)
+	if (param[i] && param[i][0] == '-' && param[i][1] == 'n')
 	{
-		nl = 0;
-		i++;
+		while (param[i][j] == 'n')
+			j++;
+		if (param[i][j] == '\0')
+		{
+			nl = 0;
+			i++;
+		}
 	}
 	while (param[i])
 	{
