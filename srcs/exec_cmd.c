@@ -55,8 +55,8 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 				ptr = ptr->next;
 			}
 		}
-//		if (check_built_in(cmd, &env_l))
-//			exit(EXIT_SUCCESS);//TODO peut pas que sucess
+		if (check_built_in(cmd, &env_l))
+			exit(EXIT_SUCCESS);//TODO peut pas que sucess
 		path_tab = split_env_path(env_l);
 		get_cmd_path(cmd, path_tab);
 		env_t = get_env_tab(env_l);

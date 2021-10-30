@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/28 14:29:23 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/30 01:38:42 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_parse_loop(t_vars *vars)
 	i = 0;
 	while (i < len)
 	{
-	//	printf("cur i: %d --- cur c:%c\n", i, vars->str[i]);
+		//printf("cur i: %d --- cur c:%c\n", i, vars->str[i]);
 		if (ft_strncmp(&vars->str[i], " ", 1) == 0)
 			i += skip_spaces(&vars->str[i]);
 		else if (ft_strncmp(&vars->str[i], "\'", 1) == 0 && ft_get_type(vars->env, i) != ENVS)
@@ -37,7 +37,7 @@ void	ft_parse_loop(t_vars *vars)
 			i++;
 		}
 		else if ((vars->str[i] == 60 || vars->str[i] == 62) && ft_get_type(vars->env, i) != ENVS)
-			i += to_redirect(vars, tmp, &vars->str[i]);
+			i += to_redirect(vars, tmp, i);
 		else
 		{
 			//printf("else word i before:%d | ", i);
@@ -56,8 +56,8 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 	ft_parse_quotes(&vars);
 	ft_handle_dollars(&vars);
 
-//	printf("str after dolls:%s\n", vars.str);
-//	ft_debug_quotes_env(&vars);
+	//printf("%s*:str after dolls\n", vars.str);
+	//ft_debug_quotes_env(&vars);
 	
 	//exit(0);
 
