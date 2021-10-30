@@ -12,7 +12,7 @@ int is_redirect(char c)
 	return (0);
 }
 
-static char *get_filename(char *str)
+static char *get_filename(char *str, t_cmd *cmd)
 {
 	char	*filename;
 	size_t i;
@@ -24,6 +24,7 @@ static char *get_filename(char *str)
 			dprintf(2, "syntax error near unexpected token '%c'\n", str[i]);
 		else
 			dprintf(2, "syntax error near unexpected token 'newline'\n");
+		cmd->error = 1;
 		return (NULL);
 	}
 	if (str[i] == '"')
@@ -41,28 +42,6 @@ static char *get_filename(char *str)
 	ft_strlcpy(filename, str, i + 1);
 	return (filename);
 }
-
-//static int open_with_param(char *filename, int redirect_mode)
-//{
-//	int 	file_fd;
-//
-//	if (redirect_mode == RED_OUT_T)
-//		file_fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 00644);
-//	else if (redirect_mode == RED_OUT_A)
-//		file_fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 00644);
-//	else if (redirect_mode == RED_IN)
-//		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
-//	if (file_fd == -1)
-//	{
-//		perror(filename);
-//		return (EXIT_FAILURE);
-//	}
-//	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
-//		dup2_close(file_fd, STDOUT_FILENO);
-//	else
-//		dup2_close(file_fd, STDIN_FILENO);
-//	return (1);
-//}
 
 static int open_with_param(t_cmd *cmd, char *filename, int redirect_mode)
 {
@@ -146,9 +125,7 @@ void	redirect_handler(t_cmd *cmd)
 			cmd->out = pipe_fd[1];
 		else
 		{
-//			dprintf(2, "cmd|%s| close pipe[0] ", cmd->param[0]);
 			close_perror(pipe_fd[0]);
-//			dprintf(2, "cmd|%s| close pipe[1] ", cmd->param[0]);
 			close_perror(pipe_fd[1]);
 			cmd->out = dup(1);
 		}
@@ -158,9 +135,9 @@ void	redirect_handler(t_cmd *cmd)
 			while (*red_str)
 			{
 				redirect_mode = which_redirect(&red_str);
-				filename = get_filename(red_str);
+				filename = get_filename(red_str, cmd);
 				if (filename == NULL)
-					return;
+					return ;
 				red_str += ft_strlen(filename);
 				if (redirect_mode == HERE_DOC)
 					here_doc(filename, cmd);
@@ -168,7 +145,6 @@ void	redirect_handler(t_cmd *cmd)
 					open_with_param(cmd, filename, redirect_mode);
 			}
 		}
-//		close_fds(2, pipe_fd[0], pipe_fd[1]);
 		first_cmd = 0;
 		cmd = cmd->next;
 	}

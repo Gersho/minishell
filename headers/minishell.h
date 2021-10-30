@@ -85,6 +85,7 @@ struct s_cmd
 	char*		red;
 	int 		in;
 	int 		out;
+	int			error;
 	t_cmd*		next;
 };
 
@@ -109,7 +110,9 @@ struct s_shell
 {
 	t_cmd	*cmd;
 	t_env 	*env;
-	int 	exit_status;
+	int		std_out;
+	int 	std_in;
+	int 	ret;
 };
 
 //----list_cmd
@@ -127,7 +130,7 @@ void	env_ch_value(t_env *old, char *new);
 char	**init_env_tab(char **env);
 int		env_list_size(t_env *env);
 void	free_env_list(t_env *env);
-void	print_list(t_env *env, int out);
+void	print_list(t_env *env);
 t_env	*new_env(char *name, char *value);
 void	env_add_back(t_env **lst, t_env *new);
 t_env	*env_last(t_env *env);
@@ -178,19 +181,19 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end);
 char	**split_env_path(t_env *envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);
 //----Redirect Handling
-void		redirect_handler(t_cmd *cmd);
+void	redirect_handler(t_cmd *cmd);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
 int 	exec_cmd(t_shell *shell);
 int		check_built_in(t_shell *shell);
 //----COMMANDS BUILT IN
-void	echo(char **param, int out);
-void	pwd(char **param, t_env *env_l, int out);
-void	cd(char **param, t_env *env_l);
-void	env(t_env *env_l, int out);
-void	export(char **param, t_env **env, int out);
-void 	unset(char **param, t_env **env_l);
+int 	echo(char **param);
+int 	pwd(char **param, t_env *env_l);
+int 	cd(char **param, t_env *env_l);
+int 	env(t_env *env_l);
+int 	export(char **param, t_env **env);
+int 	unset(char **param, t_env **env_l);
 void 	exit_shell(t_cmd *cmd, t_env *env);
 //----SET CMD
 //----PROMPT

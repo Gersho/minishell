@@ -23,7 +23,8 @@ void sig_handler(int sig)
 // todo export Z="ls -l" ; $Z --> segfault
 // todo ctrl + D --> segfault
 // todo exit doit afficher un exit
-// todo oldpwd at start is NULL
+//TODO start OLDPWD AT NULL | IF UNSET PWD and cd nana OLDPWD=NULL
+//TODO EXPORT unset IN MAJ == ERROR
 int main(int ac,char **av, char** env)
 {
 	t_shell shell;
@@ -35,19 +36,21 @@ int main(int ac,char **av, char** env)
 	(void)ac;//error if != 1 ?
 	(void)av;
 
-	shell.exit_status = 0;
+	shell.ret = 0;
 //	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = &sig_handler;
 	//TODO fix segfault with redirect without cmd->param
 	//TODO fix  < cat && > cat
 	//TODO fix segf ctrl+d
 	shell.env = get_env_list(env);
+	shell.std_in = dup(0);
+	shell.std_out = dup(1);
 	sigaction(SIGINT, &sa, NULL);
 	while (1)
 	{
 		prompt = set_prompt(&shell);
 		line = readline(prompt);
-		shell.exit_status = 1;
+		shell.ret = 1;
 		if (prompt)
 			free(prompt);
 		if (!line)

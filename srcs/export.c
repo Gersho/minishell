@@ -4,7 +4,7 @@
 
 #include "../headers/minishell.h"
 
-void 	print_env_export(t_env *env, int out)
+void 	print_env_export(t_env *env)
 {
 	t_env 	*to_parse;
 	t_env 	*cpy;
@@ -23,9 +23,9 @@ void 	print_env_export(t_env *env, int out)
 			to_parse = to_parse->next;
 		}
 		if (save->value)
-			ft_printf_fd(out, "declare -x %s=\"%s\"\n", save->name, save->value);
+			ft_printf_fd(1, "declare -x %s=\"%s\"\n", save->name, save->value);
 		else
-			ft_printf_fd(out, "declare -x %s\n", save->name, save->value);
+			ft_printf_fd(1, "declare -x %s\n", save->name, save->value);
 		cpy = env_unlink(cpy, save->name);
 		save = cpy;
 	}
@@ -80,16 +80,21 @@ static int check_sign(char *param, t_env *env, int i)
 	}
 	return (0);
 }
-//TODO EXPORT unset IN MAJ == ERROR
-void	export(char **param, t_env **env, int out)
+
+int	export(char **param, t_env **env)
 {
 	int	i;
 	int j;
 	t_env *envptr;
+	int ret;
 
+	ret = 0;
 	j = 0;
 	if (param[1] == NULL)
-		return (print_env_export(*env, out));
+	{
+		print_env_export(*env);
+		return (EXIT_SUCCESS);
+	}
 	while (param[++j])
 	{
 		envptr = *env;
@@ -97,6 +102,7 @@ void	export(char **param, t_env **env, int out)
 		if (!ft_isalpha((int)param[j][0]) && param[j][0] != '_')
 		{
 			ft_printf_fd(2, "export: not an identifier: %s\n", param[j]);
+			ret = 1;
 			continue ;
 		}
 		while (param[j][i])
@@ -111,4 +117,5 @@ void	export(char **param, t_env **env, int out)
 			}
 		}
 	}
+	return (ret);
 }

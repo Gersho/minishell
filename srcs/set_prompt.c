@@ -43,7 +43,7 @@ char 	*set_prompt(t_shell *shell)
 	char 	buf[PATH_MAX];
 	char	*status;
 	
-	if (shell->exit_status == 0)
+	if (shell->ret == 0)
 		status = "🌻 ";
 	else
 		status = "❌  ";

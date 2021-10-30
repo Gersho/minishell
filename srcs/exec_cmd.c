@@ -35,34 +35,36 @@ int is_built_in(char *param, int *cmd)
 	return (0);
 }
 
+void 	close_unused_fd(t_shell *shell)
+{
+	t_cmd *ptr;
+
+	ptr = shell->cmd->next;
+	while (ptr)
+	{
+		close_perror(ptr->in);
+		close_perror(ptr->out);
+		ptr = ptr->next;
+	}
+	close_perror(shell->std_out);
+	close_perror(shell->std_in);
+}
+
 int create_child_to_exec_cmd(t_shell *shell, int *pid)
 {
 	char	**env_t;
 	char	**path_tab;
-	t_cmd  *ptr;
+
 	*pid = fork();
 	if (*pid == 0)
 	{
-		dup2_close(shell->cmd->in, 0);
-		dup2_close(shell->cmd->out, 1);
-		shell->cmd->out = 1;
-		shell->cmd->in = 0;
 		if (shell->cmd->next)
-		{
-			ptr = shell->cmd->next;
-			while (ptr)
-			{
-				close_perror(ptr->in);
-				close_perror(ptr->out);
-				ptr = ptr->next;
-			}
-		}
+			close_unused_fd(shell);
 		if (check_built_in(shell))
 			exit(EXIT_SUCCESS);//TODO peut pas que sucess
 		path_tab = split_env_path(shell->env);
 		get_cmd_path(shell->cmd, path_tab);
 		env_t = get_env_tab(shell->env);
-//		free_env_list(env_l);
 		execve(shell->cmd->path, shell->cmd->param, env_t);
 		perror(*shell->cmd->param);
 		exit(EXIT_FAILURE);
@@ -93,22 +95,23 @@ void close_fds(int nb, ...)
 int check_built_in(t_shell *shell)
 {
 	int command;
+
 	if (*shell->cmd->param)
 	{
 		if (is_built_in(*shell->cmd->param, &command))
 		{
 			if (command == ECHO)
-				echo(shell->cmd->param, shell->cmd->out);
+				shell->ret = echo(shell->cmd->param);
 			else if (command == PWD)
-				pwd(shell->cmd->param, shell->env, shell->cmd->out);
+				shell->ret = pwd(shell->cmd->param, shell->env);
 			else if (command == CD)
-				cd(shell->cmd->param, shell->env);
+				shell->ret = cd(shell->cmd->param, shell->env);
 			else if (command == ENV)
-				env(shell->env, 1);
+				shell->ret = env(shell->env);
 			else if (command == EXPORT)
-				export(shell->cmd->param, &shell->env, shell->cmd->out);
+				shell->ret = export(shell->cmd->param, &shell->env);
 			else if (command == UNSET)
-				unset(shell->cmd->param, &shell->env);
+				shell->ret = unset(shell->cmd->param, &shell->env);
 			else if (command == EXIT)
 				exit_shell(shell->cmd, shell->env);
 			return (1);
@@ -116,8 +119,6 @@ int check_built_in(t_shell *shell)
 	}
 	return (0);
 }
-
-
 
 int exec_cmd(t_shell *shell)
 {
@@ -128,19 +129,33 @@ int exec_cmd(t_shell *shell)
 	//TODO cat | <<  yo random segf && echo yo | exit
 	cmd_index = 0;
 	redirect_handler(shell->cmd);
-	while (shell->cmd)
+	if (!shell->cmd->error)
 	{
-		if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
-			check_built_in(shell);
-		else
-			create_child_to_exec_cmd(shell, &pid);
-		close_perror(shell->cmd->in);
-		close_perror(shell->cmd->out);
-		shell->cmd = shell->cmd->next;
-		cmd_index++;
+		while (shell->cmd)
+		{
+			dup2_close(shell->cmd->in, 0);
+			dup2_close(shell->cmd->out, 1);
+			if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
+				check_built_in(shell);
+			else
+				create_child_to_exec_cmd(shell, &pid);
+			if (!shell->cmd->next)
+			{
+				dup2(shell->std_in, 0);
+				dup2(shell->std_out, 1);
+			}
+			shell->cmd = shell->cmd->next;
+			cmd_index++;
+		}
+	}
+	else
+	{
+		//close all fds
+		shell->ret = EXIT_FAILURE;
 	}
 	waitpid(pid, &status, 0);
-	shell->exit_status = WEXITSTATUS(status);
+	if (cmd_index > 0)
+		shell->ret = WEXITSTATUS(status);
 	while (wait(NULL) != -1)
 		;
 	free_cmd_list(shell->cmd);
