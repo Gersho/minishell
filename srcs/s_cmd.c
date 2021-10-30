@@ -25,6 +25,7 @@ t_cmd	*ft_cmd_init(void)
 	cmd->path = NULL;
 	cmd->in = 0;
 	cmd->out = 1;
+	cmd->error = 0;
 	return (cmd);
 }
 

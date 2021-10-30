@@ -120,8 +120,6 @@ int check_built_in(t_shell *shell)
 	return (0);
 }
 
-
-
 int exec_cmd(t_shell *shell)
 {
 	int pid;
@@ -131,21 +129,29 @@ int exec_cmd(t_shell *shell)
 	//TODO cat | <<  yo random segf && echo yo | exit
 	cmd_index = 0;
 	redirect_handler(shell->cmd);
-	while (shell->cmd)
+	if (!shell->cmd->error)
 	{
-		dup2_close(shell->cmd->in, 0);
-		dup2_close(shell->cmd->out, 1);
-		if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
-			check_built_in(shell);
-		else
-			create_child_to_exec_cmd(shell, &pid);
-		if (!shell->cmd->next)
+		while (shell->cmd)
 		{
-			dup2(shell->std_in, 0);
-			dup2(shell->std_out, 1);
+			dup2_close(shell->cmd->in, 0);
+			dup2_close(shell->cmd->out, 1);
+			if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
+				check_built_in(shell);
+			else
+				create_child_to_exec_cmd(shell, &pid);
+			if (!shell->cmd->next)
+			{
+				dup2(shell->std_in, 0);
+				dup2(shell->std_out, 1);
+			}
+			shell->cmd = shell->cmd->next;
+			cmd_index++;
 		}
-		shell->cmd = shell->cmd->next;
-		cmd_index++;
+	}
+	else
+	{
+		//close all fds
+		shell->ret = EXIT_FAILURE;
 	}
 	waitpid(pid, &status, 0);
 	if (cmd_index > 0)
