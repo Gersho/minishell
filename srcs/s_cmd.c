@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 12:43:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/17 12:08:32 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/31 00:44:45 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_cmd	*ft_cmd_init(void)
 	if (!cmd)
 		ft_error_exit(-1);
 	cmd->param = ft_param_init(cmd);
-	cmd->red = NULL;
+	cmd->red = ft_param_init(cmd);
 	cmd->next = NULL;
 	cmd->path = NULL;
 	cmd->in = 0;

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/28 22:47:55 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/31 00:41:18 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ struct s_cmd
 {
 	char*		path;
 	char**		param;
-	char*		red;
+	char**		red;
 	int 		in;
 	int 		out;
 	int			error;
