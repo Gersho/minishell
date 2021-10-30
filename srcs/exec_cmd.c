@@ -35,7 +35,7 @@ int is_built_in(char *param, int *cmd)
 	return (0);
 }
 
-int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
+int create_child_to_exec_cmd(t_shell *shell, int *pid)
 {
 	char	**env_t;
 	char	**path_tab;
@@ -43,11 +43,11 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 	*pid = fork();
 	if (*pid == 0)
 	{
-		dup2_close(cmd->in, 0);
-		dup2_close(cmd->out, 1);
-		if (cmd->next)
+		dup2_close(shell->cmd->in, 0);
+		dup2_close(shell->cmd->out, 1);
+		if (shell->cmd->next)
 		{
-			ptr = cmd->next;
+			ptr = shell->cmd->next;
 			while (ptr)
 			{
 				close_perror(ptr->in);
@@ -55,14 +55,14 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 				ptr = ptr->next;
 			}
 		}
-		if (check_built_in(cmd, &env_l))
+		if (check_built_in(shell))
 			exit(EXIT_SUCCESS);//TODO peut pas que sucess
-		path_tab = split_env_path(env_l);
-		get_cmd_path(cmd, path_tab);
-		env_t = get_env_tab(env_l);
+		path_tab = split_env_path(shell->env);
+		get_cmd_path(shell->cmd, path_tab);
+		env_t = get_env_tab(shell->env);
 //		free_env_list(env_l);
-		execve(cmd->path, cmd->param, env_t);
-		perror(*cmd->param);
+		execve(shell->cmd->path, shell->cmd->param, env_t);
+		perror(*shell->cmd->param);
 		exit(EXIT_FAILURE);
 	}
 	else if (*pid == -1)
@@ -88,27 +88,27 @@ void close_fds(int nb, ...)
 }
 
 
-int check_built_in(t_cmd *cmd, t_env **env_l)
+int check_built_in(t_shell *shell)
 {
 	int command;
-	if (*cmd->param)
+	if (*shell->cmd->param)
 	{
-		if (is_built_in(*cmd->param, &command))
+		if (is_built_in(*shell->cmd->param, &command))
 		{
 			if (command == ECHO)
-				echo(cmd->param, cmd->out);
+				echo(shell->cmd->param, 1);
 			else if (command == PWD)
-				pwd(cmd->param, *env_l, cmd->out);
+				pwd(shell->cmd->param, shell->env, 1);
 			else if (command == CD)
-				cd(cmd->param, *env_l);
+				cd(shell->cmd->param, shell->env);
 			else if (command == ENV)
-				env(*env_l, cmd->out);
+				env(shell->env, 1);
 			else if (command == EXPORT)
-				export(cmd->param, env_l, cmd->out);
+				export(shell->cmd->param, &shell->env, 1);
 			else if (command == UNSET)
-				unset(cmd->param, env_l);
+				unset(shell->cmd->param, &shell->env);
 			else if (command == EXIT)
-				exit_shell(cmd, *env_l);
+				exit_shell(shell->cmd, shell->env);
 			return (1);
 		}
 	}
@@ -129,9 +129,9 @@ int exec_cmd(t_shell *shell)
 	while (shell->cmd)
 	{
 		if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
-			check_built_in(shell->cmd, &shell->env);
+			check_built_in(shell);
 		else
-			create_child_to_exec_cmd(shell->cmd, shell->env, &pid);
+			create_child_to_exec_cmd(shell, &pid);
 		close_perror(shell->cmd->in);
 		close_perror(shell->cmd->out);
 		shell->cmd = shell->cmd->next;

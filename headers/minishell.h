@@ -183,7 +183,7 @@ int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
 int 	exec_cmd(t_shell *shell);
-int		check_built_in(t_cmd *cmd, t_env **env_l);
+int		check_built_in(t_shell *shell);
 //----COMMANDS BUILT IN
 void	echo(char **param, int out);
 void	pwd(char **param, t_env *env_l, int out);
