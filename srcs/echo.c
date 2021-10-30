@@ -10,12 +10,12 @@ void echo(char **param, int out)
 	int i;
 	int	j;
 	int nl;
-
-	j = 1;
+	
 	nl = 1;
 	i = 1;
-	if (param[i] && param[i][0] == '-' && param[i][1] == 'n')
+	while (param[i] && param[i][0] == '-' && param[i][1] == 'n')
 	{
+		j = 1;
 		while (param[i][j] == 'n')
 			j++;
 		if (param[i][j] == '\0')
@@ -23,6 +23,8 @@ void echo(char **param, int out)
 			nl = 0;
 			i++;
 		}
+		else
+			break ;
 	}
 	while (param[i])
 	{
