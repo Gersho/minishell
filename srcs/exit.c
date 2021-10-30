@@ -4,6 +4,7 @@
 
 #include "../headers/minishell.h"
 
+//TODO exit with args in unsigned char
 void 	exit_shell(t_cmd *cmd, t_env *env)
 {
 	//TODO free all

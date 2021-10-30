@@ -22,7 +22,10 @@ void 	print_env_export(t_env *env, int out)
 				save = to_parse;
 			to_parse = to_parse->next;
 		}
-		ft_printf_fd(out, "declare -x %s=\"%s\"\n", save->name, save->value);
+		if (save->value)
+			ft_printf_fd(out, "declare -x %s=\"%s\"\n", save->name, save->value);
+		else
+			ft_printf_fd(out, "declare -x %s\n", save->name, save->value);
 		cpy = env_unlink(cpy, save->name);
 		save = cpy;
 	}
@@ -82,13 +85,14 @@ void	export(char **param, t_env **env, int out)
 {
 	int	i;
 	int j;
-
+	t_env *envptr;
 
 	j = 0;
 	if (param[1] == NULL)
 		return (print_env_export(*env, out));
 	while (param[++j])
 	{
+		envptr = *env;
 		i = 0;
 		if (!ft_isalpha((int)param[j][0]) && param[j][0] != '_')
 		{
@@ -101,7 +105,10 @@ void	export(char **param, t_env **env, int out)
 				break ;
 			i++;
 			if (param[j][i] == '\0')
-				env_add_back(env, new_env(ft_strdup(param[j]), ft_strdup("")));
+			{
+				if (!env_seeker(&envptr, param[j]))
+					env_add_back(env, new_env(ft_strdup(param[j]), NULL));
+			}
 		}
 	}
 }

@@ -88,7 +88,8 @@ void print_list(t_env *env, int out)
 {
 	while (env)
 	{
-		ft_printf_fd(out, "%s=%s\n", env->name, env->value);
+		if (env->value)
+			ft_printf_fd(out, "%s=%s\n", env->name, env->value);
 		env = env->next;
 	}
 }
@@ -100,36 +101,14 @@ t_env *env_dup(t_env *env)
 	cpy = NULL;
 	while (env)
 	{
-		env_add_back(&cpy, new_env(ft_strdup(env->name), ft_strdup(env->value)));
+		if (env->value)
+			env_add_back(&cpy, new_env(ft_strdup(env->name), ft_strdup(env->value)));
+		else
+			env_add_back(&cpy, new_env(ft_strdup(env->name), NULL));
 		env = env->next;
 	}
 	return (cpy);
 }
-
-//char	**env_unlink(char *name)
-//{
-//	t_env *to_free;
-//
-//	to_free = *env;
-//	if (to_free->prev)
-//	{
-//		to_free->prev->next = to_free->next;
-//		while ((*env)->prev)
-//			*env = (*env)->prev;
-//	}
-//	else if (to_free->next)
-//		*env = (*env)->next;
-//	else
-//		*env = NULL;
-//	if (to_free->next)
-//		to_free->next->prev = to_free->prev;
-//	free(to_free->name);
-//	free(to_free->value);
-//	to_free->name = NULL;
-//	to_free->value = NULL;
-//	free(to_free);
-//	to_free = NULL;
-//}
 
 t_env 	*env_unlink(t_env *env_l, char *name)
 {
@@ -140,7 +119,12 @@ t_env 	*env_unlink(t_env *env_l, char *name)
 	while (env_l)
 	{
 		if (ft_strcmp(env_l->name, name) != 0)
-			env_add_back(&new, new_env(ft_strdup(env_l->name), ft_strdup(env_l->value)));
+		{
+			if (env_l->value)
+				env_add_back(&new, new_env(ft_strdup(env_l->name), ft_strdup(env_l->value)));
+			else
+				env_add_back(&new, new_env(ft_strdup(env_l->name), NULL));
+		}
 		tmp = env_l->next;
 		free(env_l->name);
 		free(env_l->value);

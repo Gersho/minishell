@@ -4,10 +4,13 @@
 
 #include "../headers/minishell.h"
 
-int is_build_in(char *param, int *cmd)
+int is_built_in(char *param, int *cmd)
 {
-	char *name;
-	
+	char	*name;
+	int		cmdd;
+
+	if (cmd == NULL)
+		cmd = &cmdd;
 	*cmd = -1;
 	name = str_in_lower_case(param);
 	if (name == NULL)
@@ -52,6 +55,8 @@ int create_child_to_exec_cmd(t_cmd *cmd, t_env *env_l, int *pid)
 				ptr = ptr->next;
 			}
 		}
+//		if (check_built_in(cmd, &env_l))
+//			exit(EXIT_SUCCESS);//TODO peut pas que sucess
 		path_tab = split_env_path(env_l);
 		get_cmd_path(cmd, path_tab);
 		env_t = get_env_tab(env_l);
@@ -87,7 +92,7 @@ int check_built_in(t_cmd *cmd, t_env **env_l)
 	int command;
 	if (*cmd->param)
 	{
-		if (is_build_in(*cmd->param, &command))
+		if (is_built_in(*cmd->param, &command))
 		{
 			if (command == ECHO)
 				echo(cmd->param, cmd->out);
@@ -121,7 +126,9 @@ int exec_cmd(t_cmd *cmd, t_env **env_l)
 	redirect_handler(cmd);
 	while (cmd)
 	{
-		if (!check_built_in(cmd, env_l))
+		if (cmd_index == 0 && !cmd->next && is_built_in(*cmd->param, NULL))
+			check_built_in(cmd, env_l);
+		else
 			create_child_to_exec_cmd(cmd, *env_l, &pid);
 		close_perror(cmd->in);
 		close_perror(cmd->out);
