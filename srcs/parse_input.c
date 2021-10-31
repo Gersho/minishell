@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 02:11:44 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/31 02:03:46 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	ft_parse_loop(t_vars *vars)
 	}
 }
 
-void	ft_parse_line(char *str, t_cmd *cmd, t_env *env)
+void	ft_parse_line(char *str, t_shell *shell)
 {
 	t_vars		vars;
 
-	ft_init_vars(&vars, cmd, str, env);
+	ft_init_vars(&vars, shell, str);
 
 	ft_parse_quotes(&vars);
 	ft_handle_dollars(&vars);

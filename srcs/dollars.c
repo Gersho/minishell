@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 02:33:53 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/31 03:07:29 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,39 +197,48 @@ void	ft_handle_dollars(t_vars *vars)
 	i = 0;
 	while (vars->str[i])
 	{
-		//printf("dollscur i: %d --- cur c:%c\n", i, vars->str[i]);
+		// printf("dollscur i: %d --- cur c:%c\n", i, vars->str[i]);
 		if (vars->str[i] == (char) 36 && vars->str[i + 1] && ft_get_type(vars->quotes, i) != SIMPLE)
 		{
 			i++;
+
+			if (vars->str[i] == '?')
+			{
+				//gerer $?
+				swap = ft_itoa(vars->last_ret);
+				// printf("swap:%s*\n", swap);
+				//ft_strlen(swap);
+				limits.start = i - 1;
+				limits.end = i + 1;
+				// printf("plip\n");
+				ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - 2), i);
+				// printf("plop\n");
+				tmp = ft_build_newstr(vars, limits, swap);
+				// printf("newstr:%s*\n", tmp);
+				free(vars->str);
+				vars->str = tmp;
+
+
+				// printf("222cur i: %d --- cur c:%c\n", i, vars->str[i]);
+				i += ft_strlen(swap) - 1;
+				free(swap);
+				// printf("224cur i: %d --- cur c:%c\n", i, vars->str[i]);
+				//i++;
+				continue ;
+			}
 			if (!ft_isalpha(vars->str[i]))
 			{
 				while (!is_separator(vars->str[i]) && vars->str[i] != 34 && vars->str[i] == 39)
 					i++;
-				continue;
+				continue ;
 			}
 			limits.start = i - 1;
 			limits.end = ft_get_env_limit(vars->str, i);
 			tmp = ft_substr(vars->str, i, limits.end - limits.start - 1);
-			
-			
-		/*	
-			// printf("tmp:%s*\n", tmp);
-			swap = getenv(tmp);
-			// printf("BEFOREswap:%s*\n", swap);
-			if (ft_get_type(vars->quotes, i) == NONE)
-				swap = rm_redundant_spaces(vars, swap);
-			// printf("AFTERswap:%s*\n", swap);
-			// printf("swapPTR:%p*\n", swap);
-
-		*/
-
 			swap = ft_get_env_value(vars, tmp);
 			if (ft_get_type(vars->quotes, i) == NONE)
 				swap = rm_redundant_spaces(vars, swap);
-
-
 			ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - ft_strlen(tmp) - 1), i);
-
 			i += ft_strlen(swap) - ft_strlen(tmp) + 1;
 			free(tmp);
 			tmp = ft_build_newstr(vars, limits, swap);
@@ -239,6 +248,7 @@ void	ft_handle_dollars(t_vars *vars)
 		}
 		i++;
 	}
+	// printf("out of the while\n");
 }
 
 /*
