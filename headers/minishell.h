@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 00:41:18 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/31 02:31:22 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ struct s_vars
 	t_cmd		*cmd;
 	t_quotes	*quotes;
 	t_quotes	*env;
+	t_env		*env_vars;
 	char		*str;
 };
 
@@ -152,14 +153,15 @@ void		ft_update_quote_data(t_vars *vars, t_quotes *quotes, int size, int i);
 int			ft_get_quote_count(t_vars *vars, int start, int end);
 int			ft_is_quote_data(t_vars *vars, int i);
 //----s_vars
-void	ft_init_vars(t_vars *vars, t_cmd *cmd, char *str);
+void	ft_init_vars(t_vars *vars, t_cmd *cmd, char *str, t_env *env);
 //----env expand
 void	ft_handle_dollars(t_vars *vars);
 void	ft_env_expand_double(t_vars *vars, int *i);
 void	ft_env_expand_none(t_vars *vars, int *i);
 int		ft_get_env_limit(char *str, int i);
+char 	*ft_get_env_value(t_vars *vars, char *name);
 //----Parsing
-void	ft_parse_line(char *line, t_cmd *list);
+void	ft_parse_line(char *line, t_cmd *list, t_env *env);
 void	ft_parse_loop(t_vars *vars);
 //----Error handling
 void	ft_error_exit(int err);

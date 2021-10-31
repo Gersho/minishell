@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/30 01:25:34 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/31 02:33:37 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*rm_redundant_spaces(t_vars *vars, char *str)
 
 		i++;
 	}
-	//free(str);
+	free(str);
 	return (out);
 }
 
@@ -111,5 +111,17 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 	}
 	tmp[i] = '\0';
 	//printf("tmp:%s\n", tmp);
+	return (tmp);
+}
+
+char *ft_get_env_value(t_vars *vars, char *name)
+{
+	char	*tmp;
+	t_env	**envs;
+
+	envs = &vars->env_vars;
+	if (env_seeker(envs, name) == 0)
+		return (NULL);
+	tmp = ft_strdup((*envs)->value);
 	return (tmp);
 }

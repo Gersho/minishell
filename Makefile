@@ -40,7 +40,7 @@ CC				= gcc
 
 RM				= rm -f
 
-CFLAGS			= -g3 #-fsanitize=address
+CFLAGS			= -g3 #-fsanitize=address #-Wall -Wextra -Werror
 
 all:			$(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 01:18:24 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/31 02:36:31 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 	ft_param_loop(vars, &k);
 	//printf("after redloop j:%d*\n", j);
 	tmp = ft_no_signifiant_quote_substr(vars, j, k - 1);
-	printf("tmp:%s*\n", tmp);
+	//printf("tmp:%s*\n", tmp);
 	//tmp = ft_substr(vars->str, i, k- i);
 	current->red = ft_param_append_word(vars, current->red, tmp);
 	free(tmp);

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/30 01:37:00 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/10/31 02:33:53 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,9 @@ void	ft_handle_dollars(t_vars *vars)
 			limits.start = i - 1;
 			limits.end = ft_get_env_limit(vars->str, i);
 			tmp = ft_substr(vars->str, i, limits.end - limits.start - 1);
+			
+			
+		/*	
 			// printf("tmp:%s*\n", tmp);
 			swap = getenv(tmp);
 			// printf("BEFOREswap:%s*\n", swap);
@@ -217,12 +220,20 @@ void	ft_handle_dollars(t_vars *vars)
 				swap = rm_redundant_spaces(vars, swap);
 			// printf("AFTERswap:%s*\n", swap);
 			// printf("swapPTR:%p*\n", swap);
+
+		*/
+
+			swap = ft_get_env_value(vars, tmp);
+			if (ft_get_type(vars->quotes, i) == NONE)
+				swap = rm_redundant_spaces(vars, swap);
+
+
 			ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - ft_strlen(tmp) - 1), i);
 
 			i += ft_strlen(swap) - ft_strlen(tmp) + 1;
 			free(tmp);
 			tmp = ft_build_newstr(vars, limits, swap);
-
+			free(swap);
 			free(vars->str);
 			vars->str = tmp;
 		}
