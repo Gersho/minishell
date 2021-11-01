@@ -60,7 +60,6 @@ int main(int ac,char **av, char** env)
 		}
 		shell.cmd = ft_cmd_init();
 		ft_parse_line(line, shell.cmd);
-		line = NULL;
 		if (*shell.cmd->param || shell.cmd->red)
 			exec_cmd(&shell);
 	}

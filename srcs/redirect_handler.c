@@ -24,7 +24,6 @@ static char *get_filename(char *str, t_cmd *cmd)
 			dprintf(2, "syntax error near unexpected token '%c'\n", str[i]);
 		else
 			dprintf(2, "syntax error near unexpected token 'newline'\n");
-		cmd->error = 1;
 		return (NULL);
 	}
 	if (str[i] == '"')
@@ -105,14 +104,16 @@ static int which_redirect(char **red)
 	return (redirect_mode);
 }
 
-void	redirect_handler(t_cmd *cmd)
+void	redirect_handler(t_shell *shell)
 {
 	char	*red_str;
 	int 	redirect_mode;
 	char	*filename;
 	int 	pipe_fd[2];
 	int 	first_cmd = 1;
+	t_cmd 	*cmd;
 
+	cmd = shell->cmd;
 	while (cmd)
 	{
 		if (first_cmd)
@@ -137,7 +138,10 @@ void	redirect_handler(t_cmd *cmd)
 				redirect_mode = which_redirect(&red_str);
 				filename = get_filename(red_str, cmd);
 				if (filename == NULL)
+				{
+					shell->error = 1;
 					return ;
+				}
 				red_str += ft_strlen(filename);
 				if (redirect_mode == HERE_DOC)
 					here_doc(filename, cmd);

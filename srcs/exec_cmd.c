@@ -129,10 +129,10 @@ int exec_cmd(t_shell *shell)
 	//TODO cat | <<  yo random segf && echo yo | exit
 	//todo segf printf("cmd=%s\n", cmd->param[0]); in term
 	cmd_index = 0;
+	shell->error = 0;
 	status = 0;
-//	dprintf(2, "allo\n");
-	redirect_handler(shell->cmd);
-	if (!shell->cmd->error)
+	redirect_handler(shell);
+	if (!shell->error)
 	{
 		while (shell->cmd)
 		{

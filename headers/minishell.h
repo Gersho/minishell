@@ -85,7 +85,6 @@ struct s_cmd
 	char*		red;
 	int 		in;
 	int 		out;
-	int			error;
 	t_cmd*		next;
 };
 
@@ -113,6 +112,7 @@ struct s_shell
 	int		std_out;
 	int 	std_in;
 	int 	ret;
+	int		error;
 };
 
 //----list_cmd
@@ -181,7 +181,7 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end);
 char	**split_env_path(t_env *envp);
 int		get_cmd_path(t_cmd *cmd, char **path_tab);
 //----Redirect Handling
-void	redirect_handler(t_cmd *cmd);
+void	redirect_handler(t_shell *shell);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
