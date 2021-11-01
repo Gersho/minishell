@@ -59,7 +59,7 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 	if (*pid == 0)
 	{
 		if (shell->cmd->next)
-			close_unused_fd(shell);//todo close first cmd in and out ?
+			close_unused_fd(shell);
 		if (*shell->cmd->param)
 		{
 			if (check_built_in(shell))
@@ -72,32 +72,12 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 			exit(EXIT_FAILURE);
 		}
 		else
-		{
 			exit(EXIT_SUCCESS);
-		}
 	}
 	else if (*pid == -1)
 		perror("fork");
 	return (-1);
 }
-
-void close_fds(int nb, ...)
-{
-	va_list	fd_list;
-	int		fd;
-	int		i;
-	
-	i = 0;
-	va_start(fd_list, nb);
-	while (i < nb)
-	{
-		fd = (int) va_arg(fd_list, int);
-		close_perror(fd);
-		i++;
-	}
-	va_end(fd_list);
-}
-
 
 int check_built_in(t_shell *shell)
 {
@@ -125,6 +105,18 @@ int check_built_in(t_shell *shell)
 		}
 	}
 	return (0);
+}
+
+void close_all_fds(t_shell *shell)
+{
+	while (shell->cmd)
+	{
+		close_perror(shell->cmd->in);
+		close_perror(shell->cmd->out);
+		shell->cmd = shell->cmd->next;
+	}
+	dup2(shell->std_in, 0);
+	dup2(shell->std_out, 1);
 }
 
 int exec_cmd(t_shell *shell)
@@ -166,7 +158,8 @@ int exec_cmd(t_shell *shell)
 	}
 	else
 	{
-		//close all fds
+
+		close_all_fds(shell);
 		shell->ret = EXIT_FAILURE;
 	}
 	if (status != -1)
