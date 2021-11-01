@@ -14,7 +14,7 @@ int is_built_in(char *param, int *cmd)
 	*cmd = -1;
 	name = str_in_lower_case(param);
 	if (name == NULL)
-		return (-1);
+		return (0);
 	if (ft_strcmp("echo", name) == 0)
 		*cmd = ECHO;
 	else if (ft_strcmp("pwd", name) == 0)
@@ -59,15 +59,22 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 	if (*pid == 0)
 	{
 		if (shell->cmd->next)
-			close_unused_fd(shell);
-		if (check_built_in(shell))
-			exit(EXIT_SUCCESS);//TODO peut pas que sucess
-		path_tab = split_env_path(shell->env);
-		get_cmd_path(shell->cmd, path_tab);
-		env_t = get_env_tab(shell->env);
-		execve(shell->cmd->path, shell->cmd->param, env_t);
-		perror(*shell->cmd->param);
-		exit(EXIT_FAILURE);
+			close_unused_fd(shell);//todo close first cmd in and out ?
+		if (*shell->cmd->param)
+		{
+			if (check_built_in(shell))
+				exit(EXIT_SUCCESS);//TODO peut pas que sucess
+			path_tab = split_env_path(shell->env);
+			get_cmd_path(shell->cmd, path_tab);
+			env_t = get_env_tab(shell->env);
+			execve(shell->cmd->path, shell->cmd->param, env_t);
+			perror(*shell->cmd->param);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			exit(EXIT_SUCCESS);
+		}
 	}
 	else if (*pid == -1)
 		perror("fork");
@@ -134,6 +141,7 @@ int exec_cmd(t_shell *shell)
 	redirect_handler(shell);
 	if (!shell->error)
 	{
+//		printf ("allo? %s red %s\n", shell->cmd->param[0], shell->cmd->red);
 		while (shell->cmd)
 		{
 			dup2_close(shell->cmd->in, 0);
