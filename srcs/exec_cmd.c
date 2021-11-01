@@ -125,9 +125,12 @@ int exec_cmd(t_shell *shell)
 	int pid;
 	int cmd_index;
 	int status;
-
+	t_cmd *save = shell->cmd;
 	//TODO cat | <<  yo random segf && echo yo | exit
+	//todo segf printf("cmd=%s\n", cmd->param[0]); in term
 	cmd_index = 0;
+	status = 0;
+//	dprintf(2, "allo\n");
 	redirect_handler(shell->cmd);
 	if (!shell->cmd->error)
 	{
@@ -136,9 +139,14 @@ int exec_cmd(t_shell *shell)
 			dup2_close(shell->cmd->in, 0);
 			dup2_close(shell->cmd->out, 1);
 			if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
+			{
 				check_built_in(shell);
+				status = -1;
+			}
 			else
+			{
 				create_child_to_exec_cmd(shell, &pid);
+			}
 			if (!shell->cmd->next)
 			{
 				dup2(shell->std_in, 0);
@@ -153,12 +161,14 @@ int exec_cmd(t_shell *shell)
 		//close all fds
 		shell->ret = EXIT_FAILURE;
 	}
-	waitpid(pid, &status, 0);
-	if (cmd_index > 0)
+	if (status != -1)
+	{
+		waitpid(pid, &status, 0);
 		shell->ret = WEXITSTATUS(status);
-	while (wait(NULL) != -1)
-		;
-	free_cmd_list(shell->cmd);
+		while (wait(NULL) != -1);
+			;
+	}
+	free_cmd_list(save);
 	return (1);
 }
 

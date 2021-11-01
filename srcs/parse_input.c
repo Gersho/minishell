@@ -68,5 +68,6 @@ void	ft_parse_line(char *str, t_cmd *cmd)
 
 
 	//free stuff from vars
+//	printf("line=%s\n", vars.str);
 	free(vars.str);
 }
