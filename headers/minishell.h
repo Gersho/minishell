@@ -189,7 +189,7 @@ int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 //----Exec command
 int 	exec_cmd(t_shell *shell);
-int		check_built_in(t_shell *shell);
+int		check_built_in(t_shell *shell, int in_fork);
 //----COMMANDS BUILT IN
 int 	echo(char **param);
 int 	pwd(char **param, t_env *env_l);
@@ -197,7 +197,7 @@ int 	cd(char **param, t_env *env_l);
 int 	env(t_env *env_l);
 int 	export(char **param, t_env **env);
 int 	unset(char **param, t_env **env_l);
-void 	exit_shell(t_cmd *cmd, t_env *env);
+void 	exit_shell(t_shell *shell, int in_fork);
 //----SET CMD
 //----PROMPT
 char 	*set_prompt(t_shell *shell);

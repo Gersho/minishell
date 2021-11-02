@@ -36,15 +36,14 @@ char	*ft_mega_str_join(int nb, ...)
 //❌✖➜🌻
 char 	*set_prompt(t_shell *shell)
 {
-	char	*def;
 	char	*prompt;
-	t_env   *env_found;
 	char 	*curr_dir;
 	char 	buf[PATH_MAX];
 	char	*status;
 	
+	//🌸🌻
 	if (shell->ret == 0)
-		status = "🌻 ";
+		status = "🌸 ";
 	else
 		status = "❌  ";
 	

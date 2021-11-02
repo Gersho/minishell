@@ -62,7 +62,7 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 			close_unused_fd(shell);
 		if (*shell->cmd->param)
 		{
-			if (check_built_in(shell))
+			if (check_built_in(shell, 1))
 				exit(EXIT_SUCCESS);//TODO peut pas que sucess
 			path_tab = split_env_path(shell->env);
 			get_cmd_path(shell->cmd, path_tab);
@@ -79,7 +79,7 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 	return (-1);
 }
 
-int check_built_in(t_shell *shell)
+int check_built_in(t_shell *shell, int in_fork)
 {
 	int command;
 
@@ -100,7 +100,7 @@ int check_built_in(t_shell *shell)
 			else if (command == UNSET)
 				shell->ret = unset(shell->cmd->param, &shell->env);
 			else if (command == EXIT)
-				exit_shell(shell->cmd, shell->env);
+				exit_shell(shell, in_fork);
 			return (1);
 		}
 	}
@@ -139,7 +139,7 @@ int exec_cmd(t_shell *shell)
 			dup2_close(shell->cmd->out, 1);
 			if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
 			{
-				check_built_in(shell);
+				check_built_in(shell, 0);
 				status = -1;
 			}
 			else

@@ -86,68 +86,6 @@ static void redirect_in(char *redirect, int *red_mode)
 	}
 }
 
-//static int which_redirect(char **red)
-//{
-//	int	redirect_mode;
-//
-//	*red += skip_spaces(*red);
-//	redirect_in(red, &redirect_mode);
-//	redirect_out(red, &redirect_mode);
-//	(*red)++;
-//	*red += skip_spaces(*red);
-//	return (redirect_mode);
-//}
-
-//void	redirect_handler(t_shell *shell)
-//{
-//	char	*red_str;
-//	int 	redirect_mode;
-//	char	*filename;
-//	int 	pipe_fd[2];
-//	int 	first_cmd = 1;
-//	t_cmd 	*cmd;
-//
-//	cmd = shell->cmd;
-//	while (cmd)
-//	{
-//		if (first_cmd)
-//			cmd->in = dup(0);
-//		else
-//			cmd->in = pipe_fd[0];
-//
-//		pipe(pipe_fd);
-//		if (cmd->next)
-//			cmd->out = pipe_fd[1];
-//		else
-//		{
-//			close_perror(pipe_fd[0]);
-//			close_perror(pipe_fd[1]);
-//			cmd->out = dup(1);
-//		}
-//		if (cmd->red)
-//		{
-//			red_str = cmd->red;
-//			while (*red_str)
-//			{
-//				redirect_mode = which_redirect(&red_str);
-//				filename = get_filename(red_str, cmd);
-//				if (filename == NULL)
-//				{
-//					shell->error = 1;
-//					return ;
-//				}
-//				red_str += ft_strlen(filename);
-//				if (redirect_mode == HERE_DOC)
-//					here_doc(filename, cmd);
-//				else
-//					open_with_param(shell, filename, redirect_mode);
-//			}
-//		}
-//		first_cmd = 0;
-//		cmd = cmd->next;
-//	}
-//}
-
 static int which_redirect(char *red)
 {
 	int	redirect_mode;
@@ -159,7 +97,6 @@ static int which_redirect(char *red)
 
 void	redirect_handler(t_shell *shell)
 {
-	char	**red_str;
 	int 	redirect_mode;
 	char	*filename;
 	int 	pipe_fd[2];
@@ -185,27 +122,23 @@ void	redirect_handler(t_shell *shell)
 			cmd->out = dup(1);
 		}
 		i = 0;
-		if (cmd->red[i])
+		while (cmd->red[i])
 		{
-			red_str = cmd->red;
-			while (red_str[i])
+			redirect_mode = which_redirect(cmd->red[i]);
+			i++;
+			filename = get_filename(cmd->red[i], cmd);
+			if (filename == NULL)
 			{
-				redirect_mode = which_redirect(red_str[i]);
-				i++;
-				filename = get_filename(red_str[i], cmd);
-				if (filename == NULL)
-				{
-					shell->error = 1;
-					return ;
-				}
-				if (redirect_mode == HERE_DOC)
-					here_doc(filename, cmd);
-				else
-					open_with_param(shell, filename, redirect_mode);
-				i++;
-				//TODO free red tab ?
+				shell->error = 1;
+				return;
 			}
+			if (redirect_mode == HERE_DOC)
+				here_doc(filename, cmd);
+			else
+				open_with_param(shell, filename, redirect_mode);
+			i++;
 		}
+		ft_free_str_tab(cmd->red);
 		first_cmd = 0;
 		cmd = cmd->next;
 	}
