@@ -16,7 +16,6 @@ int 	unset(char **param, t_env **env_l)
 		ft_putstr_fd("unset: not enough arguments\n", 2);
 		return (EXIT_FAILURE);
 	}
-
 	while (param[++i])
 	{
 		tmp = *env_l;
