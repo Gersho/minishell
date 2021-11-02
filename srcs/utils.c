@@ -32,6 +32,25 @@ void dup2_close(int fd1, int fd2)
 	close_perror(fd1);
 }
 
+
+void close_fds(int nb, ...)
+{
+	va_list	fd_list;
+	int		fd;
+	int		i;
+
+	i = 0;
+	va_start(fd_list, nb);
+	while (i < nb)
+	{
+		fd = (int) va_arg(fd_list, int);
+		close_perror(fd);
+		i++;
+	}
+	va_end(fd_list);
+}
+
+
 char *str_in_lower_case(char *s)
 {
 	int		i;

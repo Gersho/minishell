@@ -14,7 +14,7 @@ int is_built_in(char *param, int *cmd)
 	*cmd = -1;
 	name = str_in_lower_case(param);
 	if (name == NULL)
-		return (-1);
+		return (0);
 	if (ft_strcmp("echo", name) == 0)
 		*cmd = ECHO;
 	else if (ft_strcmp("pwd", name) == 0)
@@ -60,37 +60,24 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 	{
 		if (shell->cmd->next)
 			close_unused_fd(shell);
-		if (check_built_in(shell))
-			exit(EXIT_SUCCESS);//TODO peut pas que sucess
-		path_tab = split_env_path(shell->env);
-		get_cmd_path(shell->cmd, path_tab);
-		env_t = get_env_tab(shell->env);
-		execve(shell->cmd->path, shell->cmd->param, env_t);
-		perror(*shell->cmd->param);
-		exit(EXIT_FAILURE);
+		if (*shell->cmd->param)
+		{
+			if (check_built_in(shell))
+				exit(EXIT_SUCCESS);//TODO peut pas que sucess
+			path_tab = split_env_path(shell->env);
+			get_cmd_path(shell->cmd, path_tab);
+			env_t = get_env_tab(shell->env);
+			execve(shell->cmd->path, shell->cmd->param, env_t);
+			perror(*shell->cmd->param);
+			exit(EXIT_FAILURE);
+		}
+		else
+			exit(EXIT_SUCCESS);
 	}
 	else if (*pid == -1)
 		perror("fork");
 	return (-1);
 }
-
-void close_fds(int nb, ...)
-{
-	va_list	fd_list;
-	int		fd;
-	int		i;
-	
-	i = 0;
-	va_start(fd_list, nb);
-	while (i < nb)
-	{
-		fd = (int) va_arg(fd_list, int);
-		close_perror(fd);
-		i++;
-	}
-	va_end(fd_list);
-}
-
 
 int check_built_in(t_shell *shell)
 {
@@ -120,25 +107,46 @@ int check_built_in(t_shell *shell)
 	return (0);
 }
 
+void close_all_fds(t_shell *shell)
+{
+	while (shell->cmd)
+	{
+		close_perror(shell->cmd->in);
+		close_perror(shell->cmd->out);
+		shell->cmd = shell->cmd->next;
+	}
+	dup2(shell->std_in, 0);
+	dup2(shell->std_out, 1);
+}
+
 int exec_cmd(t_shell *shell)
 {
 	int pid;
 	int cmd_index;
 	int status;
-
+	t_cmd *save = shell->cmd;
 	//TODO cat | <<  yo random segf && echo yo | exit
+	//todo segf printf("cmd=%s\n", cmd->param[0]); in term
 	cmd_index = 0;
-	redirect_handler(shell->cmd);
-	if (!shell->cmd->error)
+	shell->error = 0;
+	status = 0;
+	redirect_handler(shell);
+	if (!shell->error)
 	{
+//		printf ("allo? %s red %s\n", shell->cmd->param[0], shell->cmd->red);
 		while (shell->cmd)
 		{
 			dup2_close(shell->cmd->in, 0);
 			dup2_close(shell->cmd->out, 1);
 			if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
+			{
 				check_built_in(shell);
+				status = -1;
+			}
 			else
+			{
 				create_child_to_exec_cmd(shell, &pid);
+			}
 			if (!shell->cmd->next)
 			{
 				dup2(shell->std_in, 0);
@@ -150,15 +158,18 @@ int exec_cmd(t_shell *shell)
 	}
 	else
 	{
-		//close all fds
+
+		close_all_fds(shell);
 		shell->ret = EXIT_FAILURE;
 	}
-	waitpid(pid, &status, 0);
-	if (cmd_index > 0)
+	if (status != -1)
+	{
+		waitpid(pid, &status, 0);
 		shell->ret = WEXITSTATUS(status);
-	while (wait(NULL) != -1)
-		;
-	free_cmd_list(shell->cmd);
+		while (wait(NULL) != -1);
+			;
+	}
+	free_cmd_list(save);
 	return (1);
 }
 

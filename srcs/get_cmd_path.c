@@ -61,14 +61,15 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 		if (path_exist(path, cmd))
 		{
 			free(path);
-			break ;
+			break;
 		}
 		i++;
 		free(path);
 	}
 	ft_free_str_tab(path_tab);
 	if (command_not_found(cmd->path, *cmd->param))
-		exit (EXIT_FAILURE);//TODO free and exit
+		exit(EXIT_FAILURE);//TODO free and exit
+
 	return (1);
 }
 

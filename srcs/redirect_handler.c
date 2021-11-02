@@ -24,7 +24,6 @@ static char *get_filename(char *str, t_cmd *cmd)
 			dprintf(2, "syntax error near unexpected token '%c'\n", str[i]);
 		else
 			dprintf(2, "syntax error near unexpected token 'newline'\n");
-		cmd->error = 1;
 		return (NULL);
 	}
 	if (str[i] == '"')
@@ -43,7 +42,7 @@ static char *get_filename(char *str, t_cmd *cmd)
 	return (filename);
 }
 
-static int open_with_param(t_cmd *cmd, char *filename, int redirect_mode)
+static int open_with_param(t_shell *shell, char *filename, int redirect_mode)
 {
 	int 	file_fd;
 
@@ -55,13 +54,14 @@ static int open_with_param(t_cmd *cmd, char *filename, int redirect_mode)
 		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
 	if (file_fd == -1)
 	{
+		shell->error = 1;
 		perror(filename);
 		return (EXIT_FAILURE);
 	}
 	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
-		dup2_close(file_fd, cmd->out);
+		dup2_close(file_fd, shell->cmd->out);
 	else
-		dup2_close(file_fd, cmd->in);
+		dup2_close(file_fd, shell->cmd->in);
 	return (1);
 }
 
@@ -105,14 +105,16 @@ static int which_redirect(char **red)
 	return (redirect_mode);
 }
 
-void	redirect_handler(t_cmd *cmd)
+void	redirect_handler(t_shell *shell)
 {
 	char	*red_str;
 	int 	redirect_mode;
 	char	*filename;
 	int 	pipe_fd[2];
 	int 	first_cmd = 1;
+	t_cmd 	*cmd;
 
+	cmd = shell->cmd;
 	while (cmd)
 	{
 		if (first_cmd)
@@ -137,12 +139,15 @@ void	redirect_handler(t_cmd *cmd)
 				redirect_mode = which_redirect(&red_str);
 				filename = get_filename(red_str, cmd);
 				if (filename == NULL)
+				{
+					shell->error = 1;
 					return ;
+				}
 				red_str += ft_strlen(filename);
 				if (redirect_mode == HERE_DOC)
 					here_doc(filename, cmd);
 				else
-					open_with_param(cmd, filename, redirect_mode);
+					open_with_param(shell, filename, redirect_mode);
 			}
 		}
 		first_cmd = 0;
