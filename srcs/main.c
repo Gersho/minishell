@@ -54,18 +54,12 @@ int main(int ac,char **av, char** env)
 		if (prompt)
 			free(prompt);
 		if (!line)
-		{
-			printf("exit\n");
-			exit(EXIT_SUCCESS);
-		}
-
+			exit_shell(&shell, 0);
 		if (!*line)
 		{
 			free(line);
 			continue ;
 		}
-
-		
 		shell.cmd = ft_cmd_init();
 		if (ft_parse_line(line, &shell) == -255)
 		{
