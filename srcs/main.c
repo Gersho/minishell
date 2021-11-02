@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 14:58:52 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 17:12:10 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int main(int ac,char **av, char** env)
 			free(line);
 			continue ;
 		}
+
+		add_history(line);		
 		shell.cmd = ft_cmd_init();
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
