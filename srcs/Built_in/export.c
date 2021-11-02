@@ -101,7 +101,7 @@ int	export(char **param, t_env **env)
 		i = 0;
 		if (!ft_isalpha((int)param[j][0]) && param[j][0] != '_')
 		{
-			ft_printf_fd(2, "export: not an identifier: %s\n", param[j]);
+			ft_printf_fd(2, "%s: export: '%s': not an identifier\n",PROMPTERR, param[j]);
 			ret = 1;
 			continue ;
 		}
