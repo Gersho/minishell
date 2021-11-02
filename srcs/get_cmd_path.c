@@ -52,14 +52,14 @@ int	get_cmd_path(t_shell *shell, char **path_tab)
 	{
 		ft_free_str_tab(path_tab);
 		shell->cmd->path = *shell->cmd->param;
-		if (*shell->cmd->path == '/')
+		fd = open(shell->cmd->path, O_RDONLY);
+		if (fd == -1)
 		{
-			fd = open(shell->cmd->path, O_RDONLY);
-			if (fd == -1)
-				return (127);
-			close (fd);
+			perror(shell->cmd->path);
+			return (127);
 		}
-		else if (access(shell->cmd->path, X_OK))
+		close (fd);
+		if (access(shell->cmd->path, X_OK))
 		{
 			perror(shell->cmd->path);
 			return (126);
