@@ -62,9 +62,7 @@ int main(int ac,char **av, char** env)
 		}
 		shell.cmd = ft_cmd_init();
 		if (ft_parse_line(line, &shell) == -255)
-		{
 			continue ;
-		}
 		//ft_parse_line(line, &shell);
 
 /*
@@ -105,7 +103,6 @@ int main(int ac,char **av, char** env)
 		if (*shell.cmd->param || *shell.cmd->red)
 			exec_cmd(&shell);
 	}
-	return 0;
 }
 
 /*

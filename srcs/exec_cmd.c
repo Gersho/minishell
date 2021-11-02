@@ -147,9 +147,7 @@ int exec_cmd(t_shell *shell)
 				status = -1;
 			}
 			else
-			{
 				create_child_to_exec_cmd(shell, &pid);
-			}
 			if (!shell->cmd->next)
 			{
 				dup2(shell->std_in, 0);

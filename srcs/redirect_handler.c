@@ -120,6 +120,7 @@ void	redirect_handler(t_shell *shell)
 			i++;
 		}
 		ft_free_str_tab(cmd->red);
+		cmd->red = NULL;
 		first_cmd = 0;
 		cmd = cmd->next;
 	}
