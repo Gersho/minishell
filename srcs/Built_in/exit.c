@@ -4,7 +4,7 @@
 
 #include "../../headers/minishell.h"
 
-//TODO exit with args in unsigned char
+//TODO exit with args in unsigned char | avec quote
 
 static int	str_is_all_num(char *str)
 {
