@@ -33,6 +33,7 @@ int echo(char **param)
 	
 	nl = 1;
 	i = check_minus_n(param, &nl);
+//	printf("|%s| |%s| %d\n", param[0], param[1], ft_strlen(param[1]));
 	while (param[i])
 	{
 		ft_putstr_fd(param[i], 1);

@@ -8,34 +8,53 @@ static int	command_not_found(char *path, char *name)
 {
 	if (path == NULL)
 	{
-		ft_printf_fd(2, "%s%s%s: %s: command not found\n", KRED, PROMPTERR, KNRM, name);//TODO need prompt str
+		ft_printf_fd(2, "%s: %s: command not found\n", PROMPTERR, name);//TODO need prompt str
 		return (1);
 	}
 	return (0);
 }
-
+//TODO checkif parse cmd is right
 static int	path_exist(char *path, t_cmd *cmd)
 {
 	int	fd;
+	int ret;
 
+	ret = 0;
 	fd = open(path, O_RDONLY);
 	if (fd != -1)
 	{
 		if (cmd->path != NULL)
 			free(cmd->path);
 		cmd->path = ft_strdup(path);
-		if (cmd->path == NULL)
-			return (-1);
-		if (access(path, X_OK) == 0)//test with path == NULL for possible crash
+		if (access(path, X_OK) == 0)
+			ret = 1;
+		close_perror(fd);
+	}
+	return (ret);
+}
+
+int is_absolute_path(t_shell *shell, char **path_tab)
+{
+	int	fd;
+
+	if (**shell->cmd->param == '/' || **shell->cmd->param == '.')
+	{
+		ft_free_str_tab(path_tab);
+		shell->cmd->path = *shell->cmd->param;
+		fd = open(shell->cmd->path, O_RDONLY);
+		if (fd == -1)
 		{
-			close_perror(fd);
-			return (1);
+			print_error_prompt(shell->cmd->path);
+			shell->ret = 127;
 		}
-		else
+		else if (access(shell->cmd->path, X_OK))
 		{
-			close_perror(fd);
-			return (0);
+			print_error_prompt(shell->cmd->path);
+			shell->ret = 126;
 		}
+		if (fd != -1)
+			close_perror(fd);
+		return (1);
 	}
 	return (0);
 }
@@ -44,28 +63,11 @@ int	get_cmd_path(t_shell *shell, char **path_tab)
 {
 	int		i;
 	char	*path;
-	int fd;
 	
 	i = 0;
 	path = NULL;
-	if (**shell->cmd->param == '/' || **shell->cmd->param == '.')
-	{
-		ft_free_str_tab(path_tab);
-		shell->cmd->path = *shell->cmd->param;
-		fd = open(shell->cmd->path, O_RDONLY);
-		if (fd == -1)
-		{
-			perror(shell->cmd->path);
-			return (127);
-		}
-		close (fd);
-		if (access(shell->cmd->path, X_OK))
-		{
-			perror(shell->cmd->path);
-			return (126);
-		}
-		return (0);
-	}
+	if (is_absolute_path(shell, path_tab))
+		return (shell->ret);
 	while (path_tab[i])
 	{
 		path = ft_strjoin(path_tab[i], *shell->cmd->param);

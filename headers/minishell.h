@@ -20,6 +20,7 @@
 # include <stdarg.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include <signal.h>
 # include <string.h>
@@ -172,6 +173,7 @@ int		skip_spaces(char *str);
 void	close_perror(int fd);
 void	dup2_close(int fd1, int fd2);
 void	close_fds(int nb, ...);
+void 	print_error_prompt(char *str);
 char	*str_in_lower_case(char *s);
 //----Tools
 int		ft_str_index_c(char *str, char c);

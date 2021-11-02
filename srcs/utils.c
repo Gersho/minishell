@@ -50,6 +50,11 @@ void close_fds(int nb, ...)
 	va_end(fd_list);
 }
 
+void 	print_error_prompt(char *str)
+{
+	ft_printf_fd(2, "%s: ", PROMPTERR);
+	perror(str);
+}
 
 char *str_in_lower_case(char *s)
 {
