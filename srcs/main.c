@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 09:41:22 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:58:52 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ int main(int ac,char **av, char** env)
 	shell.std_in = dup(0);
 	shell.std_out = dup(1);
 	sigaction(SIGINT, &sa, NULL);
+	shell.ret = 0;
 	while (1)
 	{
 		prompt = set_prompt(&shell);
 		line = readline(prompt);
-		shell.ret = 1;
 		if (prompt)
 			free(prompt);
 		if (!line)
@@ -59,13 +59,22 @@ int main(int ac,char **av, char** env)
 			exit(EXIT_SUCCESS);
 		}
 
-
+		if (!*line)
+		{
+			free(line);
+			continue ;
+		}
 
 		
 		shell.cmd = ft_cmd_init();
-		ft_parse_line(line, &shell);
+		if (ft_parse_line(line, &shell) == -255)
+		{
+			continue ;
+		}
+		//ft_parse_line(line, &shell);
 
-				int i;
+/*
+		int i;
 		int j = 0;
 		t_cmd *tmp;
 		tmp = shell.cmd;
@@ -96,7 +105,7 @@ int main(int ac,char **av, char** env)
 			j++;
 			tmp = tmp->next;
 		}
-
+*/
 
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)

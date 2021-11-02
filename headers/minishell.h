@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 13:50:51 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:57:11 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,8 @@ void	ft_env_expand_none(t_vars *vars, int *i);
 int		ft_get_env_limit(char *str, int i);
 char 	*ft_get_env_value(t_vars *vars, char *name);
 //----Parsing
-void	ft_parse_line(char *line, t_shell *shell);
-void	ft_parse_loop(t_vars *vars);
+int		ft_parse_line(char *line, t_shell *shell);
+int		ft_parse_loop(t_vars *vars);
 //----Error handling
 void	ft_error_exit(int err);
 void	ft_freestructs_exit(t_vars *vars, int err);

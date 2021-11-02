@@ -72,7 +72,7 @@ void	free_cmd_list(t_cmd *cmd)
 		if (cmd->param)
 			ft_free_str_tab(cmd->param);
 		if (cmd->red)
-			free(cmd->red);
+			ft_free_str_tab(cmd->red);
 		if (cmd->path)
 			free(cmd->path);
 		tmp = cmd->next;

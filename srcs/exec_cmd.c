@@ -126,7 +126,6 @@ int exec_cmd(t_shell *shell)
 	int status;
 	t_cmd *save = shell->cmd;
 	//TODO cat | <<  yo random segf && echo yo | exit
-	//todo segf printf("cmd=%s\n", cmd->param[0]); in term
 	cmd_index = 0;
 	shell->error = 0;
 	status = 0;
@@ -166,7 +165,7 @@ int exec_cmd(t_shell *shell)
 	{
 		waitpid(pid, &status, 0);
 		shell->ret = WEXITSTATUS(status);
-		while (wait(NULL) != -1);
+		while (wait(NULL) != -1)
 			;
 	}
 	free_cmd_list(save);
