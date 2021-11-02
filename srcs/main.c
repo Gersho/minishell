@@ -57,6 +57,7 @@ int main(int ac,char **av, char** env)
 			exit_shell(&shell, 0);
 		if (!*line)
 		{
+			shell.ret = 0;
 			free(line);
 			continue ;
 		}
