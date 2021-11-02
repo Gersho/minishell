@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 02:03:46 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:38:49 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_parse_loop(t_vars *vars)
 	t_cmd	*tmp;
 	int		i;
 	int		len;
+	int		ret;
 
 	len = ft_strlen(vars->str);
 	tmp = vars->cmd;
@@ -37,7 +38,17 @@ void	ft_parse_loop(t_vars *vars)
 			i++;
 		}
 		else if ((vars->str[i] == 60 || vars->str[i] == 62) && ft_get_type(vars->env, i) != ENVS)
+		{
+			ret = to_redirect(vars, tmp, i);
+			if (ret == -255)
+			{
+				//TODO free
+				return ;
+			}
+
 			i += to_redirect(vars, tmp, i);
+			
+		}
 		else
 		{
 			//printf("else word i before:%d | ", i);

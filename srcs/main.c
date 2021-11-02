@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 09:24:12 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 09:41:22 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,46 @@ int main(int ac,char **av, char** env)
 			printf("exit\n");
 			exit(EXIT_SUCCESS);
 		}
+
+
+
+		
 		shell.cmd = ft_cmd_init();
 		ft_parse_line(line, &shell);
+
+				int i;
+		int j = 0;
+		t_cmd *tmp;
+		tmp = shell.cmd;
+
+		while (tmp)
+		{
+			// printf("maillon cmd: %d", j);
+			// j++;
+			i = 0;
+			printf("#########\n");
+			while (tmp->red[i])
+			{
+				printf("----\n");	
+				printf("j: %d | i: %d\n", j, i);
+				//printf("%p\n", tmp->red);
+				printf("cmd red: *%s*\n", tmp->red[i]);
+				i++;
+			}
+			i = 0;
+			while (tmp->param[i])
+			{
+				printf("----\n");	
+				printf("j: %d | i: %d\n", j, i);
+				//printf("%p\n", tmp->param);
+				printf("cmd param: *%s*\n", tmp->param[i]);
+				i++;
+			}
+			j++;
+			tmp = tmp->next;
+		}
+
+
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)
 			exec_cmd(&shell);

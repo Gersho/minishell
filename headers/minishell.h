@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 02:06:45 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:50:51 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ struct s_vars
 	t_quotes	*env;
 	t_env		*env_vars;
 	char		*str;
-	int			last_ret;
+	int			*last_ret;
 };
 
 

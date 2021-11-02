@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 02:36:31 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:28:24 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,44 +105,39 @@ int	to_param_word(t_vars *vars, t_cmd *current, int i)
 }
 
 
-void	ft_red_loop(t_vars *vars, int *i)
+int	ft_red_loop(t_vars *vars, int *i)
 {
+	if (is_separator(vars->str[*i]))
+	{
+		//unexpeced
+		ft_printf_fd(2, "%s: syntax error near unexpected token '%c'\n", PROMPTERR, vars->str[*i]);
+		*vars->last_ret = 258;
+		return (-255);
+	}
+	else if (vars->str[*i] == '\0')
+	{
+		ft_printf_fd(2, "%s: syntax error near unexpected token 'newline'\n", PROMPTERR);
+		*vars->last_ret = 258;
+		return (-255);
+	}
 	while (vars->str[*i])
 	{
-		//printf("redloop i:%d | char:%c*\n", *i, vars->str[*i]);
-		if ((vars->str[*i] == 32 || vars->str[*i] == 124 )&& ft_get_type(vars->env, *i) != ENVS)
+		//printf("paramloop i:%d | char:%c\n", *i, vars->str[*i]);
+		if (is_separator(vars->str[*i]))
 		{
-			//printf("yoyoyo\n");
 			break ;
 		}
-		if (vars->str[*i] == 62 || vars->str[*i] == 60 || vars->str[*i] == 124)
-		{
-			if (ft_get_type(vars->env, *i) == ENVS)
-			{
-				if (vars->str[*i] == 62 || vars->str[*i] == 60)
-				{
-				//ambiguous redirect ?
-				printf("ambiguous redirect\n");
-				//TODO clean exit
-				exit(-1);
-				}
-				*i += 1;
-				continue;
-			}
-			else
-				break ;
-		}
-		else if (ft_strncmp(&vars->str[*i], "\'", 1) == 0  && ft_get_type(vars->env, *i) != ENVS)
+		else if (ft_strncmp(&vars->str[*i], "\'", 1) == 0)
 		{
 			*i += ft_str_index_c((&vars->str[*i] + 1), '\'') + 1;
 		}
-		else if (ft_strncmp(&vars->str[*i], "\"", 1) == 0 && ft_get_type(vars->env, *i) != ENVS)
+		else if (ft_strncmp(&vars->str[*i], "\"", 1) == 0)
 		{
 			*i += ft_str_index_c((&vars->str[*i] + 1), '\"') + 1;
 		}
 		*i += 1;
 	}
-//	printf("redloop going out\n");
+	return (0);
 }
 
 int	to_redirect(t_vars *vars, t_cmd *current, int i)
@@ -162,7 +157,14 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 	j += skip_spaces(&vars->str[j]);
 
 	k = j;
-	ft_param_loop(vars, &k);
+
+
+	//ft_param_loop(vars, &k);
+	if (ft_red_loop(vars, &k) == -255)
+	{
+		return (-255);
+	}
+
 	//printf("after redloop j:%d*\n", j);
 	tmp = ft_no_signifiant_quote_substr(vars, j, k - 1);
 	//printf("tmp:%s*\n", tmp);
