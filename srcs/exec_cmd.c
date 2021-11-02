@@ -65,8 +65,13 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 			if (check_built_in(shell, 1))
 				exit(EXIT_SUCCESS);//TODO peut pas que sucess
 			path_tab = split_env_path(shell->env);
-			get_cmd_path(shell->cmd, path_tab);
+			shell->ret = get_cmd_path(shell, path_tab);
 			env_t = get_env_tab(shell->env);
+			if (shell->ret > 0)
+			{
+				//TODO free
+				exit(shell->ret);
+			}
 			execve(shell->cmd->path, shell->cmd->param, env_t);
 			perror(*shell->cmd->param);
 			exit(EXIT_FAILURE);
@@ -125,14 +130,13 @@ int exec_cmd(t_shell *shell)
 	int cmd_index;
 	int status;
 	t_cmd *save = shell->cmd;
-	//TODO cat | <<  yo random segf && echo yo | exit
+
 	cmd_index = 0;
 	shell->error = 0;
 	status = 0;
 	redirect_handler(shell);
 	if (!shell->error)
 	{
-//		printf ("allo? %s red %s\n", shell->cmd->param[0], shell->cmd->red);
 		while (shell->cmd)
 		{
 			dup2_close(shell->cmd->in, 0);
@@ -171,6 +175,3 @@ int exec_cmd(t_shell *shell)
 	free_cmd_list(save);
 	return (1);
 }
-
-//TODO handle "echo blalba >" || "echo blabla ><"
-//TODO "e""c""h""o" && close bad file descriptor probleme with multi here doc

@@ -182,7 +182,7 @@ char	*rm_redundant_spaces(t_vars *vars, char *str);
 char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end);
 //----Get cmd path
 char	**split_env_path(t_env *envp);
-int		get_cmd_path(t_cmd *cmd, char **path_tab);
+int		get_cmd_path(t_shell *shell, char **path_tab);
 //----Redirect Handling
 void	redirect_handler(t_shell *shell);
 int		is_redirect(char c);

@@ -32,11 +32,11 @@ int main(int ac,char **av, char** env)
 //	t_cmd*	cmd;
 	char 	*prompt;
 	struct sigaction sa;
-
+	
 	(void)ac;//error if != 1 ?
 	(void)av;
-
 	shell.ret = 0;
+
 //	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = &sig_handler;
 	//TODO fix segfault with redirect without cmd->param
@@ -50,7 +50,6 @@ int main(int ac,char **av, char** env)
 	{
 		prompt = set_prompt(&shell);
 		line = readline(prompt);
-		shell.ret = 1;
 		if (prompt)
 			free(prompt);
 		if (!line)

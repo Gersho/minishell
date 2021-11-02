@@ -40,25 +40,38 @@ static int	path_exist(char *path, t_cmd *cmd)
 	return (0);
 }
 
-int	get_cmd_path(t_cmd *cmd, char **path_tab)
+int	get_cmd_path(t_shell *shell, char **path_tab)
 {
 	int		i;
 	char	*path;
+	int fd;
 	
 	i = 0;
 	path = NULL;
-	if (**cmd->param == '/' || **cmd->param == '.')
+	if (**shell->cmd->param == '/' || **shell->cmd->param == '.')
 	{
 		ft_free_str_tab(path_tab);
-		cmd->path = *cmd->param;
-		return (1);
+		shell->cmd->path = *shell->cmd->param;
+		if (*shell->cmd->path == '/')
+		{
+			fd = open(shell->cmd->path, O_RDONLY);
+			if (fd == -1)
+				return (127);
+			close (fd);
+		}
+		else if (access(shell->cmd->path, X_OK))
+		{
+			perror(shell->cmd->path);
+			return (126);
+		}
+		return (0);
 	}
 	while (path_tab[i])
 	{
-		path = ft_strjoin(path_tab[i], *cmd->param);
+		path = ft_strjoin(path_tab[i], *shell->cmd->param);
 		if (path == NULL)
-			return (0);
-		if (path_exist(path, cmd))
+			return (1);
+		if (path_exist(path, shell->cmd))
 		{
 			free(path);
 			break;
@@ -67,10 +80,9 @@ int	get_cmd_path(t_cmd *cmd, char **path_tab)
 		free(path);
 	}
 	ft_free_str_tab(path_tab);
-	if (command_not_found(cmd->path, *cmd->param))
-		exit(EXIT_FAILURE);//TODO free and exit
-
-	return (1);
+	if (command_not_found(shell->cmd->path, *shell->cmd->param))
+		return (127);
+	return (0);
 }
 
 static int	add_slash_to_path(char **path_tab)
