@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 03:07:29 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 13:54:24 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void	ft_handle_dollars(t_vars *vars)
 			if (vars->str[i] == '?')
 			{
 				//gerer $?
-				swap = ft_itoa(vars->last_ret);
+				swap = ft_itoa(*vars->last_ret);
 				// printf("swap:%s*\n", swap);
 				//ft_strlen(swap);
 				limits.start = i - 1;

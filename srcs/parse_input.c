@@ -6,17 +6,18 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 02:03:46 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/02 14:55:43 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-void	ft_parse_loop(t_vars *vars)
+int	ft_parse_loop(t_vars *vars)
 {
 	t_cmd	*tmp;
 	int		i;
 	int		len;
+	int		ret;
 
 	len = ft_strlen(vars->str);
 	tmp = vars->cmd;
@@ -37,7 +38,17 @@ void	ft_parse_loop(t_vars *vars)
 			i++;
 		}
 		else if ((vars->str[i] == 60 || vars->str[i] == 62) && ft_get_type(vars->env, i) != ENVS)
+		{
+			ret = to_redirect(vars, tmp, i);
+			if (ret == -255)
+			{
+				//TODO free
+				return (-255);
+			}
+
 			i += to_redirect(vars, tmp, i);
+			
+		}
 		else
 		{
 			//printf("else word i before:%d | ", i);
@@ -45,9 +56,10 @@ void	ft_parse_loop(t_vars *vars)
 			//printf("i after: %d\n", i);
 		}
 	}
+	return (0);
 }
 
-void	ft_parse_line(char *str, t_shell *shell)
+int	ft_parse_line(char *str, t_shell *shell)
 {
 	t_vars		vars;
 
@@ -62,12 +74,16 @@ void	ft_parse_line(char *str, t_shell *shell)
 	//exit(0);
 
 
-	
-	ft_parse_loop(&vars);
+	if (ft_parse_loop(&vars) == -255)
+	{
+		return (-255);
+	}
 
+	//ft_parse_loop(&vars);
 
 
 	//free stuff from vars
 //	printf("line=%s\n", vars.str);
 	free(vars.str);
+	return (0);
 }

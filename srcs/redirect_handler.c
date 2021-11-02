@@ -15,25 +15,6 @@ int is_redirect(char c)
 static char *get_filename(char *str, t_cmd *cmd)
 {
 	char	*filename;
-	size_t i;
-	
-	i = 0;
-	if (str == NULL || is_redirect(str[i]))
-	{
-		if (str == NULL)
-			ft_printf_fd(2, "syntax error near unexpected token 'newline'\n");
-		else
-		{
-			ft_printf_fd(2, "syntax error near unexpected token '");
-			while (is_redirect(str[i]))
-			{
-				ft_putchar_fd(str[i], 2);
-				i++;
-			}
-			ft_printf_fd(2, "'\n");
-		}
-		return (NULL);
-	}
 
 	filename = ft_strdup(str);
 	if (filename == NULL)
