@@ -161,7 +161,6 @@ int exec_cmd(t_shell *shell)
 	}
 	else
 	{
-
 		close_all_fds(shell);
 		shell->ret = EXIT_FAILURE;
 	}
