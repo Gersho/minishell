@@ -60,6 +60,8 @@ int main(int ac,char **av, char** env)
 			free(line);
 			continue ;
 		}
+
+		add_history(line);		
 		shell.cmd = ft_cmd_init();
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
