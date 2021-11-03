@@ -103,6 +103,7 @@ int main(int ac,char **av, char** env)
 //		printf("%s\n", shell.cmd->param[1]);
 		if (*shell.cmd->param || *shell.cmd->red)
 			exec_cmd(&shell);
+//		ft_printf_fd(2, "ret=%d\n", shell.ret);
 	}
 }
 

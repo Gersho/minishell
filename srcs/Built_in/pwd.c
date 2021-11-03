@@ -10,7 +10,7 @@ int	pwd(char **param, t_env *env_l)
 
 	if (param[1] != NULL)
 	{
-		ft_putstr_fd("pwd: too many arguments\n", 2);
+		ft_printf_fd(2, "%s: pwd: too many arguments\n", PROMPTERR);
 		return (EXIT_FAILURE);
 	}
 	else

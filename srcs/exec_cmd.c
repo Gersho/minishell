@@ -23,11 +23,11 @@ int is_built_in(char *param, int *cmd)
 		*cmd = CD;
 	else if (ft_strcmp("env", name) == 0)
 		*cmd = ENV;
-	else if (ft_strcmp("export", name) == 0)
+	else if (ft_strcmp("export", param) == 0)
 		*cmd = EXPORT;
-	else if (ft_strcmp("unset", name) == 0)
+	else if (ft_strcmp("unset", param) == 0)
 		*cmd = UNSET;
-	else if (ft_strcmp("exit", name) == 0)
+	else if (ft_strcmp("exit", param) == 0)
 		*cmd = EXIT;
 	free(name);
 	if (*cmd != -1)
@@ -49,7 +49,7 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 		if (*shell->cmd->param)
 		{
 			if (check_built_in(shell, 1))
-				exit(EXIT_SUCCESS);//TODO peut pas que sucess
+				exit(shell->ret);
 			path_tab = split_env_path(shell->env);
 			shell->ret = get_cmd_path(shell, path_tab);
 			env_t = get_env_tab(shell->env);
@@ -132,7 +132,6 @@ int exec_cmd(t_shell *shell)
 	int status;
 	t_cmd *save = shell->cmd;
 
-	shell->error = 0;
 	status = 0;
 	redirect_handler(shell);
 	if (!shell->error)
