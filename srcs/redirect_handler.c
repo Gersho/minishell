@@ -76,53 +76,56 @@ static int which_redirect(char *red)
 	return (redirect_mode);
 }
 
+int	read_through_redirect(t_shell *shell)
+{
+	int		redirect_mode;
+	char	*filename;
+	int 	i;
+
+	i = 0;
+	while (shell->cmd->red[i])
+	{
+		redirect_mode = which_redirect(shell->cmd->red[i]);
+		i++;
+		filename = get_filename(shell->cmd->red[i], shell->cmd);
+		if (filename == NULL)
+			return (1);
+		if (redirect_mode == HERE_DOC)
+			here_doc(filename, shell->cmd);
+		else
+			open_with_param(shell, filename, redirect_mode);
+		i++;
+	}
+	ft_free_str_tab(shell->cmd->red);
+	shell->cmd->red = NULL;
+	return (0);
+}
+
 void	redirect_handler(t_shell *shell)
 {
-	int 	redirect_mode;
-	char	*filename;
 	int 	pipe_fd[2];
 	int 	first_cmd = 1;
-	t_cmd 	*cmd;
-	int		i;
+	t_cmd 	*start;
 	
-	cmd = shell->cmd;
-	while (cmd)
+	start = shell->cmd;
+	while (shell->cmd)
 	{
 		if (first_cmd)
-			cmd->in = dup(0);
+			shell->cmd->in = dup(0);
 		else
-			cmd->in = pipe_fd[0];
-		
+			shell->cmd->in = pipe_fd[0];
 		pipe(pipe_fd);
-		if (cmd->next)
-			cmd->out = pipe_fd[1];
+		if (shell->cmd->next)
+			shell->cmd->out = pipe_fd[1];
 		else
 		{
 			close_perror(pipe_fd[0]);
 			close_perror(pipe_fd[1]);
-			cmd->out = dup(1);
+			shell->cmd->out = dup(1);
 		}
-		i = 0;
-		read_through_redirect(cmd->red);
-		while (cmd->red[i])
-		{
-			redirect_mode = which_redirect(cmd->red[i]);
-			i++;
-			filename = get_filename(cmd->red[i], cmd);
-			if (filename == NULL)
-			{
-				shell->error = 1;
-				return;
-			}
-			if (redirect_mode == HERE_DOC)
-				here_doc(filename, cmd);
-			else
-				open_with_param(shell, filename, redirect_mode);
-			i++;
-		}
-		ft_free_str_tab(cmd->red);
-		cmd->red = NULL;
+		read_through_redirect(shell);
+		shell->cmd = shell->cmd->next;
 		first_cmd = 0;
-		cmd = cmd->next;
 	}
+	shell->cmd = start;
 }
