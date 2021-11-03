@@ -175,6 +175,8 @@ void	dup2_close(int fd1, int fd2);
 void	close_fds(int nb, ...);
 void 	print_error_prompt(char *str);
 char	*str_in_lower_case(char *s);
+void 	close_unused_fd(t_shell *shell);
+void 	close_all_fds(t_shell *shell);
 //----Tools
 int		ft_str_index_c(char *str, char c);
 int		is_separator(char c);
