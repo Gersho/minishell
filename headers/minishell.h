@@ -196,7 +196,7 @@ int 	exec_cmd(t_shell *shell);
 int		check_built_in(t_shell *shell, int in_fork);
 //----COMMANDS BUILT IN
 int 	echo(char **param);
-int 	pwd(char **param, t_env *env_l);
+int 	pwd(char **param);
 int 	cd(char **param, t_env *env_l);
 int 	env(t_env *env_l);
 int 	export(char **param, t_env **env);

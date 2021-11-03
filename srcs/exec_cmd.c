@@ -79,7 +79,7 @@ int check_built_in(t_shell *shell, int in_fork)
 			if (command == ECHO)
 				shell->ret = echo(shell->cmd->param);
 			else if (command == PWD)
-				shell->ret = pwd(shell->cmd->param, shell->env);
+				shell->ret = pwd(shell->cmd->param);
 			else if (command == CD)
 				shell->ret = cd(shell->cmd->param, shell->env);
 			else if (command == ENV)

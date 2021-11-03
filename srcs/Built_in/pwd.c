@@ -4,7 +4,7 @@
 //lol
 #include "../../headers/minishell.h"
 
-int	pwd(char **param, t_env *env_l)
+int	pwd(char **param)
 {
 	char buf[PATH_MAX];
 
