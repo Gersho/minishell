@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 14:55:43 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 17:57:31 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,28 @@ int	ft_parse_loop(t_vars *vars)
 	i = 0;
 	while (i < len)
 	{
-		//printf("cur i: %d --- cur c:%c\n", i, vars->str[i]);
 		if (ft_strncmp(&vars->str[i], " ", 1) == 0)
 			i += skip_spaces(&vars->str[i]);
 		else if (ft_strncmp(&vars->str[i], "\'", 1) == 0 && ft_get_type(vars->env, i) != ENVS)
-			i += to_param_quote(vars, tmp, i) + 1;
+		{
+			ret = to_param_quote(vars, tmp, i) + 1;
+			if (ret == -255)
+				return (-255);
+			i += ret;
+		}
 		else if (ft_strncmp(&vars->str[i], "\"", 1) == 0 && ft_get_type(vars->env, i) != ENVS)
-			i += to_param_dblquote(vars, tmp, i) + 1;
+		{
+			ret = to_param_dblquote(vars, tmp, i) + 1;
+			if (ret == -255)
+				return (-255);
+			i += ret;
+
+		}
 		else if (ft_strncmp(&vars->str[i], "|", 1) == 0 && ft_get_type(vars->env, i) != ENVS)
 		{
 			tmp->next = ft_cmd_init();
+			if (!tmp->next)
+				ft_freevars_exit(vars, -1);
 			tmp = tmp->next;
 			i++;
 		}
@@ -41,19 +53,12 @@ int	ft_parse_loop(t_vars *vars)
 		{
 			ret = to_redirect(vars, tmp, i);
 			if (ret == -255)
-			{
-				//TODO free
 				return (-255);
-			}
-
-			i += to_redirect(vars, tmp, i);
-			
+			i += ret;
 		}
 		else
 		{
-			//printf("else word i before:%d | ", i);
 			i += to_param_word(vars, tmp, i);
-			//printf("i after: %d\n", i);
 		}
 	}
 	return (0);
@@ -71,19 +76,10 @@ int	ft_parse_line(char *str, t_shell *shell)
 	//printf("%s*:str after dolls\n", vars.str);
 	//ft_debug_quotes_env(&vars);
 	
-	//exit(0);
-
-
 	if (ft_parse_loop(&vars) == -255)
-	{
 		return (-255);
-	}
-
-	//ft_parse_loop(&vars);
-
-
-	//free stuff from vars
-//	printf("line=%s\n", vars.str);
 	free(vars.str);
+	free_quotes_list(vars.quotes);
+	free_quotes_list(vars.env);
 	return (0);
 }

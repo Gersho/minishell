@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/27 16:57:58 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 11:17:14 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_quotes *ft_quotes_init(t_vars *vars, int start, int end, t_type type)
 	quotes = malloc(sizeof(t_quotes));
 	if (!quotes)
 		return (NULL);
-	//printf("bob init\n");
 	quotes->next = NULL;
 	quotes->start = start;
 	quotes->end = end;
@@ -60,8 +59,8 @@ void	ft_append_quote_data(t_vars *vars, t_quotes *quotes, t_quotes tmp)
 		swap->next = ft_quotes_init(vars, tmp.start, tmp.end, tmp.type);
 		if (!swap->next)
 		{
-			//free exit toussa toussa
-
+			ft_free_vars(vars);
+			ft_error_exit(-1);
 		}
 	}
 }
@@ -72,14 +71,10 @@ void	ft_parse_quotes(t_vars *vars)
 	t_quotes	tmp;
 
 	i = 0;
-	// printf("len: %d\n", len);
 	while (vars->str[i])
 	{
-		//  printf("i: %d | c: %c\n", i, str[i]);
 		if (ft_strncmp(&vars->str[i], "\'", 1) == 0)
 		{
-			// printf("in simple if\n");
-			// printf("str index c: %d\n", ft_str_index_c((str + i + 1), '\''));
 			tmp.start = i;
 			tmp.end = ft_str_index_c((vars->str + i + 1), '\'') + i + 1;
 			tmp.type = SIMPLE;
@@ -88,8 +83,6 @@ void	ft_parse_quotes(t_vars *vars)
 		}
 		else if (ft_strncmp(&vars->str[i], "\"", 1) == 0)
 		{
-			// printf("in double if\n");
-			// printf("str index c: %d\n", ft_str_index_c((str + i) + 1, '\"'));
 			tmp.start = i;
 			tmp.end = ft_str_index_c((vars->str + i + 1), '\"') + i + 1;
 			tmp.type = DOUBLE;
@@ -152,3 +145,15 @@ int	ft_is_quote_data(t_vars *vars, int i)
 	return (0);
 }
 
+void free_quotes_list(t_quotes *quotes)
+{
+	t_quotes *tmp;
+
+	while (quotes)
+	{
+		tmp = quotes->next;
+		free(quotes);
+		quotes = NULL;
+		quotes = tmp;
+	}
+}

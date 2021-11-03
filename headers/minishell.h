@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 14:57:11 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 17:20:34 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdarg.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include <signal.h>
 # include <string.h>
@@ -153,8 +154,10 @@ t_type		ft_get_type(t_quotes *quotes, int i);
 void		ft_update_quote_data(t_vars *vars, t_quotes *quotes, int size, int i);
 int			ft_get_quote_count(t_vars *vars, int start, int end);
 int			ft_is_quote_data(t_vars *vars, int i);
+void		free_quotes_list(t_quotes *quotes);
 //----s_vars
 void	ft_init_vars(t_vars *vars, t_shell *shell, char *str);
+void	ft_free_vars(t_vars *vars);
 //----env expand
 void	ft_handle_dollars(t_vars *vars);
 void	ft_env_expand_double(t_vars *vars, int *i);
@@ -166,7 +169,7 @@ int		ft_parse_line(char *line, t_shell *shell);
 int		ft_parse_loop(t_vars *vars);
 //----Error handling
 void	ft_error_exit(int err);
-void	ft_freestructs_exit(t_vars *vars, int err);
+void	ft_freevars_exit(t_vars *vars, int err);
 //----Utils
 int		skip_spaces(char *str);
 void	close_perror(int fd);
@@ -203,4 +206,5 @@ void 	exit_shell(t_shell *shell, int in_fork);
 char 	*set_prompt(t_shell *shell);
 //debug
 void ft_debug_quotes_env(t_vars *vars);
+void ft_debug_cmd(t_cmd *cmd);
 #endif

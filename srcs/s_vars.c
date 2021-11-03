@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 12:05:05 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 13:52:59 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 11:11:59 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,27 @@ void	ft_init_vars(t_vars *vars, t_shell *shell, char *str)
 	vars->env = ft_quotes_init(vars, -1, -1, NONE);
 	if (!vars->quotes || !vars->env)
 	{
-		//todo free
+		free_cmd_list(vars->cmd);
+		free(vars->str);
+		free_env_list(vars->env_vars);
+		if (vars->quotes)
+			free_quotes_list(vars->quotes);
+		if (vars->env)
+			free_quotes_list(vars->env);
 	}
+}
+
+void	ft_free_vars(t_vars *vars)
+{
+	if (vars->cmd)
+		free_cmd_list(vars->cmd);
+	if (vars->str)	
+		free(vars->str);
+	if (vars->env_vars)
+		free_env_list(vars->env_vars);
+	if (vars->quotes)
+		free_quotes_list(vars->quotes);
+	if (vars->env)
+		free_quotes_list(vars->env);
 }
 

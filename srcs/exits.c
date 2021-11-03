@@ -6,12 +6,12 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:12:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/27 13:09:49 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 13:12:18 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-
+/*
 void	ft_free_cmd(t_cmd *cmd)
 {
 	if (cmd->path)
@@ -22,7 +22,8 @@ void	ft_free_cmd(t_cmd *cmd)
 		free(cmd->red);
 	free(cmd);
 }
-
+*/
+/*
 void	ft_cmd_loop(t_cmd *cmd)
 {
 	t_cmd	*tmp;
@@ -42,6 +43,7 @@ void	ft_cmd_loop(t_cmd *cmd)
 		}
 	}
 }
+*/	
 
 void	ft_error_exit(int err)
 {
@@ -49,10 +51,8 @@ void	ft_error_exit(int err)
 	exit(err);
 }
 
-void	ft_freestructs_exit(t_vars *vars, int err)
+void	ft_freevars_exit(t_vars *vars, int err)
 {
-	//(void)cmd;
-	//free stuff, starting from end and with sub chains
-	// ft_cmd_loop(cmd);
-	// ft_error_exit(err);
+	ft_free_vars(vars);
+	ft_error_exit(-1);
 }

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 13:54:24 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 17:55:06 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,11 @@ char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
 	char		*swap;
 	char		*final;
 	t_quotes	env;
-
 	if (tmp == NULL)
-	{
-		//printf("coucou\n");
-	}
-
-	//rajouter les protections
+		return (vars->str);
 	partA = ft_substr(vars->str, 0, limits.start);
+	if (!partA)
+		return (NULL);
 	env.start = ft_strlen(partA);
 	env.end = ft_strlen(partA) + ft_strlen(tmp) - 1;
 	env.type = ENVS;
@@ -89,14 +86,8 @@ void	ft_env_expand_double(t_vars *vars, int *i)
 		tmp = ft_build_newstr(vars, limits, swap);
 
 	}
-
-	// ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - ft_strlen(tmp) - 1), *i);
-	// *i = *i + ft_strlen(swap);
-	// free(tmp);
-	// tmp = ft_build_newstr(vars, limits, swap);
 	free(vars->str);
 	vars->str = tmp;
-	//printf("------->new str:%s\n", vars->str);
 }
 
 void	ft_env_expand_none(t_vars *vars, int *i)
@@ -152,33 +143,11 @@ void	ft_env_expand_none(t_vars *vars, int *i)
 
 }
 
-
-/* int		ft_get_env_limit(char *str, int i)
-{
-	i++;
-	// if (str[i] == ' ')
-	// 	return (-1);
-	if (str[i] == (char) 36)
-		return (i);
-	while(str[i])
-	{
-		printf("get env limit i:%d*|c:%c*\n", i, str[i]);
-		if (is_separator(str[i]) || is_quote_or_dollar(str[i]))
-		{
-			break ;
-		}
-		i++;
-	}
-	return (i);
-}
-*/
-
 int		ft_get_env_limit(char *str, int i)
 {
 
 	while(str[i])
 	{
-		//printf("get env limit i:%d*|c:%c*\n", i, str[i]);
 		if (!ft_isalnum(str[i]))
 			break ;
 		i++;
@@ -197,33 +166,29 @@ void	ft_handle_dollars(t_vars *vars)
 	i = 0;
 	while (vars->str[i])
 	{
-		// printf("dollscur i: %d --- cur c:%c\n", i, vars->str[i]);
 		if (vars->str[i] == (char) 36 && vars->str[i + 1] && ft_get_type(vars->quotes, i) != SIMPLE)
 		{
 			i++;
-
 			if (vars->str[i] == '?')
 			{
-				//gerer $?
 				swap = ft_itoa(*vars->last_ret);
-				// printf("swap:%s*\n", swap);
-				//ft_strlen(swap);
+				if (!swap)
+				{
+					ft_freevars_exit(vars, -1);
+				}
 				limits.start = i - 1;
 				limits.end = i + 1;
-				// printf("plip\n");
 				ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - 2), i);
-				// printf("plop\n");
 				tmp = ft_build_newstr(vars, limits, swap);
-				// printf("newstr:%s*\n", tmp);
+				if (!tmp)
+				{
+					free(swap);
+					ft_freevars_exit(vars, -1);
+				}
 				free(vars->str);
 				vars->str = tmp;
-
-
-				// printf("222cur i: %d --- cur c:%c\n", i, vars->str[i]);
 				i += ft_strlen(swap) - 1;
 				free(swap);
-				// printf("224cur i: %d --- cur c:%c\n", i, vars->str[i]);
-				//i++;
 				continue ;
 			}
 			if (!ft_isalpha(vars->str[i]))
@@ -235,6 +200,8 @@ void	ft_handle_dollars(t_vars *vars)
 			limits.start = i - 1;
 			limits.end = ft_get_env_limit(vars->str, i);
 			tmp = ft_substr(vars->str, i, limits.end - limits.start - 1);
+			if (!tmp)
+				ft_freevars_exit(vars, -1);
 			swap = ft_get_env_value(vars, tmp);
 			if (ft_get_type(vars->quotes, i) == NONE)
 				swap = rm_redundant_spaces(vars, swap);
@@ -242,43 +209,15 @@ void	ft_handle_dollars(t_vars *vars)
 			i += ft_strlen(swap) - ft_strlen(tmp) + 1;
 			free(tmp);
 			tmp = ft_build_newstr(vars, limits, swap);
+			if (!tmp)
+			{
+				free(swap);
+				ft_freevars_exit(vars, -1);
+			}
 			free(swap);
 			free(vars->str);
 			vars->str = tmp;
 		}
 		i++;
 	}
-	// printf("out of the while\n");
 }
-
-/*
-void	ft_handle_dollars(t_vars *vars)
-{
-	int	i;
-	t_type	type;
-
-	i = 0;
-	while (vars->str[i])
-	{
-		if (vars->str[i] == (char) 36 && vars->str[i + 1])
-		{
-			if (vars->str[i + 1] == ' ')
-			{
-				i++;
-				continue;
-			}
-			type = ft_get_type(vars->quotes, i);
-			if (type == NONE)
-			{
-				ft_env_expand_none(vars, &i);
-			}
-			else if (type == DOUBLE)
-			{
-				ft_env_expand_double(vars, &i);
-			}
-		}
-		i++;
-	}
-}
-
-*/

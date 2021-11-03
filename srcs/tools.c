@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 14:38:30 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 17:47:57 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,41 @@ char	*rm_redundant_spaces(t_vars *vars, char *str)
 
 	if (!str || str[0] == '\0')
 		return (str);
-	//TODO add protections
 	split = ft_split(str, ' ');
+	if (!split)
+		return (NULL);
 	out = malloc(sizeof(char));
 	if (!out)
 	{
-
+		ft_free_str_tab(split);
+		return (NULL);
 	}
+	*out = '\0';
 	i = 0;
 	while (split[i])
 	{
 		tmp = ft_strjoin(out, split[i]);
+		//printf("tmp:%s*\n", tmp);
+		if (!tmp)
+		{
+			free(out);
+			ft_free_str_tab(split);
+			return (NULL);
+		}
 		free(out);
 		out = tmp;
 		if (split[i + 1])
 		{
 			tmp = ft_strjoin(out, " ");
+			if (!tmp)
+			{
+				free(out);
+				ft_free_str_tab(split);
+				return (NULL);
+			}
 			free(out);
 			out = tmp;
 		}
-
 		i++;
 	}
 	free(str);
@@ -90,11 +105,9 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 
 	cut = ft_get_quote_count(vars, start, end);
 	//printf("start:%d -- end:%d -- cut:%d -- malloc:%d\n",start, end, cut, (end - start - cut));
-	tmp = malloc(sizeof(char) * (end - start - cut + 1));
+	tmp = malloc(sizeof(char) * (end - start - cut + 2));
 	if (!tmp)
-	{
-
-	}
+		return (NULL);
 	i = 0;
 	while (start <= end)
 	{
@@ -123,5 +136,10 @@ char *ft_get_env_value(t_vars *vars, char *name)
 	if (env_seeker(envs, name) == 0)
 		return (NULL);
 	tmp = ft_strdup((*envs)->value);
+	if (!tmp)
+	{
+		free(name);
+		ft_freevars_exit(vars, -1);
+	}
 	return (tmp);
 }

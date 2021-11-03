@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 12:43:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/31 00:44:45 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 10:56:20 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ t_cmd	*ft_cmd_init(void)
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
-		ft_error_exit(-1);
+		return (NULL);
 	cmd->param = ft_param_init(cmd);
 	cmd->red = ft_param_init(cmd);
+	if (!cmd->param || !cmd->red)
+		return (NULL);
 	cmd->next = NULL;
 	cmd->path = NULL;
 	cmd->in = 0;
@@ -71,6 +73,8 @@ void	free_cmd_list(t_cmd *cmd)
 	{
 		if (cmd->param)
 			ft_free_str_tab(cmd->param);
+		if (cmd->red)
+			ft_free_str_tab(cmd->red);
 		if (cmd->path)
 			free(cmd->path);
 		tmp = cmd->next;

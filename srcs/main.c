@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/02 17:12:10 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 17:55:56 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int main(int ac,char **av, char** env)
 {
 	t_shell shell;
 	char*	line;
-//	t_cmd*	cmd;
 	char 	*prompt;
 	struct sigaction sa;
 
@@ -63,91 +62,18 @@ int main(int ac,char **av, char** env)
 
 		add_history(line);		
 		shell.cmd = ft_cmd_init();
+		if (!shell.cmd)
+		{
+			free_env_list(shell.env);
+			ft_error_exit(-1);
+		}
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
-		//ft_parse_line(line, &shell);
 
-/*
-		int i;
-		int j = 0;
-		t_cmd *tmp;
-		tmp = shell.cmd;
-
-		while (tmp)
-		{
-			// printf("maillon cmd: %d", j);
-			// j++;
-			i = 0;
-			printf("#########\n");
-			while (tmp->red[i])
-			{
-				printf("----\n");	
-				printf("j: %d | i: %d\n", j, i);
-				//printf("%p\n", tmp->red);
-				printf("cmd red: *%s*\n", tmp->red[i]);
-				i++;
-			}
-			i = 0;
-			while (tmp->param[i])
-			{
-				printf("----\n");	
-				printf("j: %d | i: %d\n", j, i);
-				//printf("%p\n", tmp->param);
-				printf("cmd param: *%s*\n", tmp->param[i]);
-				i++;
-			}
-			j++;
-			tmp = tmp->next;
-		}
-*/
+		//ft_debug_cmd(shell.cmd);
 
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)
 			exec_cmd(&shell);
 	}
 }
-
-/*
-int main(int ac,char **av, char** env)
-{
-	char*	line;
-	t_cmd*	cmd;
-	t_cmd*	tmp;
-
-	(void)ac;
-	(void)av;
-	(void)env;
-
-	cmd = ft_cmd_init();
-	line = readline("$");
-	ft_parse_line(line, cmd);
-	printf("#### PARSING COMPLETE ####\n");
-	int i;
-	int j = 0;
-	tmp = cmd;
-	while (tmp)
-	{
-		i = 0;
-		printf("#########\n");
-		while (tmp->red[i])
-		{
-			printf("----\n");	
-			printf("j:%d | i:%d\n", j, i);
-			printf("cmd red:%s*\n", tmp->red[i]);
-			i++;
-		}
-		printf("||||||||||||\n");
-		i = 0;
-		while (tmp->param[i])
-		{
-			printf("----\n");	
-			printf("j:%d | i:%d\n", j, i);
-			printf("cmd param:%s*\n", tmp->param[i]);
-			i++;
-		}
-		j++;
-		tmp = tmp->next;
-	}
-	return 0;
-}
-*/

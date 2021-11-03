@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 15:31:35 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/10/28 01:23:49 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/03 15:33:30 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@ char	**ft_param_init(t_cmd *cmd)
 
 	tmp = malloc(sizeof(char*));
 	if (!tmp)
-	{
-		printf("malloc error\n");
-		exit(-1);
-		//ft_freestructs_exit(cmd, -1);
-	}
+		return (NULL);
 	tmp[0] = NULL;
 	return (tmp);
 }
@@ -43,7 +39,7 @@ char	**ft_param_append_word(t_vars *vars, char **param, char *new)
 		i++;
 	tmp = malloc(sizeof(char*) * (i + 2));
 	if (!tmp)
-		ft_freestructs_exit(vars, -1);
+		return (NULL);
 	i = 0;
 	while (param[i] != NULL)
 	{
@@ -51,7 +47,7 @@ char	**ft_param_append_word(t_vars *vars, char **param, char *new)
 		if (!tmp[i])
 		{
 			ft_free_str_tab(tmp);
-			ft_freestructs_exit(vars, -1);
+			return (NULL);
 		}
 		i++;
 	}
@@ -59,7 +55,7 @@ char	**ft_param_append_word(t_vars *vars, char **param, char *new)
 	if (!tmp[i])
 	{
 		ft_free_str_tab(tmp);
-		ft_freestructs_exit(vars, -1);
+		return (NULL);
 	}
 	tmp[i + 1] = NULL;
 	ft_free_str_tab(param);
