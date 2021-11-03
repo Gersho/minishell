@@ -30,9 +30,7 @@ int is_built_in(char *param, int *cmd)
 	else if (ft_strcmp("exit", param) == 0)
 		*cmd = EXIT;
 	free(name);
-	if (*cmd != -1)
-		return (1);
-	return (0);
+	return (*cmd);
 }
 
 
@@ -76,7 +74,7 @@ int check_built_in(t_shell *shell, int in_fork)
 
 	if (*shell->cmd->param)
 	{
-		if (is_built_in(*shell->cmd->param, &command))
+		if (is_built_in(*shell->cmd->param, &command) != -1)
 		{
 			if (command == ECHO)
 				shell->ret = echo(shell->cmd->param);
@@ -108,7 +106,7 @@ int 	launch_all_commands(t_shell *shell, int *status)
 	{
 		dup2_close(shell->cmd->in, 0);
 		dup2_close(shell->cmd->out, 1);
-		if (i == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
+		if (i == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL) != -1)
 		{
 			check_built_in(shell, 0);
 			*status = -1;
