@@ -13,7 +13,7 @@ static int	command_not_found(char *path, char *name)
 	}
 	return (0);
 }
-//TODO checkif parse cmd is right
+
 static int	path_exist(char *path, t_cmd *cmd)
 {
 	int	fd;
@@ -40,7 +40,7 @@ int is_absolute_path(t_shell *shell, char **path_tab)
 	if (**shell->cmd->param == '/' || **shell->cmd->param == '.')
 	{
 		ft_free_str_tab(path_tab);
-		shell->cmd->path = *shell->cmd->param;
+		shell->cmd->path = ft_strdup(*shell->cmd->param);
 		fd = open(shell->cmd->path, O_RDONLY);
 		if (fd == -1)
 		{

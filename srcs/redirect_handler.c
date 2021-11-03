@@ -103,6 +103,7 @@ void	redirect_handler(t_shell *shell)
 			cmd->out = dup(1);
 		}
 		i = 0;
+		read_through_redirect(cmd->red);
 		while (cmd->red[i])
 		{
 			redirect_mode = which_redirect(cmd->red[i]);

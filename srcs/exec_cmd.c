@@ -35,20 +35,6 @@ int is_built_in(char *param, int *cmd)
 	return (0);
 }
 
-void 	close_unused_fd(t_shell *shell)
-{
-	t_cmd *ptr;
-
-	ptr = shell->cmd->next;
-	while (ptr)
-	{
-		close_perror(ptr->in);
-		close_perror(ptr->out);
-		ptr = ptr->next;
-	}
-	close_perror(shell->std_out);
-	close_perror(shell->std_in);
-}
 
 int create_child_to_exec_cmd(t_shell *shell, int *pid)
 {
@@ -69,7 +55,7 @@ int create_child_to_exec_cmd(t_shell *shell, int *pid)
 			env_t = get_env_tab(shell->env);
 			if (shell->ret > 0)
 			{
-				//TODO free
+				free_cmd_list(shell->cmd);
 				exit(shell->ret);
 			}
 			execve(shell->cmd->path, shell->cmd->param, env_t);
@@ -112,51 +98,45 @@ int check_built_in(t_shell *shell, int in_fork)
 	return (0);
 }
 
-void close_all_fds(t_shell *shell)
+int 	launch_all_commands(t_shell *shell, int *status)
 {
+	int	pid;
+	int i;
+
+	i = 0;
 	while (shell->cmd)
 	{
-		close_perror(shell->cmd->in);
-		close_perror(shell->cmd->out);
+		dup2_close(shell->cmd->in, 0);
+		dup2_close(shell->cmd->out, 1);
+		if (i == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
+		{
+			check_built_in(shell, 0);
+			*status = -1;
+		}
+		else
+			create_child_to_exec_cmd(shell, &pid);
+		if (!shell->cmd->next)
+		{
+			dup2(shell->std_in, 0);
+			dup2(shell->std_out, 1);
+		}
 		shell->cmd = shell->cmd->next;
+		i++;
 	}
-	dup2(shell->std_in, 0);
-	dup2(shell->std_out, 1);
+	return pid;
 }
 
 int exec_cmd(t_shell *shell)
 {
 	int pid;
-	int cmd_index;
 	int status;
 	t_cmd *save = shell->cmd;
 
-	cmd_index = 0;
 	shell->error = 0;
 	status = 0;
 	redirect_handler(shell);
 	if (!shell->error)
-	{
-		while (shell->cmd)
-		{
-			dup2_close(shell->cmd->in, 0);
-			dup2_close(shell->cmd->out, 1);
-			if (cmd_index == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param, NULL))
-			{
-				check_built_in(shell, 0);
-				status = -1;
-			}
-			else
-				create_child_to_exec_cmd(shell, &pid);
-			if (!shell->cmd->next)
-			{
-				dup2(shell->std_in, 0);
-				dup2(shell->std_out, 1);
-			}
-			shell->cmd = shell->cmd->next;
-			cmd_index++;
-		}
-	}
+		pid = launch_all_commands(shell, &status);
 	else
 	{
 		close_all_fds(shell);

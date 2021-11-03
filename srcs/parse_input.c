@@ -45,8 +45,8 @@ int	ft_parse_loop(t_vars *vars)
 				//TODO free
 				return (-255);
 			}
-
-			i += to_redirect(vars, tmp, i);
+			i += ret;
+//			i += to_redirect(vars, tmp, i);
 			
 		}
 		else

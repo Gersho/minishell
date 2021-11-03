@@ -125,3 +125,30 @@ char *ft_get_env_value(t_vars *vars, char *name)
 	tmp = ft_strdup((*envs)->value);
 	return (tmp);
 }
+
+void close_all_fds(t_shell *shell)
+{
+	while (shell->cmd)
+	{
+		close_perror(shell->cmd->in);
+		close_perror(shell->cmd->out);
+		shell->cmd = shell->cmd->next;
+	}
+	dup2(shell->std_in, 0);
+	dup2(shell->std_out, 1);
+}
+
+void 	close_unused_fd(t_shell *shell)
+{
+	t_cmd *ptr;
+
+	ptr = shell->cmd->next;
+	while (ptr)
+	{
+		close_perror(ptr->in);
+		close_perror(ptr->out);
+		ptr = ptr->next;
+	}
+	close_perror(shell->std_out);
+	close_perror(shell->std_in);
+}
