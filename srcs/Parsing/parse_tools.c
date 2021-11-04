@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 11:16:34 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 13:13:35 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,15 @@ int	ft_red_loop(t_vars *vars, int *i)
 {
 	if (is_separator(vars->str[*i]))
 	{
-		ft_printf_fd(2, "%s: syntax error near unexpected token '%c'\n", PROMPTERR, vars->str[*i]);
+		ft_printf_fd(2, "%s: syntax error near unexpected token '%c'\n",
+			PROMPTERR, vars->str[*i]);
 		*vars->last_ret = 258;
 		return (-255);
 	}
 	else if (vars->str[*i] == '\0')
 	{
-		ft_printf_fd(2, "%s: syntax error near unexpected token 'newline'\n", PROMPTERR);
+		ft_printf_fd(2, "%s: syntax error near unexpected token 'newline'\n",
+			PROMPTERR);
 		*vars->last_ret = 258;
 		return (-255);
 	}

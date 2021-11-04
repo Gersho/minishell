@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 11:16:17 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 13:20:47 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,9 @@ char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
 	ft_append_quote_data(vars, vars->env, env);
 	part_b = ft_substr(vars->str, limits.end, ft_strlen(vars->str));
 	if (tmp == NULL)
-	{
 		swap = ft_strjoin(part_a, "");
-	}
 	else
-	{
 		swap = ft_strjoin(part_a, tmp);
-	}
 	final = ft_strjoin(swap, part_b);
 	free(part_a);
 	free(part_b);
