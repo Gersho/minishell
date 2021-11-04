@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 12:43:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/03 10:56:20 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 10:27:36 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ size_t	ft_size_list(t_cmd *cmd_list)
 
 void	free_cmd_list(t_cmd *cmd)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	while (cmd != NULL)
 	{

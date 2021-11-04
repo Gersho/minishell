@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/03 11:17:14 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:05:26 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_type	ft_get_type(t_quotes *quotes, int i)
 {
 	t_quotes	*tmp;
-	
+
 	tmp = quotes;
 	while (tmp)
 	{
@@ -24,10 +24,9 @@ t_type	ft_get_type(t_quotes *quotes, int i)
 		tmp = tmp->next;
 	}
 	return (NONE);
-
 }
 
-t_quotes *ft_quotes_init(t_vars *vars, int start, int end, t_type type)
+t_quotes	*ft_quotes_init(t_vars *vars, int start, int end, t_type type)
 {
 	t_quotes	*quotes;
 
@@ -93,11 +92,10 @@ void	ft_parse_quotes(t_vars *vars)
 	}
 }
 
-
 void	ft_update_quote_data(t_vars *vars, t_quotes *quotes, int size, int i)
 {
-	t_quotes *tmp;
-	
+	t_quotes	*tmp;
+
 	tmp = quotes;
 	while (tmp)
 	{
@@ -115,12 +113,10 @@ int	ft_get_quote_count(t_vars *vars, int start, int end)
 	int			count;
 
 	count = 0;
-	//tmp = vars->quotes;
 	while (start <= end)
 	{
-		//printf("start:%d -- end:%d\n", start, end);
 		tmp = vars->quotes;
-		while(tmp)
+		while (tmp)
 		{
 			if (start == tmp->start || start == tmp->end)
 				count++;
@@ -133,10 +129,10 @@ int	ft_get_quote_count(t_vars *vars, int start, int end)
 
 int	ft_is_quote_data(t_vars *vars, int i)
 {
-	t_quotes *tmp;
+	t_quotes	*tmp;
 
 	tmp = vars->quotes;
-	while(tmp)
+	while (tmp)
 	{
 		if (i == tmp->start || i == tmp->end)
 			return (1);
@@ -145,9 +141,9 @@ int	ft_is_quote_data(t_vars *vars, int i)
 	return (0);
 }
 
-void free_quotes_list(t_quotes *quotes)
+void	free_quotes_list(t_quotes *quotes)
 {
-	t_quotes *tmp;
+	t_quotes	*tmp;
 
 	while (quotes)
 	{

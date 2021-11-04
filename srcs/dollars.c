@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/03 17:55:06 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 10:59:36 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,139 +14,40 @@
 
 char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
 {
-	char		*partA;
-	char		*partB;
+	char		*part_a;
+	char		*part_b;
 	char		*swap;
 	char		*final;
 	t_quotes	env;
+
 	if (tmp == NULL)
 		return (vars->str);
-	partA = ft_substr(vars->str, 0, limits.start);
-	if (!partA)
+	part_a = ft_substr(vars->str, 0, limits.start);
+	if (!part_a)
 		return (NULL);
-	env.start = ft_strlen(partA);
-	env.end = ft_strlen(partA) + ft_strlen(tmp) - 1;
+	env.start = ft_strlen(part_a);
+	env.end = ft_strlen(part_a) + ft_strlen(tmp) - 1;
 	env.type = ENVS;
 	ft_append_quote_data(vars, vars->env, env);
-	partB = ft_substr(vars->str, limits.end, ft_strlen(vars->str));
+	part_b = ft_substr(vars->str, limits.end, ft_strlen(vars->str));
 	if (tmp == NULL)
 	{
-		swap = ft_strjoin(partA, "");
+		swap = ft_strjoin(part_a, "");
 	}
 	else
 	{
-		swap = ft_strjoin(partA, tmp);
+		swap = ft_strjoin(part_a, tmp);
 	}
-	final = ft_strjoin(swap, partB);
-	free(partA);
-	free(partB);
+	final = ft_strjoin(swap, part_b);
+	free(part_a);
+	free(part_b);
 	free(swap);
 	return (final);
 }
 
-void	ft_env_expand_double(t_vars *vars, int *i)
+int	ft_get_env_limit(char *str, int i)
 {
-	char		*tmp;
-	char		*swap;
-	t_quotes	limits;
-
-
-	limits.start = *i;
-	limits.end = ft_get_env_limit((vars->str), *i);
-	limits.type = NONE;
-	limits.next = NULL;
-	 printf("env expend none, start:%d*|end:%d*\n", limits.start, limits.end);
-	if (limits.end - limits.start - 1 == 0)
-	{
-		tmp = ft_substr(vars->str, limits.start + 1, limits.end - limits.start);
-	}
-	else
-	{
-		tmp = ft_substr(vars->str, limits.start + 1, limits.end - limits.start - 1);
-
-	}
-	if (!tmp)
-	{
-		//free
-	}
-	swap = getenv(tmp);
-	if (swap && swap[0] != '\0')
-	{
-		ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - ft_strlen(tmp) - 1), *i);
-		*i = *i + ft_strlen(swap);
-		free(tmp);
-		tmp = ft_build_newstr(vars, limits, swap);
-	}
-	else
-	{
-		ft_update_quote_data(vars, vars->quotes, (ft_strlen(tmp) - 1), *i);
-		*i += 1;
-		free(tmp);
-		//limits.end = limits.end + 1;
-		tmp = ft_build_newstr(vars, limits, swap);
-
-	}
-	free(vars->str);
-	vars->str = tmp;
-}
-
-void	ft_env_expand_none(t_vars *vars, int *i)
-{
-	char		*tmp;
-	char		*swap;
-	t_quotes	limits;
-
-
-	limits.start = *i;
-	limits.end = ft_get_env_limit((vars->str), *i);
-	limits.type = NONE;
-	limits.next = NULL;
-	// if (limits.end == -1)
-	// 	return ;
-	// printf("env expend none, start:%d*|end:%d*\n", limits.start, limits.end);
-	if (limits.end - limits.start - 1 == 0)
-	{
-		tmp = ft_substr(vars->str, limits.start + 1, limits.end - limits.start);
-	}
-	else
-	{
-		tmp = ft_substr(vars->str, limits.start + 1, limits.end - limits.start - 1);
-
-	}
-	// printf("arg1:%d*|arg2:%d*|tmp:%s*\n", limits.start + 1, limits.end - limits.start - 1, tmp);
-	if (!tmp)
-	{
-		//free
-	}
-	swap = getenv(tmp);
-	// printf("swap:%s*\n", swap);
-	if (swap && swap[0] != '\0')
-	{
-		swap = rm_redundant_spaces(vars, swap);
-		ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - ft_strlen(tmp) - 1), *i);
-		*i = *i + ft_strlen(swap);
-		free(tmp);
-		tmp = ft_build_newstr(vars, limits, swap);
-	}
-	else
-	{
-		ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - ft_strlen(tmp) - 1), *i);
-		*i += 1;
-		free(tmp);
-		limits.end = limits.end + 1;
-		tmp = ft_build_newstr(vars, limits, swap);
-
-	}
-	free(vars->str);
-	vars->str = tmp;
-	//printf("------->new str:%s\n", vars->str);
-
-}
-
-int		ft_get_env_limit(char *str, int i)
-{
-
-	while(str[i])
+	while (str[i])
 	{
 		if (!ft_isalnum(str[i]))
 			break ;
@@ -157,11 +58,11 @@ int		ft_get_env_limit(char *str, int i)
 
 void	ft_handle_dollars(t_vars *vars)
 {
-	int	i;
-	t_type	type;
-	t_quotes limits;
-	char	*tmp;
-	char	*swap;
+	int			i;
+	t_type		type;
+	t_quotes	limits;
+	char		*tmp;
+	char		*swap;
 
 	i = 0;
 	while (vars->str[i])

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/03 17:47:57 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:07:45 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ char	*rm_redundant_spaces(t_vars *vars, char *str)
 	while (split[i])
 	{
 		tmp = ft_strjoin(out, split[i]);
-		//printf("tmp:%s*\n", tmp);
 		if (!tmp)
 		{
 			free(out);
@@ -104,14 +103,13 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 	int		i;
 
 	cut = ft_get_quote_count(vars, start, end);
-	//printf("start:%d -- end:%d -- cut:%d -- malloc:%d\n",start, end, cut, (end - start - cut));
 	tmp = malloc(sizeof(char) * (end - start - cut + 2));
 	if (!tmp)
 		return (NULL);
 	i = 0;
 	while (start <= end)
 	{
-		if(ft_is_quote_data(vars, start) == 1)
+		if (ft_is_quote_data(vars, start) == 1)
 		{
 			start++;
 		}
@@ -123,11 +121,10 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 		}
 	}
 	tmp[i] = '\0';
-	//printf("tmp:%s\n", tmp);
 	return (tmp);
 }
 
-char *ft_get_env_value(t_vars *vars, char *name)
+char	*ft_get_env_value(t_vars *vars, char *name)
 {
 	char	*tmp;
 	t_env	**envs;

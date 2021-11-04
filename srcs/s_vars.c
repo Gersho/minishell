@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 12:05:05 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/03 11:11:59 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:06:24 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_free_vars(t_vars *vars)
 {
 	if (vars->cmd)
 		free_cmd_list(vars->cmd);
-	if (vars->str)	
+	if (vars->str)
 		free(vars->str);
 	if (vars->env_vars)
 		free_env_list(vars->env_vars);
@@ -45,4 +45,3 @@ void	ft_free_vars(t_vars *vars)
 	if (vars->env)
 		free_quotes_list(vars->env);
 }
-
