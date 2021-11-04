@@ -6,11 +6,11 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 12:43:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 10:27:36 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:16:37 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 t_cmd	*ft_cmd_init(void)
 {

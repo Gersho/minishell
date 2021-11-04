@@ -6,11 +6,11 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 10:35:03 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:16:34 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 void	ft_param_loop(t_vars *vars, int *i)
 {

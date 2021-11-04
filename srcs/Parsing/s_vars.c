@@ -6,11 +6,11 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 12:05:05 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 11:06:24 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:16:46 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 void	ft_init_vars(t_vars *vars, t_shell *shell, char *str)
 {

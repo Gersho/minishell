@@ -8,31 +8,33 @@ BUILT_IN_F		= echo.c \
 				  unset.c \
 				  exit.c
 
+PARSING_F		= debug.c \
+				  dollars.c \
+				  exits.c \
+				  parse_tools.c \
+				  parse_input.c  \
+				  s_cmd.c \
+  				  tools.c \
+				  param_utils.c \
+				  s_vars.c \
+				  s_quotes.c \
+
 SRCSF			= exec_cmd.c \
 				  get_cmd_path.c \
 				  minishell.c \
 				  here_doc.c \
-				  param_utils.c \
 				  redirect_handler.c \
 				  utils.c \
-				  exits.c \
-				  tools.c \
 				  main.c \
-				  parse_tools.c \
-				  parse_input.c  \
-				  s_cmd.c \
 				  s_env.c \
 				  env_tools.c \
 				  set_prompt.c \
-				  dollars.c \
-				  s_vars.c \
-				  debug.c \
-				  s_quotes.c \
 				  set_cmd.c
 
 
 SRCS			= $(addprefix srcs/, $(SRCSF)) \
-				  $(addprefix srcs/Built_in/, $(BUILT_IN_F))
+				  $(addprefix srcs/Built_in/, $(BUILT_IN_F)) \
+				  $(addprefix srcs/Parsing/, $(PARSING_F))
 
 OBJS			= $(SRCS:.c=.o)
 

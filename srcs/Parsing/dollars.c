@@ -6,11 +6,11 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 10:59:36 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:16:17 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
 {

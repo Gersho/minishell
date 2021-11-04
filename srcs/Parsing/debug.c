@@ -6,11 +6,11 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 13:06:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 10:25:32 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:16:12 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 void	ft_debug_quotes_env(t_vars *vars)
 {

@@ -6,11 +6,11 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 11:05:26 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:16:41 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 t_type	ft_get_type(t_quotes *quotes, int i)
 {

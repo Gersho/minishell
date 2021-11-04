@@ -6,11 +6,11 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 14:12:59 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 10:27:10 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:16:21 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 void	ft_error_exit(int err)
 {

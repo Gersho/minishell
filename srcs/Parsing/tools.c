@@ -6,11 +6,11 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 11:07:45 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/04 11:16:50 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 int	ft_str_index_c(char *str, char c)
 {
