@@ -6,10 +6,10 @@
 
 int	is_built_in(char *param)
 {
-	char	*name;
-	int		cmd;
+	char 		*name;
+	t_cmd_name	cmd;
 
-	cmd = 0;
+	cmd = NOT_BUILT_IN;
 	name = str_in_lower_case(param);
 	if (name == NULL)
 		return (0);

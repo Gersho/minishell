@@ -1,5 +1,11 @@
 NAME			= minishell
 
+HEADERS			= headers/minishell.h \
+				  headers/built_in.h \
+				  headers/exec_cmd.h \
+				  headers/tools.h \
+				  libft/include/libft.h
+
 BUILT_IN		= echo.c \
 				  env.c \
 				  pwd.c \
@@ -7,6 +13,7 @@ BUILT_IN		= echo.c \
 				  export.c \
 				  unset.c \
 				  exit.c
+
 EXEC_CMD		= parse_cmd.c \
                   cmd_launcher.c \
                   exec_built_in.c \
@@ -56,7 +63,7 @@ CFLAGS			= -g3 #-fsanitize=address #-Wall -Wextra -Werror
 
 all:			$(NAME)
 
-%.o: 			%.c	headers/minishell.h libft/include/libft.h
+%.o: 			%.c	 $(HEADERS)
 				$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS)

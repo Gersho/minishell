@@ -30,6 +30,11 @@ typedef enum e_type					t_type;
 typedef struct s_quotes				t_quotes;
 typedef struct s_vars				t_vars;
 typedef struct s_shell				t_shell;
+typedef struct s_env_list			t_env;
+
+#include "built_in.h"
+#include "exec_cmd.h"
+#include "tools.h"
 
 # define KNRM  "\x1B[0m"
 # define KRED  "\x1B[31m"
@@ -41,19 +46,6 @@ typedef struct s_shell				t_shell;
 # define KWHT  "\x1B[37m"
 # define PROMPTERR "💢"
 
-typedef struct	s_env_list t_env;
-
-enum e_cmd_name
-{
-	NOT_BUILT_IN,
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT
-};
 
 enum e_open_param
 {
@@ -173,13 +165,10 @@ void	ft_error_exit(int err);
 void	ft_freevars_exit(t_vars *vars, int err);
 //----Utils
 int		skip_spaces(char *str);
-void	close_perror(int fd);
-void	dup2_close(int fd1, int fd2);
-void	close_multiple_fd(int nb, ...);
+
 void 	print_error_prompt(char *str);
 char	*str_in_lower_case(char *s);
-void 	close_unused_fd(t_shell *shell);
-void 	close_all_fds(t_shell *shell);
+
 //----Tools
 int		ft_str_index_c(char *str, char c);
 int		is_separator(char c);
@@ -187,29 +176,12 @@ int		is_redirect_or_space(char c);
 int		is_quote_or_dollar(char c);
 char	*rm_redundant_spaces(t_vars *vars, char *str);
 char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end);
-//----Get cmd path
-char	**split_env_path(t_env *envp);
-int		get_cmd_path(t_shell *shell, char **path_tab);
 //----Redirect Handling
 void	redirect_handler(t_shell *shell);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
 int		which_redirect(char *red);
-//----Exec command
-int 	parse_cmd(t_shell *shell);
-int		exec_built_in(t_shell *shell, int in_fork);
-int		exec_cmd_fork(t_shell *shell, int *pid);
-int		launch_all_commands(t_shell *shell, int *status);
-int		is_built_in(char *param);
-//----COMMANDS BUILT IN
-int 	echo(char **param);
-int 	pwd(char **param);
-int 	cd(char **param, t_env *env_l);
-int 	env(t_env *env_l);
-int 	export(char **param, t_env **env);
-int 	unset(char **param, t_env **env_l);
-void 	exit_shell(t_shell *shell, int in_fork);
-//----SET CMD
+
 //----PROMPT
 char 	*set_prompt(t_shell *shell);
 //debug
