@@ -6,7 +6,7 @@
 
 int	pwd(char **param)
 {
-	char buf[PATH_MAX];
+	char	buf[PATH_MAX];
 
 	if (param[1] != NULL)
 	{

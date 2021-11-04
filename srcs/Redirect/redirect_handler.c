@@ -2,29 +2,11 @@
 // Created by Johan Chevet on 10/14/21.
 //
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
-
-int is_redirect(char c)
+static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 {
-	if (c == '>' || c == '<')
-		return (1);
-	return (0);
-}
-
-static char *get_filename(char *str, t_cmd *cmd)
-{
-	char	*filename;
-
-	filename = ft_strdup(str);
-	if (filename == NULL)
-		return (NULL);
-	return (filename);
-}
-
-static int open_with_param(t_shell *shell, char *filename, int redirect_mode)
-{
-	int 	file_fd;
+	int	file_fd;
 
 	if (redirect_mode == RED_OUT_T)
 		file_fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 00644);
@@ -35,7 +17,8 @@ static int open_with_param(t_shell *shell, char *filename, int redirect_mode)
 	if (file_fd == -1)
 	{
 		shell->error = 1;
-		perror(filename);
+		shell->ret = 1;
+		print_error_prompt(filename);
 		return (EXIT_FAILURE);
 	}
 	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
@@ -45,49 +28,18 @@ static int open_with_param(t_shell *shell, char *filename, int redirect_mode)
 	return (1);
 }
 
-static void redirect_out(char *redirect, int *red_mode)
-{
-	if (*redirect == '>')
-	{
-		if (*(redirect + 1) == '>')
-			*red_mode = RED_OUT_A;
-		else
-			*red_mode = RED_OUT_T;
-	}
-}
-
-static void redirect_in(char *redirect, int *red_mode)
-{
-	if (*redirect == '<')
-	{
-		if (*(redirect + 1) == '<')
-			*red_mode = HERE_DOC;
-		else
-			*red_mode = RED_IN;
-	}
-}
-
-static int which_redirect(char *red)
-{
-	int	redirect_mode;
-	
-	redirect_in(red, &redirect_mode);
-	redirect_out(red, &redirect_mode);
-	return (redirect_mode);
-}
-
-int	read_through_redirect(t_shell *shell)
+static int	read_through_redirect(t_shell *shell)
 {
 	int		redirect_mode;
 	char	*filename;
-	int 	i;
+	int		i;
 
 	i = 0;
 	while (shell->cmd->red[i])
 	{
 		redirect_mode = which_redirect(shell->cmd->red[i]);
 		i++;
-		filename = get_filename(shell->cmd->red[i], shell->cmd);
+		filename = ft_strdup(shell->cmd->red[i]);
 		if (filename == NULL)
 			return (1);
 		if (redirect_mode == HERE_DOC)
@@ -103,10 +55,11 @@ int	read_through_redirect(t_shell *shell)
 
 void	redirect_handler(t_shell *shell)
 {
-	int 	pipe_fd[2];
-	int 	first_cmd = 1;
-	t_cmd 	*start;
-	
+	int		pipe_fd[2];
+	int		first_cmd;
+	t_cmd	*start;
+
+	first_cmd = 1;
 	start = shell->cmd;
 	while (shell->cmd)
 	{
@@ -119,8 +72,7 @@ void	redirect_handler(t_shell *shell)
 			shell->cmd->out = pipe_fd[1];
 		else
 		{
-			close_perror(pipe_fd[0]);
-			close_perror(pipe_fd[1]);
+			close_multiple_fd(2, pipe_fd[0], pipe_fd[1]);
 			shell->cmd->out = dup(1);
 		}
 		read_through_redirect(shell);

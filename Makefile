@@ -1,6 +1,6 @@
 NAME			= minishell
 
-BUILT_IN_F		= echo.c \
+BUILT_IN		= echo.c \
 				  env.c \
 				  pwd.c \
 				  cd.c \
@@ -8,12 +8,21 @@ BUILT_IN_F		= echo.c \
 				  unset.c \
 				  exit.c
 
-SRCSF			= exec_cmd.c \
+EXEC_CMD		= parse_cmd.c \
+				  cmd_launcher.c \
+				  exec_built_in.c \
+				  exec_cmd_fork.c \
 				  get_cmd_path.c \
-				  minishell.c \
-				  here_doc.c \
-				  param_utils.c \
+				  split_env_path.c
+
+TOOLBOX			= close_tools.c
+
+REDIRECT		= here_doc.c \
 				  redirect_handler.c \
+				  redirect_tools.c
+
+SRCSF			= minishell.c \
+				  param_utils.c \
 				  utils.c \
 				  exits.c \
 				  tools.c \
@@ -27,12 +36,14 @@ SRCSF			= exec_cmd.c \
 				  dollars.c \
 				  s_vars.c \
 				  debug.c \
-				  s_quotes.c \
-				  set_cmd.c
+				  s_quotes.c
 
 
 SRCS			= $(addprefix srcs/, $(SRCSF)) \
-				  $(addprefix srcs/Built_in/, $(BUILT_IN_F))
+				  $(addprefix srcs/Built_in/, $(BUILT_IN)) \
+				  $(addprefix srcs/Redirect/, $(REDIRECT)) \
+				  $(addprefix srcs/Exec_cmd/, $(EXEC_CMD)) \
+				  $(addprefix srcs/Toolbox/, $(TOOLBOX))
 
 OBJS			= $(SRCS:.c=.o)
 

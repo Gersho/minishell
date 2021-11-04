@@ -4,28 +4,32 @@
 
 #include "../../headers/minishell.h"
 
-int cd(char **param, t_env *env_l)
+static int	go_home(t_env *env_l, char *buf)
+{
+	t_env	*env;
+
+	if (!env_seeker(&env_l, "HOME"))
+	{
+		ft_putstr_fd("bash: cd: HOME not set\n", 2);
+		return (EXIT_FAILURE);
+	}
+	env = env_l;
+	if (env_seeker(&env_l, "OLDPWD"))
+		env_ch_value(env_l, getcwd(buf, PATH_MAX));
+	env_l = env;
+	chdir(env_l->value);
+	if (env_seeker(&env_l, "PWD"))
+		env_ch_value(env_l, getcwd(buf, PATH_MAX));
+	return (EXIT_SUCCESS);
+}
+
+int	cd(char **param, t_env *env_l)
 {
 	char	buf[PATH_MAX];
 	t_env	*env;
 
-	
 	if (param[1] == NULL || *param[1] == '~')
-	{
-		if (!env_seeker(&env_l, "HOME"))
-		{
-			ft_putstr_fd("bash: cd: HOME not set\n", 2);
-			return (EXIT_FAILURE);
-		}
-		env = env_l;
-		if (env_seeker(&env_l, "OLDPWD"))
-			env_ch_value(env_l, getcwd(buf, PATH_MAX));
-		env_l = env;
-		chdir(env_l->value);
-		if (env_seeker(&env_l, "PWD"))
-			env_ch_value(env_l, getcwd(buf, PATH_MAX));
-		return (EXIT_SUCCESS);
-	}
+		return (go_home(env_l, buf));
 	else
 	{
 		env = env_l;
@@ -33,7 +37,8 @@ int cd(char **param, t_env *env_l)
 			env_ch_value(env_l, getcwd(buf, PATH_MAX));
 		if (chdir(param[1]) == -1)
 		{
-			ft_printf_fd(2, "%s: cd: %s: %s\n", PROMPTERR, param[1], strerror(errno));
+			ft_printf_fd(2, "%s: cd: %s: %s\n", \
+			PROMPTERR, param[1], strerror(errno));
 			return (EXIT_FAILURE);
 		}
 		env_l = env;

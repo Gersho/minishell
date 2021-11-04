@@ -4,17 +4,16 @@
 
 #include "../../headers/minishell.h"
 
-void 	print_env_export(t_env *env)
+int	print_env_export(t_env *env)
 {
-	t_env 	*to_parse;
-	t_env 	*cpy;
+	t_env	*to_parse;
+	t_env	*cpy;
 	t_env	*save;
 
 	cpy = env_dup(env);
 	save = cpy;
 	while (cpy)
 	{
-
 		to_parse = save;
 		while (to_parse)
 		{
@@ -29,6 +28,7 @@ void 	print_env_export(t_env *env)
 		cpy = env_unlink(cpy, save->name);
 		save = cpy;
 	}
+	return (0);
 }
 
 static int	is_plus_equal(char *param, char *name, t_env *env, int i)
@@ -38,7 +38,8 @@ static int	is_plus_equal(char *param, char *name, t_env *env, int i)
 	if (param[i] == '+' && param[i + 1] == '=')
 	{
 		if (!env_seeker(&env, name))
-			env_add_back(&env, new_env(name, ft_substr(param, i + 2, ft_strlen(param))));
+			env_add_back(&env, new_env(name, \
+			ft_substr(param, i + 2, ft_strlen(param))));
 		else
 		{
 			tmp = env->value;
@@ -50,12 +51,13 @@ static int	is_plus_equal(char *param, char *name, t_env *env, int i)
 	return (0);
 }
 
-static int is_equal(char *param, char *name, t_env *env, int i)
+static int	is_equal(char *param, char *name, t_env *env, int i)
 {
 	if (param[i] == '=')
 	{
 		if (!env_seeker(&env, name))
-			env_add_back(&env, new_env(name, ft_substr(param, i + 1, ft_strlen(param))));
+			env_add_back(&env, new_env(name, \
+			ft_substr(param, i + 1, ft_strlen(param))));
 		else
 		{
 			free(env->value);
@@ -66,7 +68,7 @@ static int is_equal(char *param, char *name, t_env *env, int i)
 	return (0);
 }
 
-static int check_sign(char *param, t_env *env, int i)
+static int	check_sign(char *param, t_env *env, int i)
 {
 	char	*name;
 
@@ -81,41 +83,45 @@ static int check_sign(char *param, t_env *env, int i)
 	return (0);
 }
 
+void	parse_export(char *param, t_env **env)
+{
+	t_env	*envptr;
+	int		i;
+
+	i = 0;
+	envptr = *env;
+	while (param[i])
+	{
+		if (check_sign(param, *env, i))
+			break ;
+		i++;
+		if (param[i] == '\0')
+		{
+			if (!env_seeker(&envptr, param))
+				env_add_back(env, new_env(ft_strdup(param), NULL));
+		}
+	}
+}
+
 int	export(char **param, t_env **env)
 {
-	int	i;
-	int j;
-	t_env *envptr;
-	int ret;
+	int	j;
+	int	ret;
 
 	ret = 0;
 	j = 0;
 	if (param[1] == NULL)
-	{
-		print_env_export(*env);
-		return (EXIT_SUCCESS);
-	}
+		return (print_env_export(*env));
 	while (param[++j])
 	{
-		envptr = *env;
-		i = 0;
 		if (!ft_isalpha((int)param[j][0]) && param[j][0] != '_')
 		{
-			ft_printf_fd(2, "%s: export: '%s': not an identifier\n",PROMPTERR, param[j]);
+			ft_printf_fd(2, "%s: export: '%s': not an identifier\n", \
+			PROMPTERR, param[j]);
 			ret = 1;
 			continue ;
 		}
-		while (param[j][i])
-		{
-			if (check_sign(param[j], *env, i))//TODO peut etre pas
-				break ;
-			i++;
-			if (param[j][i] == '\0')
-			{
-				if (!env_seeker(&envptr, param[j]))
-					env_add_back(env, new_env(ft_strdup(param[j]), NULL));
-			}
-		}
+		parse_export(param[j], env);
 	}
 	return (ret);
 }

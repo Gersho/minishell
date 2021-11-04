@@ -58,7 +58,6 @@ int main(int ac,char **av, char** env)
 			free(line);
 			continue ;
 		}
-
 		add_history(line);
 		shell.cmd = ft_cmd_init();
 		if (ft_parse_line(line, &shell) == -255)
@@ -102,7 +101,7 @@ int main(int ac,char **av, char** env)
 		line = NULL;
 //		printf("%s\n", shell.cmd->param[1]);
 		if (*shell.cmd->param || *shell.cmd->red)
-			exec_cmd(&shell);
+			parse_cmd(&shell);
 //		ft_printf_fd(2, "ret=%d\n", shell.ret);
 	}
 }
