@@ -1,14 +1,20 @@
 NAME			= minishell
 
-BUILT_IN_F		= echo.c \
+BUILT_IN		= echo.c \
 				  env.c \
 				  pwd.c \
 				  cd.c \
 				  export.c \
 				  unset.c \
 				  exit.c
+EXEC_CMD		= parse_cmd.c \
+                  cmd_launcher.c \
+                  exec_built_in.c \
+                  exec_cmd_fork.c \
+                  get_cmd_path.c \
+                  split_env_path.c
 
-PARSING_F		= debug.c \
+PARSING			= debug.c \
 				  dollars.c \
 				  exits.c \
 				  parse_tools.c \
@@ -19,22 +25,26 @@ PARSING_F		= debug.c \
 				  s_vars.c \
 				  s_quotes.c \
 
-SRCSF			= exec_cmd.c \
-				  get_cmd_path.c \
-				  minishell.c \
-				  here_doc.c \
-				  redirect_handler.c \
-				  utils.c \
+SRCSF			= env_tools.c \
 				  main.c \
+				  minishell.c \
 				  s_env.c \
-				  env_tools.c \
 				  set_prompt.c \
-				  set_cmd.c
+				  utils.c
+
+TOOLBOX			= close_tools.c
+
+REDIRECT		= here_doc.c \
+                  redirect_handler.c \
+                  redirect_tools.c
 
 
 SRCS			= $(addprefix srcs/, $(SRCSF)) \
-				  $(addprefix srcs/Built_in/, $(BUILT_IN_F)) \
-				  $(addprefix srcs/Parsing/, $(PARSING_F))
+				  $(addprefix srcs/Built_in/, $(BUILT_IN)) \
+				  $(addprefix srcs/Parsing/, $(PARSING)) \
+				  $(addprefix srcs/Redirect/, $(REDIRECT)) \
+				  $(addprefix srcs/Exec_cmd/, $(EXEC_CMD)) \
+				  $(addprefix srcs/Toolbox/, $(TOOLBOX))
 
 OBJS			= $(SRCS:.c=.o)
 
@@ -42,7 +52,7 @@ CC				= gcc
 
 RM				= rm -f
 
-CFLAGS			= -g3 -fsanitize=address #-Wall -Wextra -Werror
+CFLAGS			= -g3 #-fsanitize=address #-Wall -Wextra -Werror
 
 all:			$(NAME)
 

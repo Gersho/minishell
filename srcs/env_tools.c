@@ -7,12 +7,12 @@
 char	**get_env_tab(t_env *env_l)
 {
 	char	**env_t;
-	t_env 	*env_save;
+	t_env 	*env_start;
 	int		i;
 	int 	len;
 	char	*save;
 
-	env_save = env_l;
+	env_start = env_l;
 	len = env_list_size(env_l);
 	env_t = ft_calloc(len + 1, sizeof(char *));
 	if (env_t == NULL)
@@ -32,7 +32,7 @@ char	**get_env_tab(t_env *env_l)
 		env_l = env_l->next;
 		i++;
 	}
-	free_env_list(env_save);
+	free_env_list(env_start);
 	return (env_t);
 }
 /*Renvoie la valeur de la variable env*/

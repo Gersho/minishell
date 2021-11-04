@@ -45,6 +45,7 @@ typedef struct	s_env_list t_env;
 
 enum e_cmd_name
 {
+	NOT_BUILT_IN,
 	ECHO,
 	CD,
 	PWD,
@@ -174,8 +175,11 @@ void	ft_freevars_exit(t_vars *vars, int err);
 int		skip_spaces(char *str);
 void	close_perror(int fd);
 void	dup2_close(int fd1, int fd2);
-void	close_fds(int nb, ...);
+void	close_multiple_fd(int nb, ...);
+void 	print_error_prompt(char *str);
 char	*str_in_lower_case(char *s);
+void 	close_unused_fd(t_shell *shell);
+void 	close_all_fds(t_shell *shell);
 //----Tools
 int		ft_str_index_c(char *str, char c);
 int		is_separator(char c);
@@ -190,12 +194,16 @@ int		get_cmd_path(t_shell *shell, char **path_tab);
 void	redirect_handler(t_shell *shell);
 int		is_redirect(char c);
 int 	here_doc(char* limiter, t_cmd *cmd);
+int		which_redirect(char *red);
 //----Exec command
-int 	exec_cmd(t_shell *shell);
-int		check_built_in(t_shell *shell, int in_fork);
+int 	parse_cmd(t_shell *shell);
+int		exec_built_in(t_shell *shell, int in_fork);
+int		exec_cmd_fork(t_shell *shell, int *pid);
+int		launch_all_commands(t_shell *shell, int *status);
+int		is_built_in(char *param);
 //----COMMANDS BUILT IN
 int 	echo(char **param);
-int 	pwd(char **param, t_env *env_l);
+int 	pwd(char **param);
 int 	cd(char **param, t_env *env_l);
 int 	env(t_env *env_l);
 int 	export(char **param, t_env **env);

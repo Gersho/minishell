@@ -4,7 +4,7 @@
 
 #include "../../headers/minishell.h"
 
-//TODO exit with args in unsigned char
+//TODO exit with args in unsigned char | avec quote
 
 static int	str_is_all_num(char *str)
 {
@@ -17,7 +17,8 @@ static int	str_is_all_num(char *str)
 		{
 			if (!ft_isalnum((int)str[i]))
 			{
-				ft_printf_fd(2, "$s: exit: %s: numeric argument required\n", PROMPTERR, str);
+				ft_printf_fd(2, "$s: exit: %s: numeric argument required\n", \
+				PROMPTERR, str);
 				return (0);
 			}
 			i++;
@@ -29,7 +30,7 @@ static int	str_is_all_num(char *str)
 
 static int	more_than_one_param(char **param)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (param[i])
@@ -42,11 +43,11 @@ static int	more_than_one_param(char **param)
 	return (0);
 }
 
-void 	exit_shell(t_shell *shell, int in_fork)
+void	exit_shell(t_shell *shell, int in_fork)
 {
 	unsigned char	exit_status;
-	
-	if (shell->cmd && str_is_all_num( shell->cmd->param[1]))
+
+	if (shell->cmd && str_is_all_num(shell->cmd->param[1]))
 	{
 		if (!more_than_one_param(shell->cmd->param))
 		{
