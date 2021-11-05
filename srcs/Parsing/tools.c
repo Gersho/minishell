@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 11:16:50 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/05 16:10:26 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,36 @@ int	is_quote_or_dollar(char c)
 	return (0);
 }
 
+
+static int	ft_space_join(char **out, char **split, int *i)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(*out, split[*i]);
+	if (!tmp)
+	{
+		free(*out);
+		ft_free_str_tab(split);
+		return (0);
+	}
+	free(*out);
+	*out = tmp;
+	if (split[*i + 1])
+	{
+		tmp = ft_strjoin(*out, " ");
+		if (!tmp)
+		{
+			free(*out);
+			ft_free_str_tab(split);
+			return (0);
+		}
+		free(*out);
+		*out = tmp;
+	}
+	*i += 1;
+	return (1);
+}
+
 char	*rm_redundant_spaces(t_vars *vars, char *str)
 {
 	char	**split;
@@ -54,8 +84,6 @@ char	*rm_redundant_spaces(t_vars *vars, char *str)
 	char	*tmp;
 	int		i;
 
-	if (!str || str[0] == '\0')
-		return (str);
 	split = ft_split(str, ' ');
 	if (!split)
 		return (NULL);
@@ -69,28 +97,8 @@ char	*rm_redundant_spaces(t_vars *vars, char *str)
 	i = 0;
 	while (split[i])
 	{
-		tmp = ft_strjoin(out, split[i]);
-		if (!tmp)
-		{
-			free(out);
-			ft_free_str_tab(split);
+		if (!ft_space_join(&out, split, &i))
 			return (NULL);
-		}
-		free(out);
-		out = tmp;
-		if (split[i + 1])
-		{
-			tmp = ft_strjoin(out, " ");
-			if (!tmp)
-			{
-				free(out);
-				ft_free_str_tab(split);
-				return (NULL);
-			}
-			free(out);
-			out = tmp;
-		}
-		i++;
 	}
 	free(str);
 	return (out);
