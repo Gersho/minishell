@@ -18,5 +18,9 @@ char	**get_env_tab(t_env *env_l);
 void	env_ch_value(t_env *old, char *new);
 t_env	*get_env_list(char **env_main);
 
+char	*ft_mega_str_join(int nb, ...);
+char	*str_in_lower_case(char *s);
+void 	print_error_prompt(char *str);
+int		skip_spaces(char *str);
 
 #endif

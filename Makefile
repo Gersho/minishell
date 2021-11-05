@@ -36,11 +36,11 @@ PARSING			= debug.c \
 
 SRCSF			= main.c \
 				  minishell.c \
-				  set_prompt.c \
-				  utils.c
+				  set_prompt.c
 
 TOOLBOX			= close_tools.c \
-				  env_tools.c
+				  env_tools.c \
+				  utils.c
 
 REDIRECT		= here_doc.c \
                   redirect_handler.c \

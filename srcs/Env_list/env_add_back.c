@@ -13,7 +13,7 @@ t_env	*env_last(t_env *env)
 
 void	env_add_back(t_env **lst, t_env *new)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	if (!*lst)
 		*lst = new;

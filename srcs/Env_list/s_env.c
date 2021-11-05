@@ -15,9 +15,9 @@ t_env	*new_env(char *name, char *value)
 	return (env);
 }
 
-int		env_list_size(t_env *env)
+int	env_list_size(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env)
@@ -30,7 +30,7 @@ int		env_list_size(t_env *env)
 
 void	free_env_list(t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (env)
 	{
