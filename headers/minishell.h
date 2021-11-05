@@ -34,6 +34,8 @@ typedef struct s_env_list			t_env;
 
 #include "built_in.h"
 #include "exec_cmd.h"
+#include "redirect.h"
+#include "env_list.h"
 #include "tools.h"
 
 # define KNRM  "\x1B[0m"
@@ -93,13 +95,7 @@ struct s_vars
 };
 
 
-struct s_env_list
-{
-	char	*name;
-	char	*value;
-	t_env	*prev;
-	t_env	*next;
-};
+
 
 struct s_shell
 {
@@ -117,11 +113,7 @@ t_cmd	*ft_cmd_last(t_cmd *cmd);
 void	ft_cmd_addback(t_cmd *start, t_cmd *new);
 size_t	ft_size_list(t_cmd *cmd_list);
 void	free_cmd_list(t_cmd *cmd);
-//----env_tools
-t_env	*get_env_list(char **env_main);
-int		env_seeker(t_env **env_l, const char *name);
-char	**get_env_tab(t_env *env);
-void	env_ch_value(t_env *old, char *new);
+
 //----list_env
 char	**init_env_tab(char **env);
 int		env_list_size(t_env *env);
