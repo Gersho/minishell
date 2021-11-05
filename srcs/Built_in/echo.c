@@ -4,10 +4,10 @@
 
 #include "../../headers/minishell.h"
 
-static int check_minus_n(char **param, int *nl)
+static int	check_minus_n(char **param, int *nl)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 1;
 	while (param[i] && param[i][0] == '-' && param[i][1] == 'n')
@@ -26,11 +26,11 @@ static int check_minus_n(char **param, int *nl)
 	return (i);
 }
 
-int echo(char **param)
+int	echo(char **param)
 {
-	int i;
-	int nl;
-	
+	int	i;
+	int	nl;
+
 	nl = 1;
 	i = check_minus_n(param, &nl);
 	while (param[i])

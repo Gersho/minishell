@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-//#include <readline/history.h>
 
 void sig_handler(int sig)
 {
@@ -21,8 +20,6 @@ void sig_handler(int sig)
 
 // todo change prompt err everywhere
 // todo export Z="ls -l" ; $Z --> segfault
-// todo ctrl + D --> segfault
-// todo exit doit afficher un exit
 //TODO start OLDPWD AT NULL | IF UNSET PWD and cd nana OLDPWD=NULL
 //TODO EXPORT unset IN MAJ == ERROR
 int main(int ac,char **av, char** env)
@@ -56,11 +53,11 @@ int main(int ac,char **av, char** env)
 			exit_shell(&shell, 0);
 		if (!*line)
 		{
+			shell.ret = 0;
 			free(line);
 			continue ;
 		}
-
-		add_history(line);		
+		add_history(line);
 		shell.cmd = ft_cmd_init();
 		if (!shell.cmd)
 		{
@@ -73,7 +70,9 @@ int main(int ac,char **av, char** env)
 		//ft_debug_cmd(shell.cmd);
 
 		line = NULL;
+//		printf("%s\n", shell.cmd->param[1]);
 		if (*shell.cmd->param || *shell.cmd->red)
-			exec_cmd(&shell);
+			parse_cmd(&shell);
+//		ft_printf_fd(2, "ret=%d\n", shell.ret);
 	}
 }
