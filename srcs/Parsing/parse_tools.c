@@ -6,17 +6,19 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 11:00:27 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/06 15:35:21 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-void	ft_param_loop(t_vars *vars, int *i)
+static void	ft_param_loop(t_vars *vars, int *i)
 {
 	while (vars->str[*i])
 	{
-		if (is_separator(vars->str[*i]))
+		if (vars->str[*i] == ' ')
+			break ;
+		if (is_separator(vars->str[*i]) && ft_get_type(vars->env, *i) != ENVS)
 		{
 			break ;
 		}

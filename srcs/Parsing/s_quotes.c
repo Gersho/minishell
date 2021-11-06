@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 12:41:28 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/06 15:38:49 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,6 @@ void	ft_append_quote_data(t_vars *vars, t_quotes *quotes, t_quotes tmp)
 			ft_free_vars(vars);
 			ft_error_exit(-1);
 		}
-	}
-}
-
-void	ft_parse_quotes(t_vars *vars)
-{
-	int			i;
-	t_quotes	tmp;
-
-	i = 0;
-	while (vars->str[i])
-	{
-		if (ft_strncmp(&vars->str[i], "\'", 1) == 0)
-		{
-			tmp.start = i;
-			tmp.end = ft_str_index_c((vars->str + i + 1), '\'') + i + 1;
-			tmp.type = SIMPLE;
-			ft_append_quote_data(vars, vars->quotes, tmp);
-			i += tmp.end - tmp.start;
-		}
-		else if (ft_strncmp(&vars->str[i], "\"", 1) == 0)
-		{
-			tmp.start = i;
-			tmp.end = ft_str_index_c((vars->str + i + 1), '\"') + i + 1;
-			tmp.type = DOUBLE;
-			ft_append_quote_data(vars, vars->quotes, tmp);
-			i += tmp.end - tmp.start;
-		}
-		i++;
 	}
 }
 
