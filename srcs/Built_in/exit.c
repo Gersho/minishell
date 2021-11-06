@@ -59,7 +59,7 @@ void	exit_shell(t_shell *shell, int in_fork)
 	if (!in_fork)
 	{
 
-		ft_printf_fd(2, "exit");
+		ft_printf_fd(2, "exit\n");
 		close_perror(shell->std_out);
 		close_perror(shell->std_in);
 	}
