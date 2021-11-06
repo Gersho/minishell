@@ -24,6 +24,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <string.h>
+# include <termios.h>
 
 typedef struct s_cmd				t_cmd;
 typedef enum e_type					t_type;
@@ -76,6 +77,7 @@ struct s_quotes
 
 struct s_cmd
 {
+	int 		pid;
 	char*		path;
 	char**		param;
 	char**		red;
@@ -99,12 +101,13 @@ struct s_vars
 
 struct s_shell
 {
-	t_cmd	*cmd;
-	t_env 	*env;
-	int		std_out;
-	int 	std_in;
-	int 	ret;
-	int		error;
+	t_cmd			*cmd;
+	t_env 			*env;
+	int				std_out;
+	int 			std_in;
+	int 			ret;
+	int				error;
+	struct termios	term;
 };
 
 //----list_cmd

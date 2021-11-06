@@ -9,24 +9,24 @@ int	is_built_in(char *param)
 	char 		*name;
 	t_cmd_name	cmd;
 
-	cmd = NOT_BUILT_IN;
+	cmd = NOT_BUILT_IN_M;
 	name = str_in_lower_case(param);
 	if (name == NULL)
 		return (0);
 	if (ft_strcmp("echo", name) == 0)
-		cmd = ECHO;
+		cmd = ECHO_M;
 	else if (ft_strcmp("pwd", name) == 0)
-		cmd = PWD;
+		cmd = PWD_M;
 	else if (ft_strcmp("cd", name) == 0)
-		cmd = CD;
+		cmd = CD_M;
 	else if (ft_strcmp("env", name) == 0)
-		cmd = ENV;
+		cmd = ENV_M;
 	else if (ft_strcmp("export", param) == 0)
-		cmd = EXPORT;
+		cmd = EXPORT_M;
 	else if (ft_strcmp("unset", param) == 0)
-		cmd = UNSET;
+		cmd = UNSET_M;
 	else if (ft_strcmp("exit", param) == 0)
-		cmd = EXIT;
+		cmd = EXIT_M;
 	free(name);
 	return (cmd);
 }
@@ -38,19 +38,19 @@ int	exec_built_in(t_shell *shell, int in_fork)
 	if (*shell->cmd->param)
 	{
 		command = is_built_in(*shell->cmd->param);
-		if (command != NOT_BUILT_IN)
+		if (command != NOT_BUILT_IN_M)
 		{
-			if (command == ECHO)
+			if (command == ECHO_M)
 				shell->ret = echo(shell->cmd->param);
-			else if (command == PWD)
+			else if (command == PWD_M)
 				shell->ret = pwd(shell->cmd->param);
-			else if (command == CD)
+			else if (command == CD_M)
 				shell->ret = cd(shell->cmd->param, shell->env);
-			else if (command == ENV)
+			else if (command == ENV_M)
 				shell->ret = env(shell->env);
-			else if (command == EXPORT)
+			else if (command == EXPORT_M)
 				shell->ret = export(shell->cmd->param, &shell->env);
-			else if (command == UNSET)
+			else if (command == UNSET_M)
 				shell->ret = unset(shell->cmd->param, &shell->env);
 			else
 				exit_shell(shell, in_fork);

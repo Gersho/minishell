@@ -14,8 +14,13 @@
 
 void sig_handler(int sig)
 {
-	if (sig == SIGINT)
-		printf("\n%s%s%s", KGRN, "bash$ ", KNRM);
+	if (sig != SIGQUIT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 // todo change prompt err everywhere
@@ -27,30 +32,44 @@ int main(int ac,char **av, char** env)
 	t_shell shell;
 	char*	line;
 	char 	*prompt;
-	struct sigaction sa;
+//	struct sigaction sa;
 
 	(void)ac;//error if != 1 ?
 	(void)av;
 
 	shell.ret = 0;
 //	sa.sa_flags = SA_RESTART;
-	sa.sa_handler = &sig_handler;
+
 	//TODO fix segfault with redirect without cmd->param
 	//TODO fix  < cat && > cat
 	//TODO fix segf ctrl+d
 	shell.env = get_env_list(env);
 	shell.std_in = dup(0);
 	shell.std_out = dup(1);
-	sigaction(SIGINT, &sa, NULL);
+	shell.cmd = NULL;
+	tcgetattr(0, &shell.term);
+	struct termios terminos;
+	tcgetattr(0, &terminos);
+	line = NULL;
 	shell.ret = 0;
 	while (1)
 	{
+		terminos.c_lflag &= ~ECHOCTL;
+		tcsetattr(0, TCSANOW, &terminos);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, &sig_handler);
 		prompt = set_prompt(&shell);
 		line = readline(prompt);
 		if (prompt)
 			free(prompt);
 		if (!line)
+		{
+//			printf("rl_linebuf=%s prompt=%s\n", rl_line_buffer, rl_prompt);
+//			rl_replace_line("exit", 0);
+//			rl_redisplay();
 			exit_shell(&shell, 0);
+//			line = ft_strdup("exit");
+		}
 		if (!*line)
 		{
 			shell.ret = 0;
@@ -66,13 +85,9 @@ int main(int ac,char **av, char** env)
 		}
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
-
 		//ft_debug_cmd(shell.cmd);
-
 		line = NULL;
-//		printf("%s\n", shell.cmd->param[1]);
 		if (*shell.cmd->param || *shell.cmd->red)
 			parse_cmd(&shell);
-//		ft_printf_fd(2, "ret=%d\n", shell.ret);
 	}
 }

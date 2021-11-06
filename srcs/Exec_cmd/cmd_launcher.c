@@ -4,9 +4,8 @@
 
 #include "../../headers/minishell.h"
 
-int	launch_all_commands(t_shell *shell, int *status)
+void	launch_all_commands(t_shell *shell, int *status)
 {
-	int	pid;
 	int	i;
 
 	i = 0;
@@ -20,7 +19,7 @@ int	launch_all_commands(t_shell *shell, int *status)
 			*status = -1;
 		}
 		else
-			exec_cmd_fork(shell, &pid);
+			exec_cmd_fork(shell);
 		if (!shell->cmd->next)
 		{
 			dup2(shell->std_in, 0);
@@ -29,5 +28,4 @@ int	launch_all_commands(t_shell *shell, int *status)
 		shell->cmd = shell->cmd->next;
 		i++;
 	}
-	return (pid);
 }

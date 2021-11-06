@@ -16,7 +16,7 @@ char 	*set_prompt(t_shell *shell)
 	if (shell->ret == 0)
 		status = "🌸 ";
 	else
-		status = "❌  ";
+		status = "❌ ";
 	
 	getcwd(buf, PATH_MAX);
 	curr_dir = ft_strrchr(buf, (int)'/') + 1;
@@ -28,6 +28,6 @@ char 	*set_prompt(t_shell *shell)
 						   		KMAG, "): ", \
 						   		KNRM);
 	if (!prompt)
-		prompt = ft_strdup("bash$ ");
+		prompt = ft_strdup("$");
 	return (prompt);
 }

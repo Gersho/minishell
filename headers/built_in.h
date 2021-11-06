@@ -7,14 +7,14 @@
 
 typedef enum e_cmd_name
 {
-	NOT_BUILT_IN,
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT
+	NOT_BUILT_IN_M,
+	ECHO_M,
+	CD_M,
+	PWD_M,
+	EXPORT_M,
+	UNSET_M,
+	ENV_M,
+	EXIT_M
 }t_cmd_name;
 
 

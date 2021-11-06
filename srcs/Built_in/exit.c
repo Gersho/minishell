@@ -47,6 +47,7 @@ void	exit_shell(t_shell *shell, int in_fork)
 {
 	unsigned char	exit_status;
 
+
 	if (shell->cmd && str_is_all_num(shell->cmd->param[1]))
 	{
 		if (!more_than_one_param(shell->cmd->param))
@@ -57,10 +58,12 @@ void	exit_shell(t_shell *shell, int in_fork)
 	}
 	if (!in_fork)
 	{
-		ft_printf_fd(2, "exit\n");
+
+		ft_printf_fd(2, "exit");
 		close_perror(shell->std_out);
 		close_perror(shell->std_in);
 	}
+	tcsetattr(0, TCSANOW, &shell->term);
 	free_env_list(shell->env);
 	free_cmd_list(shell->cmd);
 	exit(shell->ret);
