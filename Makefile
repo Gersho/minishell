@@ -33,6 +33,8 @@ PARSING			= debug.c \
 				  param_utils.c \
 				  s_vars.c \
 				  s_quotes.c \
+				  str_manipulation.c \
+				  red_tools.c
 
 SRCSF			= main.c \
 				  minishell.c \

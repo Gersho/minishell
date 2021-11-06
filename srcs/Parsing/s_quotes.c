@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 11:16:41 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/06 10:46:27 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,40 +105,6 @@ void	ft_update_quote_data(t_vars *vars, t_quotes *quotes, int size, int i)
 			tmp->end += size;
 		tmp = tmp->next;
 	}
-}
-
-int	ft_get_quote_count(t_vars *vars, int start, int end)
-{
-	t_quotes	*tmp;
-	int			count;
-
-	count = 0;
-	while (start <= end)
-	{
-		tmp = vars->quotes;
-		while (tmp)
-		{
-			if (start == tmp->start || start == tmp->end)
-				count++;
-			tmp = tmp->next;
-		}
-		start++;
-	}
-	return (count);
-}
-
-int	ft_is_quote_data(t_vars *vars, int i)
-{
-	t_quotes	*tmp;
-
-	tmp = vars->quotes;
-	while (tmp)
-	{
-		if (i == tmp->start || i == tmp->end)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
 }
 
 void	free_quotes_list(t_quotes *quotes)
