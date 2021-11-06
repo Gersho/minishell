@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 10:46:27 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/06 12:41:28 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_type	ft_get_type(t_quotes *quotes, int i)
 	tmp = quotes;
 	while (tmp)
 	{
-		if (i > tmp->start && i < tmp->end)
+		if (i >= tmp->start && i <= tmp->end)
 			return (tmp->type);
 		tmp = tmp->next;
 	}
