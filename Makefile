@@ -1,5 +1,13 @@
 NAME			= minishell
 
+HEADERS			= headers/minishell.h \
+				  headers/built_in.h \
+				  headers/exec_cmd.h \
+				  headers/tools.h \
+				  headers/env_list.h \
+				  headers/redirect.h \
+				  libft/include/libft.h
+
 BUILT_IN		= echo.c \
 				  env.c \
 				  pwd.c \
@@ -7,6 +15,7 @@ BUILT_IN		= echo.c \
 				  export.c \
 				  unset.c \
 				  exit.c
+
 EXEC_CMD		= parse_cmd.c \
                   cmd_launcher.c \
                   exec_built_in.c \
@@ -25,18 +34,22 @@ PARSING			= debug.c \
 				  s_vars.c \
 				  s_quotes.c \
 
-SRCSF			= env_tools.c \
-				  main.c \
+SRCSF			= main.c \
 				  minishell.c \
-				  s_env.c \
 				  set_prompt.c \
 				  utils.c
 
-TOOLBOX			= close_tools.c
+TOOLBOX			= close_tools.c \
+				  env_tools.c
 
 REDIRECT		= here_doc.c \
                   redirect_handler.c \
                   redirect_tools.c
+
+ENV_LIST		= env_unlink.c \
+				  s_env.c \
+				  env_dup.c \
+				  env_add_back.c
 
 
 SRCS			= $(addprefix srcs/, $(SRCSF)) \
@@ -44,7 +57,8 @@ SRCS			= $(addprefix srcs/, $(SRCSF)) \
 				  $(addprefix srcs/Parsing/, $(PARSING)) \
 				  $(addprefix srcs/Redirect/, $(REDIRECT)) \
 				  $(addprefix srcs/Exec_cmd/, $(EXEC_CMD)) \
-				  $(addprefix srcs/Toolbox/, $(TOOLBOX))
+				  $(addprefix srcs/Toolbox/, $(TOOLBOX)) \
+				  $(addprefix srcs/Env_list/, $(ENV_LIST))
 
 OBJS			= $(SRCS:.c=.o)
 
@@ -56,7 +70,7 @@ CFLAGS			= -g3 #-fsanitize=address #-Wall -Wextra -Werror
 
 all:			$(NAME)
 
-%.o: 			%.c	headers/minishell.h libft/include/libft.h
+%.o: 			%.c	 $(HEADERS)
 				$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS)
