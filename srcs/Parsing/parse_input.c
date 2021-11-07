@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 15:47:16 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/07 17:35:06 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	ft_parse_checks(t_vars *vars, int *i, t_cmd *tmp)
 		return (-255);
 	else
 		*i += ret;
+	return (0);
 }
 
 void	ft_parse_quotes(t_vars *vars)
@@ -69,11 +70,9 @@ int	ft_parse_loop(t_vars *vars)
 	i = 0;
 	while (vars->str[i])
 	{
-		if (ft_strncmp(&vars->str[i], " ", 1) == 0)
-			i += skip_spaces(&vars->str[i]);
-		else if (ft_parse_checks(vars, &i, tmp) == -255)
+		if (ft_parse_checks(vars, &i, tmp) == -255)
 			return (-255);
-		else if (ft_strncmp(&vars->str[i], "|", 1) == 0
+		if (ft_strncmp(&vars->str[i], "|", 1) == 0
 			&& ft_get_type(vars->env, i) != ENVS)
 		{
 			tmp->next = ft_cmd_init();
@@ -82,8 +81,9 @@ int	ft_parse_loop(t_vars *vars)
 			tmp = tmp->next;
 			i++;
 		}
-		else
+		else if (vars->str[i] != ' ')
 			i += to_param_word(vars, tmp, i);
+		i += skip_spaces(&vars->str[i]);
 	}
 	return (0);
 }
@@ -97,7 +97,6 @@ int	ft_parse_line(char *str, t_shell *shell)
 	ft_handle_dollars(&vars);
 	if (ft_parse_loop(&vars) == -255)
 		return (-255);
-//ft_debug_cmd(vars.cmd);
 	free(vars.str);
 	free_quotes_list(vars.quotes);
 	free_quotes_list(vars.env);
