@@ -62,18 +62,21 @@ SRCS			= $(addprefix srcs/, $(SRCSF)) \
 
 OBJS			= $(SRCS:.c=.o)
 
+OBJDIR			= .objs
+
 CC				= gcc
 
-RM				= rm -f
+RM				= rm -rf
 
 CFLAGS			= -g3 #-fsanitize=address #-Wall -Wextra -Werror
 
 all:			$(NAME)
 
-%.o: 			%.c	 $(HEADERS)
+$(OBJDIR)/%.o: 			%.c	 $(HEADERS)
 				$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):		$(OBJS)
+				mkdir $(OBJDIR)
 				make -C libft/
 				$(CC) $(CFLAGS) \
 				-L /Users/$$USER/.brew/opt/readline/lib \
@@ -83,6 +86,7 @@ $(NAME):		$(OBJS)
 clean:
 				make clean -C libft/
 				$(RM) $(OBJS)
+				$(RM) $(OBJDIR)
 
 fclean:			clean
 				make fclean -C libft/

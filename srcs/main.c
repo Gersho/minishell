@@ -26,20 +26,16 @@ void sig_handler(int sig)
 // todo change prompt err everywhere
 // todo export Z="ls -l" ; $Z --> segfault
 //TODO start OLDPWD AT NULL | IF UNSET PWD and cd nana OLDPWD=NULL
-//TODO EXPORT unset IN MAJ == ERROR
 int main(int ac,char **av, char** env)
 {
 	t_shell shell;
 	char*	line;
 	char 	*prompt;
-//	struct sigaction sa;
 
 	(void)ac;//error if != 1 ?
 	(void)av;
 
 	shell.ret = 0;
-//	sa.sa_flags = SA_RESTART;
-
 	//TODO fix segfault with redirect without cmd->param
 	//TODO fix  < cat && > cat
 	//TODO fix segf ctrl+d
@@ -63,13 +59,7 @@ int main(int ac,char **av, char** env)
 		if (prompt)
 			free(prompt);
 		if (!line)
-		{
-//			printf("rl_linebuf=%s prompt=%s\n", rl_line_buffer, rl_prompt);
-//			rl_replace_line("exit", 0);
-//			rl_redisplay();
 			exit_shell(&shell, 0);
-//			line = ft_strdup("exit");
-		}
 		if (!*line)
 		{
 			shell.ret = 0;

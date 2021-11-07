@@ -4,28 +4,33 @@
 
 #include "../../headers/minishell.h"
 
-//TODO exit with args in unsigned char | avec quote
-
-static int	str_is_all_num(char *str)
+static int		ft_atoi_exit(char *str, int *err)
 {
-	int	i;
+	int i;
+	int	ret;
+	int is_neg;
 
-	i = 0;
-	if (str)
+	*err = 0;
+	is_neg = 1;
+	ret = 0;
+	i = skip_spaces(str);
+	if (str[i] == '-' || str[i] == '+')
 	{
-		while (str[i])
-		{
-			if (!ft_isalnum((int)str[i]))
-			{
-				ft_printf_fd(2, "$s: exit: %s: numeric argument required\n", \
-				PROMPTERR, str);
-				return (0);
-			}
-			i++;
-		}
-		return (1);
+		if (str[i] == '-')
+			is_neg = -1;
+		i++;
 	}
-	return (0);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		ret = ret * 10 + (str[i] - '0');
+		i++;
+	}
+	while (str[i] == ' ')
+		i++;
+	if (str[i])
+		*err = 1;
+	ret *= is_neg;
+	return (ret);
 }
 
 static int	more_than_one_param(char **param)
@@ -43,23 +48,32 @@ static int	more_than_one_param(char **param)
 	return (0);
 }
 
-void	exit_shell(t_shell *shell, int in_fork)
+static void get_return_value(t_shell *shell)
 {
 	unsigned char	exit_status;
+	int 			err;
 
-
-	if (shell->cmd && str_is_all_num(shell->cmd->param[1]))
+	exit_status = (unsigned char)ft_atoi_exit(shell->cmd->param[1], &err);
+	if (err)
 	{
-		if (!more_than_one_param(shell->cmd->param))
-		{
-			exit_status = (unsigned char) atoi(shell->cmd->param[1]);
-			shell->ret = (int)exit_status;
-		}
+		ft_printf_fd(2, "%s: exit: %s: numeric argument required\n", \
+				PROMPTERR, shell->cmd->param[1]);
+		shell->ret = 255;
 	}
+	else if (more_than_one_param(shell->cmd->param))
+		shell->ret = 1;
+	else
+		shell->ret = (int)exit_status;
+}
+
+void	exit_shell(t_shell *shell, int in_fork)
+{
+	if (shell->cmd)
+		get_return_value(shell);
 	if (!in_fork)
 	{
 
-		ft_printf_fd(2, "exit\n");
+		ft_printf_fd(2, "exit %d\n", shell->ret);
 		close_perror(shell->std_out);
 		close_perror(shell->std_in);
 	}
