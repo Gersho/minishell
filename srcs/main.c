@@ -39,6 +39,7 @@ int main(int ac,char **av, char** env)
 	//TODO fix segfault with redirect without cmd->param
 	//TODO fix  < cat && > cat
 	//TODO fix segf ctrl+d
+	//TODO fix fd leaks
 	shell.env = get_env_list(env);
 	shell.std_in = dup(0);
 	shell.std_out = dup(1);
