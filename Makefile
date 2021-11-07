@@ -32,7 +32,7 @@ PARSING			= debug.c \
   				  tools.c \
 				  param_utils.c \
 				  s_vars.c \
-				  s_quotes.c \
+				  s_quotes.c
 
 SRCSF			= main.c \
 				  minishell.c \
@@ -51,18 +51,33 @@ ENV_LIST		= env_unlink.c \
 				  env_dup.c \
 				  env_add_back.c
 
+SRCSFO			= 	$(BUILT_IN) \
+					$(SRCSF) \
+					$(PARSING) \
+					$(REDIRECT) \
+					$(EXEC_CMD) \
+					$(TOOLBOX) \
+					$(ENV_LIST)
 
-SRCS			= $(addprefix srcs/, $(SRCSF)) \
-				  $(addprefix srcs/Built_in/, $(BUILT_IN)) \
-				  $(addprefix srcs/Parsing/, $(PARSING)) \
-				  $(addprefix srcs/Redirect/, $(REDIRECT)) \
-				  $(addprefix srcs/Exec_cmd/, $(EXEC_CMD)) \
-				  $(addprefix srcs/Toolbox/, $(TOOLBOX)) \
-				  $(addprefix srcs/Env_list/, $(ENV_LIST))
+SRCS			= $(SRCSF) \
+				  $(addprefix Built_in/, $(BUILT_IN)) \
+				  $(addprefix Parsing/, $(PARSING)) \
+				  $(addprefix Redirect/, $(REDIRECT)) \
+				  $(addprefix Exec_cmd/, $(EXEC_CMD)) \
+				  $(addprefix Toolbox/, $(TOOLBOX)) \
+				  $(addprefix Env_list/, $(ENV_LIST))
 
-OBJS			= $(SRCS:.c=.o)
+OBJDIR			= .objs/ \
+				  .objs/Built_in/ \
+				  .objs/Parsing/ \
+				  .objs/Redirect/ \
+				  .objs/Exec_cmd/ \
+				  .objs/Toolbox/ \
+				  .objs/Env_list/
 
-OBJDIR			= .objs
+OBJS			=  $(SRCS:.c=.o)
+
+OBJSLOCATION	=	 $(addprefix .objs/, $(OBJS))
 
 CC				= gcc
 
@@ -72,16 +87,19 @@ CFLAGS			= -g3 #-fsanitize=address #-Wall -Wextra -Werror
 
 all:			$(NAME)
 
-$(OBJDIR)/%.o: 			%.c	 $(HEADERS)
+.objs/%.o: 		srcs/%.c	 $(HEADERS)
 				$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):		$(OBJS)
-				mkdir $(OBJDIR)
+$(NAME):		create_dir $(OBJSLOCATION)
 				make -C libft/
 				$(CC) $(CFLAGS) \
 				-L /Users/$$USER/.brew/opt/readline/lib \
 				-I/Users/$$USER/.brew/opt/readline/include \
-				-o $(NAME) $(OBJS) libft/libft.a -lreadline
+				-o $(NAME) $(OBJSLOCATION) libft/libft.a -lreadline
+
+
+create_dir:
+				mkdir -p $(OBJDIR)
 
 clean:
 				make clean -C libft/
@@ -90,7 +108,7 @@ clean:
 
 fclean:			clean
 				make fclean -C libft/
-				$(RM) minishell
+				$(RM) $(NAME)
 				make fclean -C libft/
 
 re:				fclean all
