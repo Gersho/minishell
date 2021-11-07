@@ -103,7 +103,6 @@ create_dir:
 
 clean:
 				make clean -C libft/
-				$(RM) $(OBJS)
 				$(RM) $(OBJDIR)
 
 fclean:			clean
