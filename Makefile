@@ -57,36 +57,16 @@ ENV_LIST		= env_unlink.c \
 SIGNALS			=	sig_child.c \
 					sig_pap.c \
 
-SRCSFO			= 	$(BUILT_IN) \
-					$(SRCSF) \
-					$(PARSING) \
-					$(REDIRECT) \
-					$(EXEC_CMD) \
-					$(TOOLBOX) \
-					$(ENV_LIST) \
-					$(SIGNALS) \
-
 SRCS			= $(SRCSF) \
-				  $(addprefix Built_in/, $(BUILT_IN)) \
-				  $(addprefix Parsing/, $(PARSING)) \
-				  $(addprefix Redirect/, $(REDIRECT)) \
-				  $(addprefix Exec_cmd/, $(EXEC_CMD)) \
-				  $(addprefix Toolbox/, $(TOOLBOX)) \
-				  $(addprefix Env_list/, $(ENV_LIST)) \
-				   $(addprefix Signals/, $(SIGNALS)) \
+				  $(addprefix Built_in/, $(BUILT_IN)) 	\
+				  $(addprefix Parsing/, $(PARSING)) 	\
+				  $(addprefix Redirect/, $(REDIRECT)) 	\
+				  $(addprefix Exec_cmd/, $(EXEC_CMD)) 	\
+				  $(addprefix Toolbox/, $(TOOLBOX)) 	\
+				  $(addprefix Env_list/, $(ENV_LIST)) 	\
+				  $(addprefix Signals/, $(SIGNALS)) 	\
 
-OBJDIR			= .objs/ \
-				  .objs/Built_in/ \
-				  .objs/Parsing/ \
-				  .objs/Redirect/ \
-				  .objs/Exec_cmd/ \
-				  .objs/Toolbox/ \
-				  .objs/Env_list/ \
-				  .objs/Signals/ \
-
-OBJS			=  $(SRCS:.c=.o)
-
-OBJSLOCATION	=	 $(addprefix .objs/, $(OBJS))
+OBJS			= $(addprefix .objs/, $(SRCS:.c=.o)) 	\
 
 CC				= gcc
 
@@ -94,21 +74,17 @@ RM				= rm -rf
 
 CFLAGS			= -g3 #-fsanitize=address #-Wall -Wextra -Werror
 
-all:			$(NAME)
+all:			libs $(NAME)
 
-.objs/%.o: 		srcs/%.c	 $(HEADERS)
+.objs/%.o: 		srcs/%.c $(HEADERS)
+				@mkdir -p $(dir $@)
 				$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):		create_dir $(OBJSLOCATION)
+$(NAME):		$(OBJS) libft/libft.a
+				$(CC) $(CFLAGS) -L /Users/$$USER/.brew/opt/readline/lib -I /Users/$$USER/.brew/opt/readline/include -o $(NAME) $(OBJS) libft/libft.a -lreadline
+
+libs:
 				make -C libft/
-				$(CC) $(CFLAGS) \
-				-L /Users/$$USER/.brew/opt/readline/lib \
-				-I/Users/$$USER/.brew/opt/readline/include \
-				-o $(NAME) $(OBJSLOCATION) libft/libft.a -lreadline
-
-
-create_dir:
-				mkdir -p $(OBJDIR)
 
 clean:
 				make clean -C libft/
@@ -117,8 +93,7 @@ clean:
 fclean:			clean
 				make fclean -C libft/
 				$(RM) $(NAME)
-				make fclean -C libft/
 
 re:				fclean all
 
-.PHONY:			re fclean clean all
+.PHONY:			all libs clean fclean re
