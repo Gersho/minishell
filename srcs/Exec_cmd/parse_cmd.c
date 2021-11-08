@@ -30,7 +30,7 @@ void wait_all_process(t_cmd *cmd, t_shell *shell)
 		shell->ret = WEXITSTATUS(status);
 	while (waitpid(cmd->pid, &status, 0) != -1)
 	{
-		if (WIFSIGNALED(status))
+		if (WIFSIGNALED(status) && WTERMSIG(status) != SIGPIPE)
 			nl = 1;
 		cmd = cmd->next;
 	}

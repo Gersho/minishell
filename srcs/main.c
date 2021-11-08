@@ -50,10 +50,10 @@ int main(int ac,char **av, char** env)
 	shell.ret = 0;
 	while (1)
 	{
-		terminos.c_lflag &= ~ECHOCTL;
-		tcsetattr(0, TCSANOW, &terminos);
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, &sig_handler);
+//		terminos.c_lflag &= ~ECHOCTL;
+//		tcsetattr(0, TCSANOW, &terminos);
+//		signal(SIGQUIT, SIG_IGN);
+//		signal(SIGINT, &sig_handler);
 		prompt = set_prompt(&shell);
 		line = readline(prompt);
 		if (prompt)
