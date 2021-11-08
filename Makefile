@@ -6,7 +6,8 @@ HEADERS			= headers/minishell.h \
 				  headers/tools.h \
 				  headers/env_list.h \
 				  headers/redirect.h \
-				  libft/include/libft.h
+				  headers/signals.h \
+				  headers/libft.h \
 
 BUILT_IN		= echo.c \
 				  env.c \
