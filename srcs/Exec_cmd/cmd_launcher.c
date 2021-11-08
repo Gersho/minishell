@@ -22,6 +22,8 @@ void	launch_all_commands(t_shell *shell, int *status)
 			exec_cmd_fork(shell);
 		if (!shell->cmd->next)
 		{
+//			close_perror(shell->cmd->in);
+//			close_perror(shell->cmd->out);
 //			dup2(shell->std_in, 0);
 //			dup2(shell->std_out, 1);
 		}

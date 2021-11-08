@@ -42,8 +42,6 @@ int main(int ac,char **av, char** env)
 
 
 	shell.env = get_env_list(env);
-	shell.std_in = dup(0);
-	shell.std_out = dup(1);
 	shell.cmd = NULL;
 	tcgetattr(0, &shell.term);
 	struct termios terminos;
