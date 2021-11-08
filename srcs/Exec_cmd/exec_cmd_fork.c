@@ -4,6 +4,12 @@
 
 #include "../../headers/minishell.h"
 
+static void	free_cmd_and_exit(t_shell *shell)
+{
+	free_cmd_list(shell->cmd);
+	exit(shell->ret);
+}
+
 int	exec_cmd_fork(t_shell *shell)
 {
 	char	**env_t;
@@ -13,8 +19,7 @@ int	exec_cmd_fork(t_shell *shell)
 	shell->cmd->pid = fork();
 	if (shell->cmd->pid == 0)
 	{
-		dup2_close(shell->cmd->in, 0);
-		dup2_close(shell->cmd->out, 1);
+		replace_std(shell->cmd->in, shell->cmd->out);
 		if (shell->cmd->next)
 			close_unused_fd(shell);
 		if (exec_built_in(shell, 1))
@@ -23,17 +28,13 @@ int	exec_cmd_fork(t_shell *shell)
 		shell->ret = get_cmd_path(shell, path_tab);
 		env_t = get_env_tab(shell->env);
 		if (shell->ret > 0)
-		{
-			free_cmd_list(shell->cmd);
-			exit(shell->ret);
-		}
+			free_cmd_and_exit(shell);
 		execve(shell->cmd->path, shell->cmd->param, env_t);
 		perror(*shell->cmd->param);
 		exit(EXIT_FAILURE);
 	}
 	else if (shell->cmd->pid == -1)
 		perror("fork");
-	close_perror(shell->cmd->in);
-	close_perror(shell->cmd->out);
+	close_multiple_fd(2, shell->cmd->in, shell->cmd->out);
 	return (-1);
 }
