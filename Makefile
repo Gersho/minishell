@@ -13,8 +13,9 @@ BUILT_IN		= echo.c \
 				  pwd.c \
 				  cd.c \
 				  export.c \
+				  print_export.c \
 				  unset.c \
-				  exit.c
+				  exit.c \
 
 EXEC_CMD		= parse_cmd.c \
                   cmd_launcher.c \
@@ -40,16 +41,20 @@ SRCSF			= main.c \
 
 TOOLBOX			= close_tools.c \
 				  env_tools.c \
-				  utils.c
+				  utils.c \
+				  replace_std.c \
 
 REDIRECT		= here_doc.c \
                   redirect_handler.c \
-                  redirect_tools.c
+                  redirect_tools.c \
 
 ENV_LIST		= env_unlink.c \
 				  s_env.c \
 				  env_dup.c \
 				  env_add_back.c
+
+SIGNALS			=	sig_child.c \
+					sig_pap.c \
 
 SRCSFO			= 	$(BUILT_IN) \
 					$(SRCSF) \
@@ -57,7 +62,8 @@ SRCSFO			= 	$(BUILT_IN) \
 					$(REDIRECT) \
 					$(EXEC_CMD) \
 					$(TOOLBOX) \
-					$(ENV_LIST)
+					$(ENV_LIST) \
+					$(SIGNALS) \
 
 SRCS			= $(SRCSF) \
 				  $(addprefix Built_in/, $(BUILT_IN)) \
@@ -65,7 +71,8 @@ SRCS			= $(SRCSF) \
 				  $(addprefix Redirect/, $(REDIRECT)) \
 				  $(addprefix Exec_cmd/, $(EXEC_CMD)) \
 				  $(addprefix Toolbox/, $(TOOLBOX)) \
-				  $(addprefix Env_list/, $(ENV_LIST))
+				  $(addprefix Env_list/, $(ENV_LIST)) \
+				   $(addprefix Signals/, $(SIGNALS)) \
 
 OBJDIR			= .objs/ \
 				  .objs/Built_in/ \
@@ -73,7 +80,8 @@ OBJDIR			= .objs/ \
 				  .objs/Redirect/ \
 				  .objs/Exec_cmd/ \
 				  .objs/Toolbox/ \
-				  .objs/Env_list/
+				  .objs/Env_list/ \
+				  .objs/Signals/ \
 
 OBJS			=  $(SRCS:.c=.o)
 

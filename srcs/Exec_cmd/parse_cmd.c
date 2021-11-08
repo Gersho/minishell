@@ -4,15 +4,15 @@
 
 #include "../../headers/minishell.h"
 
-int last_pid(t_cmd *cmd)
+static int	last_pid(t_cmd *cmd)
 {
 	cmd = ft_cmd_last(cmd);
 	return (cmd->pid);
 }
 
-void wait_all_process(t_cmd *cmd, t_shell *shell)
+void	wait_all_process(t_cmd *cmd, t_shell *shell)
 {
-	int status;
+	int	status;
 	int	nl;
 
 	nl = 0;
@@ -24,7 +24,6 @@ void wait_all_process(t_cmd *cmd, t_shell *shell)
 			shell->ret = 130;
 		if (WTERMSIG(status) == 3)
 			shell->ret = 131;
-
 	}
 	else
 		shell->ret = WEXITSTATUS(status);
@@ -56,7 +55,6 @@ int	parse_cmd(t_shell *shell)
 	}
 	if (status != -1 && !shell->error)
 		wait_all_process(cmd_ptr, shell);
-
 	free_cmd_list(cmd_ptr);
 	return (1);
 }

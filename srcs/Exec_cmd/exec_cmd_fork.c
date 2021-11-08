@@ -4,20 +4,12 @@
 
 #include "../../headers/minishell.h"
 
-void sig_child(int sig)
-{
-	if (sig == SIGQUIT)
-		ft_putstr_fd("Quit: 3", 2);
-}
-
 int	exec_cmd_fork(t_shell *shell)
 {
 	char	**env_t;
 	char	**path_tab;
 
-//	tcsetattr(0, TCSANOW, &shell->term);
-//	signal(SIGINT, &sig_child);
-//	signal(SIGQUIT, &sig_child);
+	sig_child_handler(shell);
 	shell->cmd->pid = fork();
 	if (shell->cmd->pid == 0)
 	{

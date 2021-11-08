@@ -4,7 +4,7 @@
 
 #include "../../headers/minishell.h"
 
-int skip_spaces(char *str)
+int	skip_spaces(char *str)
 {
 	size_t	i;
 
@@ -14,7 +14,7 @@ int skip_spaces(char *str)
 	return (i);
 }
 
-void 	print_error_prompt(char *str)
+void	print_error_prompt(char *str)
 {
 	ft_printf_fd(2, "%s: ", PROMPTERR);
 	perror(str);
@@ -24,7 +24,7 @@ char	*str_in_lower_case(char *s)
 {
 	int		i;
 	char	*str;
-	
+
 	i = 0;
 	str = ft_strdup(s);
 	if (str == NULL)
@@ -40,17 +40,17 @@ char	*str_in_lower_case(char *s)
 char	*ft_mega_str_join(int nb, ...)
 {
 	char	*mega_str;
-	char 	*str;
-	char 	*tmp;
-	int i;
+	char	*str;
+	char	*tmp;
+	int		i;
+	va_list	args;
 
 	i = 1;
-	va_list	args;
 	va_start(args, nb);
-	mega_str = (char*)va_arg(args, char *);
+	mega_str = (char *) va_arg(args, char *);
 	while (i < nb)
 	{
-		str = (char*)va_arg(args, char *);
+		str = (char *) va_arg(args, char *);
 		tmp = mega_str;
 		mega_str = ft_strjoin(mega_str, str);
 		if (!mega_str)

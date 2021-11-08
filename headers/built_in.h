@@ -25,6 +25,7 @@ int 	pwd(char **param);
 int 	cd(char **param, t_env *env_l);
 int 	env(t_env *env_l);
 int 	export(char **param, t_env **env);
+int		print_env_export(t_env *env);
 int 	unset(char **param, t_env **env_l);
 void 	exit_shell(t_shell *shell, int in_fork);
 

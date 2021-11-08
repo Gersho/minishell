@@ -12,24 +12,15 @@
 
 #include "../headers/minishell.h"
 
-//void init_shell(t_shell *shell, char **line, char **env)
-//{
-//	*line = NULL;
-//	shell->env = get_env_list(env);
-//	shell->cmd = NULL;
-//	shell->ret = NULL;
-//}
-
-void sig_handler(int sig)
+void init_shell(t_shell *shell, char **line, char **env)
 {
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	*line = NULL;
+	shell->env = get_env_list(env);
+	shell->cmd = NULL;
+	shell->ret = 0;
+	tcgetattr(0, &shell->term);
 }
+//todo start OLDPWD at NULL;
 
 int main(int ac,char **av, char** env)
 {
@@ -37,23 +28,12 @@ int main(int ac,char **av, char** env)
 	char*	line;
 	char 	*prompt;
 
-	(void)ac;//error if != 1 ?
+	(void)ac;
 	(void)av;
-
-
-	shell.env = get_env_list(env);
-	shell.cmd = NULL;
-	tcgetattr(0, &shell.term);
-	struct termios terminos;
-	tcgetattr(0, &terminos);
-	line = NULL;
-	shell.ret = 0;
+	init_shell(&shell, &line, env);
 	while (1)
 	{
-//		terminos.c_lflag &= ~ECHOCTL;
-//		tcsetattr(0, TCSANOW, &terminos);
-//		signal(SIGQUIT, SIG_IGN);
-//		signal(SIGINT, &sig_handler);
+		sig_pap_handler();
 		prompt = set_prompt(&shell);
 		line = readline(prompt);
 		if (prompt)

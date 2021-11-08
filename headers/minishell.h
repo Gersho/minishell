@@ -38,6 +38,7 @@ typedef struct s_env_list			t_env;
 #include "redirect.h"
 #include "env_list.h"
 #include "tools.h"
+#include "signals.h"
 
 # define KNRM  "\x1B[0m"
 # define KRED  "\x1B[31m"
@@ -95,9 +96,6 @@ struct s_vars
 	char		*str;
 	int			*last_ret;
 };
-
-
-
 
 struct s_shell
 {

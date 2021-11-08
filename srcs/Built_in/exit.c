@@ -4,11 +4,11 @@
 
 #include "../../headers/minishell.h"
 
-static int		ft_atoi_exit(char *str, int *err)
+static int	ft_atoi_exit(char *str, int *err)
 {
-	int i;
+	int	i;
 	int	ret;
-	int is_neg;
+	int	is_neg;
 
 	*err = 0;
 	is_neg = 1;
@@ -25,8 +25,7 @@ static int		ft_atoi_exit(char *str, int *err)
 		ret = ret * 10 + (str[i] - '0');
 		i++;
 	}
-	while (str[i] == ' ')
-		i++;
+	i += skip_spaces(str + i);
 	if (str[i])
 		*err = 1;
 	ret *= is_neg;
@@ -48,10 +47,10 @@ static int	more_than_one_param(char **param)
 	return (0);
 }
 
-static void get_return_value(t_shell *shell)
+static void	get_return_value(t_shell *shell)
 {
 	unsigned char	exit_status;
-	int 			err;
+	int				err;
 
 	if (shell->cmd->param[1])
 		exit_status = (unsigned char)ft_atoi_exit(shell->cmd->param[1], &err);
@@ -59,7 +58,7 @@ static void get_return_value(t_shell *shell)
 		if (err)
 		{
 			ft_printf_fd(2, "%s: exit: %s: numeric argument required\n", \
-                PROMPTERR, shell->cmd->param[1]);
+			PROMPTERR, shell->cmd->param[1]);
 			shell->ret = 255;
 		}
 		else if (more_than_one_param(shell->cmd->param))

@@ -12,8 +12,6 @@ void	close_all_fds(t_shell *shell)
 		close_perror(shell->cmd->out);
 		shell->cmd = shell->cmd->next;
 	}
-//	dup2(shell->std_in, 0);
-//	dup2(shell->std_out, 1);
 }
 
 void	close_unused_fd(t_shell *shell)
@@ -27,8 +25,6 @@ void	close_unused_fd(t_shell *shell)
 		close_perror(ptr->out);
 		ptr = ptr->next;
 	}
-//	close_perror(shell->std_out);
-//	close_perror(shell->std_in);
 }
 
 void	close_multiple_fd(int nb, ...)
