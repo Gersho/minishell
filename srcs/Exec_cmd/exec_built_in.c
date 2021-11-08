@@ -34,10 +34,17 @@ int	is_built_in(char *param)
 int	exec_built_in(t_shell *shell, int in_fork)
 {
 	int	command;
-
 	if (*shell->cmd->param)
 	{
 		command = is_built_in(*shell->cmd->param);
+		if (!in_fork)
+		{
+
+			shell->std_in = dup(0);
+			shell->std_out = dup(1);
+			dup2_close(shell->cmd->in, 0);
+			dup2_close(shell->cmd->out, 1);
+		}
 		if (command != NOT_BUILT_IN_M)
 		{
 			if (command == ECHO_M)
@@ -54,6 +61,11 @@ int	exec_built_in(t_shell *shell, int in_fork)
 				shell->ret = unset(shell->cmd->param, &shell->env);
 			else
 				exit_shell(shell, in_fork);
+			if (!in_fork)
+			{
+				dup2_close(shell->std_in, 0);
+				dup2_close(shell->std_out, 1);
+			}
 			return (1);
 		}
 	}

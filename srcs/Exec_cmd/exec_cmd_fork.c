@@ -10,12 +10,6 @@ void sig_child(int sig)
 		ft_putstr_fd("Quit: 3", 2);
 }
 
-void sigo(int sig)
-{
-	write(1, "\n", 1);
-	ft_printf("uypp\n");
-}
-
 int	exec_cmd_fork(t_shell *shell)
 {
 	char	**env_t;
@@ -27,6 +21,8 @@ int	exec_cmd_fork(t_shell *shell)
 	shell->cmd->pid = fork();
 	if (shell->cmd->pid == 0)
 	{
+		dup2_close(shell->cmd->in, 0);
+		dup2_close(shell->cmd->out, 1);
 		if (shell->cmd->next)
 			close_unused_fd(shell);
 		if (exec_built_in(shell, 1))
@@ -45,5 +41,7 @@ int	exec_cmd_fork(t_shell *shell)
 	}
 	else if (shell->cmd->pid == -1)
 		perror("fork");
+	close_perror(shell->cmd->in);
+	close_perror(shell->cmd->out);
 	return (-1);
 }

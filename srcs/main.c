@@ -12,9 +12,17 @@
 
 #include "../headers/minishell.h"
 
+//void init_shell(t_shell *shell, char **line, char **env)
+//{
+//	*line = NULL;
+//	shell->env = get_env_list(env);
+//	shell->cmd = NULL;
+//	shell->ret = NULL;
+//}
+
 void sig_handler(int sig)
 {
-	if (sig != SIGQUIT)
+	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
@@ -23,9 +31,6 @@ void sig_handler(int sig)
 	}
 }
 
-// todo change prompt err everywhere
-// todo export Z="ls -l" ; $Z --> segfault
-//TODO start OLDPWD AT NULL | IF UNSET PWD and cd nana OLDPWD=NULL
 int main(int ac,char **av, char** env)
 {
 	t_shell shell;
@@ -35,11 +40,7 @@ int main(int ac,char **av, char** env)
 	(void)ac;//error if != 1 ?
 	(void)av;
 
-	shell.ret = 0;
-	//TODO fix segfault with redirect without cmd->param
-	//TODO fix  < cat && > cat
-	//TODO fix segf ctrl+d
-	//TODO fix fd leaks
+
 	shell.env = get_env_list(env);
 	shell.std_in = dup(0);
 	shell.std_out = dup(1);
@@ -63,7 +64,6 @@ int main(int ac,char **av, char** env)
 			exit_shell(&shell, 0);
 		if (!*line)
 		{
-			shell.ret = 0;
 			free(line);
 			continue ;
 		}
