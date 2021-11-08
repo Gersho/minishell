@@ -37,16 +37,15 @@ int	exec_built_in(t_shell *shell, int in_fork)
 	if (*shell->cmd->param)
 	{
 		command = is_built_in(*shell->cmd->param);
-		if (!in_fork)
-		{
-
-			shell->std_in = dup(0);
-			shell->std_out = dup(1);
-			dup2_close(shell->cmd->in, 0);
-			dup2_close(shell->cmd->out, 1);
-		}
 		if (command != NOT_BUILT_IN_M)
 		{
+			if (!in_fork)
+			{
+				shell->std_in = dup(0);
+				shell->std_out = dup(1);
+				dup2_close(shell->cmd->in, 0);
+				dup2_close(shell->cmd->out, 1);
+			}
 			if (command == ECHO_M)
 				shell->ret = echo(shell->cmd->param);
 			else if (command == PWD_M)
