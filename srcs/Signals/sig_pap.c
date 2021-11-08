@@ -4,7 +4,7 @@
 
 #include "../../headers/minishell.h"
 
-static void sig_pap(int sig)
+static void	sig_pap(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -19,7 +19,7 @@ static void sig_pap(int sig)
  * Remove ^C with termcaps and redisplay prompt
  * Ignore ^\ signal
  */
-void sig_pap_handler(void)
+void	sig_pap_handler(void)
 {
 	struct termios	terminos;
 

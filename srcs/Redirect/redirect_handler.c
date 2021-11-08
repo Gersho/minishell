@@ -67,7 +67,7 @@ void	redirect_handler(t_shell *shell)
 			shell->cmd->in = dup(0);
 		else
 			shell->cmd->in = pipe_fd[0];
-		pipe(pipe_fd);//todo clean ?
+		pipe(pipe_fd);
 		if (shell->cmd->next)
 			shell->cmd->out = pipe_fd[1];
 		else
