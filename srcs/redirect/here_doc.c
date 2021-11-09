@@ -12,6 +12,7 @@
 
 #include "../../headers/minishell.h"
 
+//todo signals
 int	here_doc(char *limiter, t_cmd *cmd)
 {
 	char	*line;
