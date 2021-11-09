@@ -28,6 +28,7 @@ static int	ft_check_syntax(t_vars *vars, int *i)
 		*vars->last_ret = 258;
 		return (-255);
 	}
+	return (0);
 }
 
 int	ft_red_loop(t_vars *vars, int *i)
@@ -64,20 +65,20 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 		j++;
 	tmp = ft_substr(vars->str, i, j - i);
 	if (!tmp)
-		ft_freevars_exit(vars, -1);
-	current->red = ft_param_append_word(vars, current->red, tmp);
+		ft_freevars_exit(vars);
+	current->red = ft_param_append_word(current->red, tmp);
 	if (!current->red)
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	j += skip_spaces(&vars->str[j]);
 	k = j;
 	if (ft_red_loop(vars, &k) == -255)
 		return (-255);
 	tmp = ft_no_signifiant_quote_substr(vars, j, k - 1);
 	if (!tmp)
-		ft_freevars_exit(vars, -1);
-	current->red = ft_param_append_word(vars, current->red, tmp);
+		ft_freevars_exit(vars);
+	current->red = ft_param_append_word(current->red, tmp);
 	if (!current->red)
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	free(tmp);
 	return (k - i);
 }

@@ -59,7 +59,7 @@ char	*ft_get_env_value(t_vars *vars, char *name)
 	if (!tmp)
 	{
 		free(name);
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	}
 	return (tmp);
 }

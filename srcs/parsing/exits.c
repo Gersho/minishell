@@ -18,7 +18,7 @@ void	ft_error_exit(int err)
 	exit(err);
 }
 
-void	ft_freevars_exit(t_vars *vars, int err)
+void	ft_freevars_exit(t_vars *vars)
 {
 	ft_free_vars(vars);
 	ft_error_exit(-1);

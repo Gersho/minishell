@@ -61,18 +61,18 @@ t_env		*env_last(t_env *env);
 t_env		*env_dup(t_env *env);
 t_env		*env_unlink(t_env *env_l, char *name);
 //----cmd->param
-char		**ft_param_init(t_cmd *cmd);
-char		**ft_param_append_word(t_vars *vars, char **param, char *new);
+char		**ft_param_init(void);
+char		**ft_param_append_word(char **param, char *new);
 int			to_param_quote(t_vars *vars, t_cmd *current, int i);
 int			to_param_dblquote(t_vars *vars, t_cmd *current, int i);
 int			to_param_word(t_vars *vars, t_cmd *current, int i);
 int			to_redirect(t_vars *vars, t_cmd *current, int i);
 //----s_quotes
-t_quotes	*ft_quotes_init(t_vars *vars, int start, int end, t_type type);
+t_quotes	*ft_quotes_init(int start, int end, t_type type);
 void		ft_parse_quotes(t_vars *vars);
 void		ft_append_quote_data(t_vars *vars, t_quotes *quotes, t_quotes tmp);
 t_type		ft_get_type(t_quotes *quotes, int i);
-void		ft_update_quote_data(t_vars *vars, t_quotes *q, int size, int i);
+void		ft_update_quote_data(t_quotes *q, int size, int i);
 void		free_quotes_list(t_quotes *quotes);
 //----s_vars
 void		ft_init_vars(t_vars *vars, t_shell *shell, char *str);
@@ -88,7 +88,7 @@ int			ft_parse_line(char *line, t_shell *shell);
 int			ft_parse_loop(t_vars *vars);
 //----Error handling
 void		ft_error_exit(int err);
-void		ft_freevars_exit(t_vars *vars, int err);
+void		ft_freevars_exit(t_vars *vars);
 //----Utils
 int			skip_spaces(char *str);
 
@@ -100,7 +100,7 @@ int			ft_str_index_c(char *str, char c);
 int			is_separator(char c);
 int			is_redirect_or_space(char c);
 int			is_quote_or_dollar(char c);
-char		*rm_redundant_spaces(t_vars *vars, char *str);
+char		*rm_redundant_spaces(char *str);
 char		*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end);
 //----redirect Handling
 void		redirect_handler(t_shell *shell);

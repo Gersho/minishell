@@ -19,8 +19,8 @@ t_cmd	*ft_cmd_init(void)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	cmd->param = ft_param_init(cmd);
-	cmd->red = ft_param_init(cmd);
+	cmd->param = ft_param_init();
+	cmd->red = ft_param_init();
 	if (!cmd->param || !cmd->red)
 		return (NULL);
 	cmd->next = NULL;
