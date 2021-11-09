@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.h                                         :+:      :+:    :+:   */
+/*   cmd_launcher.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 08:43:27 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:43:27 by jchevet          ###   ########lyon.fr   */
+/*   Created: 2021/11/09 08:41:49 by jchevet           #+#    #+#             */
+/*   Updated: 2021/11/09 08:41:50 by jchevet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_CMD_H
-# define EXEC_CMD_H
+#include "../../headers/minishell.h"
 
-# include "minishell.h"
+void	launch_all_commands(t_shell *shell, int *status)
+{
+	int	i;
 
-void	launch_all_commands(t_shell *shell, int *status);
-int		exec_cmd_fork(t_shell *shell);
-int		exec_built_in(t_shell *shell, int in_fork);
-int		is_built_in(char *param);
-int		get_cmd_path(t_shell *shell, char **path_tab);
-int		parse_cmd(t_shell *shell);
-char	**split_env_path(t_env *env);
-
-#endif
+	i = 0;
+	while (shell->cmd)
+	{
+		if (i == 0 && !shell->cmd->next && is_built_in(*shell->cmd->param))
+		{
+			exec_built_in(shell, 0);
+			*status = -1;
+		}
+		else
+			exec_cmd_fork(shell);
+		shell->cmd = shell->cmd->next;
+		i++;
+	}
+}

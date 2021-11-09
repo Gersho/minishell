@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.h                                         :+:      :+:    :+:   */
+/*   env_add_back.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 08:43:27 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:43:27 by jchevet          ###   ########lyon.fr   */
+/*   Created: 2021/11/09 08:41:10 by jchevet           #+#    #+#             */
+/*   Updated: 2021/11/09 08:41:10 by jchevet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_CMD_H
-# define EXEC_CMD_H
+#include "../../headers/minishell.h"
 
-# include "minishell.h"
+t_env	*env_last(t_env *env)
+{
+	while (env && env->next)
+		env = env->next;
+	return (env);
+}
 
-void	launch_all_commands(t_shell *shell, int *status);
-int		exec_cmd_fork(t_shell *shell);
-int		exec_built_in(t_shell *shell, int in_fork);
-int		is_built_in(char *param);
-int		get_cmd_path(t_shell *shell, char **path_tab);
-int		parse_cmd(t_shell *shell);
-char	**split_env_path(t_env *env);
+void	env_add_back(t_env **lst, t_env *new)
+{
+	t_env	*tmp;
 
-#endif
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		tmp = env_last(*lst);
+		tmp->next = new;
+	}
+}
