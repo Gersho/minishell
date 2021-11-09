@@ -75,7 +75,7 @@ CC				= gcc
 
 RM				= rm -rf
 
-CFLAGS			= -g3 -Wall -Wextra -Werror -fsanitize=address
+CFLAGS			= -g3 -Wall -Wextra -Werror #-fsanitize=address
 
 all:			libs $(NAME)
 
