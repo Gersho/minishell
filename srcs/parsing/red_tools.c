@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 10:59:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/09 13:32:36 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 17:30:17 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ static int	ft_check_syntax(t_vars *vars, int *i)
 	return (1);
 }
 
-int	ft_red_loop(t_vars *vars, int *i)
+static int	ft_red_loop(t_vars *vars, int *i)
 {
+	int	len;
+
+	len = ft_strlen(vars->str);
 	if (ft_check_syntax(vars, i) == -255)
 		return (-255);
-	while (vars->str[*i])
+	while (*i < len)
 	{
 		if (is_separator(vars->str[*i]))
 		{

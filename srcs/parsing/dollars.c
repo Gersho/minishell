@@ -6,13 +6,13 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 15:25:25 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 17:27:15 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
+static char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
 {
 	char		*part_a;
 	char		*part_b;
@@ -39,9 +39,12 @@ char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
 	return (final);
 }
 
-int	ft_get_env_limit(char *str, int i)
+static int	ft_get_env_limit(char *str, int i)
 {
-	while (str[i])
+	int	len;
+
+	len = ft_strlen(str);
+	while (i < len)
 	{
 		if (!ft_isalnum(str[i]))
 			break ;
@@ -105,31 +108,50 @@ static void	ft_dollars_to_env(t_vars *vars, int *i)
 	vars->str = tmp;
 }
 
-void	ft_handle_dollars(t_vars *vars)
+void	ft_handle_dollars(t_vars *vars, int len)
 {
 	int			i;
 
 	i = 0;
-	while (vars->str[i])
+	while (i < len)
 	{
 		if (vars->str[i] == (char) 36 && vars->str[i + 1]
 			&& ft_get_type(vars->quotes, i) != SIMPLE)
 		{
 			i++;
-			if (vars->str[i] == '?')
+
+			if (vars->str[i] == '?' || !ft_isalpha(vars->str[i]))
 			{
-				ft_dollars_lastret(vars, &i);
-				continue ;
-			}
-			if (!ft_isalpha(vars->str[i]))
-			{
-				while (!is_separator(vars->str[i]) \
-					&& vars->str[i] != 34 && vars->str[i] == 39)
-					i++;
+				if (vars->str[i] == '?')
+					ft_dollars_lastret(vars, &i);
+				else if (!ft_isalpha(vars->str[i]))
+					while (!is_separator(vars->str[i]) \
+						&& vars->str[i] != 34 && vars->str[i] == 39)
+						i++;
 				continue ;
 			}
 			ft_dollars_to_env(vars, &i);
 		}
 		i++;
+		len = ft_strlen(vars->str);
 	}
 }
+
+
+/*
+
+
+			// if (vars->str[i] == '?')
+			// {
+			// 	ft_dollars_lastret(vars, &i);
+			// 	continue ;
+			// }
+			// if (!ft_isalpha(vars->str[i]))
+			// {
+			// 	while (!is_separator(vars->str[i]) \
+			// 		&& vars->str[i] != 34 && vars->str[i] == 39)
+			// 		i++;
+			// 	continue ;
+			// }
+
+*/
