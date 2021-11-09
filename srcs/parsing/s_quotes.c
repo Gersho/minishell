@@ -26,7 +26,7 @@ t_type	ft_get_type(t_quotes *quotes, int i)
 	return (NONE);
 }
 
-t_quotes	*ft_quotes_init(t_vars *vars, int start, int end, t_type type)
+t_quotes	*ft_quotes_init(int start, int end, t_type type)
 {
 	t_quotes	*quotes;
 
@@ -55,7 +55,7 @@ void	ft_append_quote_data(t_vars *vars, t_quotes *quotes, t_quotes tmp)
 	{
 		while (swap->next)
 			swap = swap->next;
-		swap->next = ft_quotes_init(vars, tmp.start, tmp.end, tmp.type);
+		swap->next = ft_quotes_init(tmp.start, tmp.end, tmp.type);
 		if (!swap->next)
 		{
 			ft_free_vars(vars);
@@ -64,7 +64,7 @@ void	ft_append_quote_data(t_vars *vars, t_quotes *quotes, t_quotes tmp)
 	}
 }
 
-void	ft_update_quote_data(t_vars *vars, t_quotes *quotes, int size, int i)
+void	ft_update_quote_data(t_quotes *quotes, int size, int i)
 {
 	t_quotes	*tmp;
 

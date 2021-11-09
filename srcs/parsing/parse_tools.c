@@ -49,10 +49,10 @@ int	to_param_quote(t_vars *vars, t_cmd *current, int i)
 	ft_param_loop(vars, &j);
 	tmp = ft_no_signifiant_quote_substr(vars, i, j - 1);
 	if (!tmp)
-		ft_freevars_exit(vars, -1);
-	current->param = ft_param_append_word(vars, current->param, tmp);
+		ft_freevars_exit(vars);
+	current->param = ft_param_append_word(current->param, tmp);
 	if (!current->param)
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	free(tmp);
 	return (j - i - 1);
 }
@@ -72,10 +72,10 @@ int	to_param_dblquote(t_vars *vars, t_cmd *current, int i)
 	ft_param_loop(vars, &j);
 	tmp = ft_no_signifiant_quote_substr(vars, i, j - 1);
 	if (!tmp)
-		ft_freevars_exit(vars, -1);
-	current->param = ft_param_append_word(vars, current->param, tmp);
+		ft_freevars_exit(vars);
+	current->param = ft_param_append_word(current->param, tmp);
 	if (!current->param)
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	free(tmp);
 	return (j - i - 1);
 }
@@ -89,10 +89,10 @@ int	to_param_word(t_vars *vars, t_cmd *current, int i)
 	ft_param_loop(vars, &j);
 	tmp = ft_no_signifiant_quote_substr(vars, i, j - 1);
 	if (!tmp)
-		ft_freevars_exit(vars, -1);
-	current->param = ft_param_append_word(vars, current->param, tmp);
+		ft_freevars_exit(vars);
+	current->param = ft_param_append_word(current->param, tmp);
 	if (!current->param)
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	free(tmp);
 	return (j - i);
 }

@@ -12,7 +12,7 @@
 
 #include "../../headers/minishell.h"
 
-char	**ft_param_init(t_cmd *cmd)
+char	**ft_param_init(void)
 {
 	char	**tmp;
 
@@ -47,7 +47,7 @@ static int	ft_copy_param(char **param, char **tmp, char *new)
 	return (1);
 }
 
-char	**ft_param_append_word(t_vars *vars, char **param, char *new)
+char	**ft_param_append_word(char **param, char *new)
 {
 	int		i;
 	char	**tmp;

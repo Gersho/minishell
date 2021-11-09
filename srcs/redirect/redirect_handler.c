@@ -16,6 +16,7 @@ static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 {
 	int	file_fd;
 
+	file_fd = -1;
 	if (redirect_mode == RED_OUT_T)
 		file_fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 00644);
 	else if (redirect_mode == RED_OUT_A)
