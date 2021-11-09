@@ -45,8 +45,8 @@ SRCSF			= main.c		\
 
 TOOLBOX			= close_tools.c		\
 				  env_tools.c		\
-				  	replace_std.c	\
-				  	utils.c			\
+				  replace_std.c		\
+				  utils.c			\
 
 REDIRECT		= here_doc.c 			\
                   redirect_handler.c	\
@@ -61,15 +61,15 @@ SIGNALS			=	sig_child.c \
 					sig_pap.c 	\
 
 SRCS			=	$(SRCSF)							\
-				 	$(addprefix Built_in/, $(BUILT_IN)) \
-				 	$(addprefix Parsing/, $(PARSING)) 	\
-				 	$(addprefix Redirect/, $(REDIRECT)) \
-				 	$(addprefix Exec_cmd/, $(EXEC_CMD)) \
-				 	$(addprefix Toolbox/, $(TOOLBOX)) 	\
-				 	$(addprefix Env_list/, $(ENV_LIST)) \
-				 	$(addprefix Signals/, $(SIGNALS)) 	\
+				 	$(addprefix built_in/, $(BUILT_IN)) \
+				 	$(addprefix parsing/, $(PARSING)) 	\
+				 	$(addprefix redirect/, $(REDIRECT)) \
+				 	$(addprefix exec_cmd/, $(EXEC_CMD)) \
+				 	$(addprefix toolbox/, $(TOOLBOX)) 	\
+				 	$(addprefix env_list/, $(ENV_LIST)) \
+				 	$(addprefix signals/, $(SIGNALS)) 	\
 
-OBJS			=	$(addprefix .objs/, $(SRCS:.c=.o))
+OBJS			=	$(addprefix objs/, $(SRCS:.c=.o))
 
 CC				= gcc
 
@@ -79,7 +79,7 @@ CFLAGS			= -g3 #-fsanitize=address #-Wall -Wextra -Werror
 
 all:			libs $(NAME)
 
-.objs/%.o: 		srcs/%.c $(HEADERS)
+objs/%.o: 		srcs/%.c $(HEADERS)
 				@mkdir -p $(dir $@)
 				$(CC) $(CFLAGS) -c $< -o $@
 
@@ -91,7 +91,7 @@ libs:
 
 clean:
 				make clean -C libft/
-				$(RM) .objs/
+				$(RM) objs/
 
 fclean:			clean
 				make fclean -C libft/

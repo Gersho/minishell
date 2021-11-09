@@ -83,7 +83,7 @@ void		ft_env_expand_double(t_vars *vars, int *i);
 void		ft_env_expand_none(t_vars *vars, int *i);
 int			ft_get_env_limit(char *str, int i);
 char		*ft_get_env_value(t_vars *vars, char *name);
-//----Parsing
+//----parsing
 int			ft_parse_line(char *line, t_shell *shell);
 int			ft_parse_loop(t_vars *vars);
 //----Error handling
@@ -102,7 +102,7 @@ int			is_redirect_or_space(char c);
 int			is_quote_or_dollar(char c);
 char		*rm_redundant_spaces(t_vars *vars, char *str);
 char		*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end);
-//----Redirect Handling
+//----redirect Handling
 void		redirect_handler(t_shell *shell);
 int			is_redirect(char c);
 int			here_doc(char *limiter, t_cmd *cmd);
