@@ -12,39 +12,28 @@
 
 #include "../headers/minishell.h"
 
-void sig_handler(int sig)
+void init_shell(t_shell *shell, char **line, char **env)
 {
-	if (sig == SIGINT)
-		printf("\n%s%s%s", KGRN, "bash$ ", KNRM);
+	*line = NULL;
+	shell->env = get_env_list(env);
+	shell->cmd = NULL;
+	shell->ret = 0;
+	tcgetattr(0, &shell->term);
 }
+//todo start OLDPWD at NULL;
 
-// todo change prompt err everywhere
-// todo export Z="ls -l" ; $Z --> segfault
-//TODO start OLDPWD AT NULL | IF UNSET PWD and cd nana OLDPWD=NULL
-//TODO EXPORT unset IN MAJ == ERROR
 int main(int ac,char **av, char** env)
 {
 	t_shell shell;
 	char*	line;
 	char 	*prompt;
-	struct sigaction sa;
 
-	(void)ac;//error if != 1 ?
+	(void)ac;
 	(void)av;
-
-	shell.ret = 0;
-//	sa.sa_flags = SA_RESTART;
-	sa.sa_handler = &sig_handler;
-	//TODO fix segfault with redirect without cmd->param
-	//TODO fix  < cat && > cat
-	//TODO fix segf ctrl+d
-	shell.env = get_env_list(env);
-	shell.std_in = dup(0);
-	shell.std_out = dup(1);
-	sigaction(SIGINT, &sa, NULL);
-	shell.ret = 0;
+	init_shell(&shell, &line, env);
 	while (1)
 	{
+		sig_pap_handler();
 		prompt = set_prompt(&shell);
 		line = readline(prompt);
 		if (prompt)
@@ -53,7 +42,6 @@ int main(int ac,char **av, char** env)
 			exit_shell(&shell, 0);
 		if (!*line)
 		{
-			shell.ret = 0;
 			free(line);
 			continue ;
 		}
@@ -66,13 +54,9 @@ int main(int ac,char **av, char** env)
 		}
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
-
 		//ft_debug_cmd(shell.cmd);
-
 		line = NULL;
-//		printf("%s\n", shell.cmd->param[1]);
 		if (*shell.cmd->param || *shell.cmd->red)
 			parse_cmd(&shell);
-//		ft_printf_fd(2, "ret=%d\n", shell.ret);
 	}
 }

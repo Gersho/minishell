@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cmd.h                                         :+:      :+:    :+:   */
+/*   sig_child.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/09 08:43:27 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:43:27 by jchevet          ###   ########lyon.fr   */
+/*   Created: 2021/11/09 08:42:45 by jchevet           #+#    #+#             */
+/*   Updated: 2021/11/09 08:42:45 by jchevet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_CMD_H
-# define EXEC_CMD_H
+#include "../../headers/minishell.h"
 
-# include "minishell.h"
+static void	sig_child(int sig)
+{
+	if (sig == SIGQUIT)
+		ft_putstr_fd("Quit: 3", 2);
+}
 
-void	launch_all_commands(t_shell *shell, int *status);
-int		exec_cmd_fork(t_shell *shell);
-int		exec_built_in(t_shell *shell, int in_fork);
-int		is_built_in(char *param);
-int		get_cmd_path(t_shell *shell, char **path_tab);
-int		parse_cmd(t_shell *shell);
-char	**split_env_path(t_env *env);
-
-#endif
+/*
+ * Reset term and handle SIGINT / SIGQUIT
+ */
+void	sig_child_handler(t_shell *shell)
+{
+	tcsetattr(0, TCSANOW, &shell->term);
+	signal(SIGINT, &sig_child);
+	signal(SIGQUIT, &sig_child);
+}

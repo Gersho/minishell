@@ -1,6 +1,14 @@
-//
-// Created by Johan Chevet on 10/21/21.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   s_env.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/09 08:41:42 by jchevet           #+#    #+#             */
+/*   Updated: 2021/11/09 08:41:42 by jchevet          ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
@@ -15,9 +23,9 @@ t_env	*new_env(char *name, char *value)
 	return (env);
 }
 
-int		env_list_size(t_env *env)
+int	env_list_size(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env)
@@ -30,7 +38,7 @@ int		env_list_size(t_env *env)
 
 void	free_env_list(t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (env)
 	{

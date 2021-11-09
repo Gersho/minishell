@@ -1,31 +1,43 @@
-//
-// Created by Stellar on 24/10/2021.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/09 08:40:29 by jchevet           #+#    #+#             */
+/*   Updated: 2021/11/09 08:40:29 by jchevet          ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-//TODO exit with args in unsigned char | avec quote
-
-static int	str_is_all_num(char *str)
+static int	ft_atoi_exit(char *str, int *err)
 {
 	int	i;
+	int	ret;
+	int	is_neg;
 
-	i = 0;
-	if (str)
+	*err = 0;
+	is_neg = 1;
+	ret = 0;
+	i = skip_spaces(str);
+	if (str[i] == '-' || str[i] == '+')
 	{
-		while (str[i])
-		{
-			if (!ft_isalnum((int)str[i]))
-			{
-				ft_printf_fd(2, "$s: exit: %s: numeric argument required\n", \
-				PROMPTERR, str);
-				return (0);
-			}
-			i++;
-		}
-		return (1);
+		if (str[i] == '-')
+			is_neg = -1;
+		i++;
 	}
-	return (0);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		ret = ret * 10 + (str[i] - '0');
+		i++;
+	}
+	i += skip_spaces(str + i);
+	if (str[i])
+		*err = 1;
+	ret *= is_neg;
+	return (ret);
 }
 
 static int	more_than_one_param(char **param)
@@ -43,24 +55,38 @@ static int	more_than_one_param(char **param)
 	return (0);
 }
 
-void	exit_shell(t_shell *shell, int in_fork)
+static void	get_return_value(t_shell *shell)
 {
 	unsigned char	exit_status;
+	int				err;
 
-	if (shell->cmd && str_is_all_num(shell->cmd->param[1]))
+	if (shell->cmd->param[1])
+		exit_status = (unsigned char)ft_atoi_exit(shell->cmd->param[1], &err);
 	{
-		if (!more_than_one_param(shell->cmd->param))
+		if (err)
 		{
-			exit_status = (unsigned char) atoi(shell->cmd->param[1]);
-			shell->ret = (int)exit_status;
+			ft_printf_fd(2, "%s: exit: %s: numeric argument required\n", \
+			PROMPTERR, shell->cmd->param[1]);
+			shell->ret = 255;
 		}
+		else if (more_than_one_param(shell->cmd->param))
+			shell->ret = 1;
+		else
+			shell->ret = (int) exit_status;
 	}
-	if (!in_fork)
+}
+
+void	exit_shell(t_shell *shell, int in_fork)
+{
+	if (shell->cmd)
 	{
-		ft_printf_fd(2, "exit\n");
+		get_return_value(shell);
 		close_perror(shell->std_out);
 		close_perror(shell->std_in);
 	}
+	if (!in_fork)
+		ft_printf_fd(2, "exit\n");
+	tcsetattr(0, TCSANOW, &shell->term);
 	free_env_list(shell->env);
 	free_cmd_list(shell->cmd);
 	exit(shell->ret);

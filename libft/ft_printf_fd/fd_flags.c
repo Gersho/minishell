@@ -54,27 +54,27 @@ int	fd_is_valid(const char **str, t_flags *flags, va_list varlist)
 	return (0);
 }
 
-void	fd_flags_parsing(t_flags *flags, char *str_flags, va_list varlist, int end)
+void	fd_flags_parsing(t_flags *flags, char *str_f, va_list varlist, int end)
 {
 	int	i;
 
 	i = 0;
 	while (i < end)
 	{
-		if (str_flags[i] >= '1' && str_flags[i] <= '9')
-			i += fd_get_width(str_flags + i, flags, varlist);
-		else if (str_flags[i] == '*')
-			fd_get_width(str_flags + i, flags, varlist);
-		else if (str_flags[i] == '.')
+		if (str_f[i] >= '1' && str_f[i] <= '9')
+			i += fd_get_width(str_f + i, flags, varlist);
+		else if (str_f[i] == '*')
+			fd_get_width(str_f + i, flags, varlist);
+		else if (str_f[i] == '.')
 		{
 			flags->dot = 1;
 			flags->precision = 0;
-			if (str_flags[i + 1] == '*' || ft_isdigit(str_flags[i + 1]))
-				i += fd_get_precision(str_flags + i + 1, flags, varlist);
+			if (str_f[i + 1] == '*' || ft_isdigit(str_f[i + 1]))
+				i += fd_get_precision(str_f + i + 1, flags, varlist);
 		}
-		else if (str_flags[i] == '0')
+		else if (str_f[i] == '0')
 			flags->zero = 1;
-		else if (str_flags[i] == '-')
+		else if (str_f[i] == '-')
 			flags->minus = 1;
 		i++;
 	}
