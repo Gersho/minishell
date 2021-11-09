@@ -21,7 +21,7 @@ void init_shell(t_shell *shell, char **line, char **env)
 	tcgetattr(0, &shell->term);
 }
 
-int main(int ac,char **av, char** env)
+int main(int ac,char **av, char **env)
 {
 	t_shell shell;
 	char*	line;
@@ -53,7 +53,6 @@ int main(int ac,char **av, char** env)
 		}
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
-		//ft_debug_cmd(shell.cmd);
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)
 			parse_cmd(&shell);
