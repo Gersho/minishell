@@ -25,7 +25,7 @@
 
 # include <termios.h>
 # include "shell_struct.h"
-# include "libft.h"
+# include "../libft/include/libft.h"
 # include <limits.h>
 # include <errno.h>
 # include <stdio.h>
