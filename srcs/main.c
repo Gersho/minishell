@@ -20,7 +20,6 @@ void init_shell(t_shell *shell, char **line, char **env)
 	shell->ret = 0;
 	tcgetattr(0, &shell->term);
 }
-//todo start OLDPWD at NULL;
 
 int main(int ac,char **av, char** env)
 {

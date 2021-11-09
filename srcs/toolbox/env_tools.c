@@ -85,8 +85,14 @@ t_env	*get_env_list(char **env_main)
 	while (env_main[++i])
 	{
 		len = ft_strchr(env_main[i], '=') - env_main[i];
-		env_add_back(&env, new_env(ft_substr(env_main[i], 0, len), \
-		ft_substr(env_main[i], len + 1, ft_strlen(env_main[i]))));
+		if (ft_strncmp("OLDPWD=", env_main[i], 7) == 0)
+		{
+			env_add_back(&env, new_env(\
+			ft_substr(env_main[i], 0, len), NULL));
+		}
+		else
+			env_add_back(&env, new_env(ft_substr(env_main[i], 0, len), \
+			ft_substr(env_main[i], len + 1, ft_strlen(env_main[i]))));
 	}
 	return (env);
 }
