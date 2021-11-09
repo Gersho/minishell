@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/07 17:35:06 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 11:44:11 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,28 @@ void	ft_parse_quotes(t_vars *vars)
 	}
 }
 
+static int	ft_check_after_pipe(t_vars *vars, int i)
+{
+	i += skip_spaces(&vars->str[i]);
+	while (vars->str[i])
+	{
+		if (vars->str[i] == '|')
+		{
+			ft_printf_fd(2, "%s: syntax error near unexpected token 'newline'\n",
+				PROMPTERR);
+			*vars->last_ret = 258;
+			return (-255);
+		}
+		else
+			return (1);
+		i++;
+	}
+	ft_printf_fd(2, "%s: syntax error near unexpected token 'newline'\n",
+		PROMPTERR);
+	*vars->last_ret = 258;
+	return (-255);
+}
+
 int	ft_parse_loop(t_vars *vars)
 {
 	t_cmd	*tmp;
@@ -75,6 +97,8 @@ int	ft_parse_loop(t_vars *vars)
 		if (ft_strncmp(&vars->str[i], "|", 1) == 0
 			&& ft_get_type(vars->env, i) != ENVS)
 		{
+			if (ft_check_after_pipe(vars, (i + 1)) == -255)
+				return (-255);
 			tmp->next = ft_cmd_init();
 			if (!tmp->next)
 				ft_freevars_exit(vars, -1);

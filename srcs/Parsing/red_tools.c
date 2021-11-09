@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 10:59:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 12:40:41 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 11:43:03 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	ft_check_syntax(t_vars *vars, int *i)
 		*vars->last_ret = 258;
 		return (-255);
 	}
+	return (1);
 }
 
 int	ft_red_loop(t_vars *vars, int *i)
