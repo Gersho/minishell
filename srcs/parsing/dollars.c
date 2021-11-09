@@ -59,16 +59,16 @@ static void	ft_dollars_lastret(t_vars *vars, int *i)
 	swap = ft_itoa(*vars->last_ret);
 	if (!swap)
 	{
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	}
 	limits.start = *i - 1;
 	limits.end = *i + 1;
-	ft_update_quote_data(vars, vars->quotes, (ft_strlen(swap) - 2), *i);
+	ft_update_quote_data(vars->quotes, (ft_strlen(swap) - 2), *i);
 	tmp = ft_build_newstr(vars, limits, swap);
 	if (!tmp)
 	{
 		free(swap);
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	}
 	free(vars->str);
 	vars->str = tmp;
@@ -86,11 +86,11 @@ static void	ft_dollars_to_env(t_vars *vars, int *i)
 	limits.end = ft_get_env_limit(vars->str, *i);
 	tmp = ft_substr(vars->str, *i, limits.end - limits.start - 1);
 	if (!tmp)
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	swap = ft_get_env_value(vars, tmp);
 	if (ft_get_type(vars->quotes, *i) == NONE && swap)
-		swap = rm_redundant_spaces(vars, swap);
-	ft_update_quote_data(vars, vars->quotes, \
+		swap = rm_redundant_spaces(swap);
+	ft_update_quote_data(vars->quotes, \
 		(ft_strlen(swap) - ft_strlen(tmp) - 1), *i);
 	*i += ft_strlen(swap) - ft_strlen(tmp) + 1;
 	free(tmp);
@@ -98,7 +98,7 @@ static void	ft_dollars_to_env(t_vars *vars, int *i)
 	if (!tmp)
 	{
 		free(swap);
-		ft_freevars_exit(vars, -1);
+		ft_freevars_exit(vars);
 	}
 	free(swap);
 	free(vars->str);

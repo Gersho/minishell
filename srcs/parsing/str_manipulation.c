@@ -41,11 +41,10 @@ static int	ft_space_join(char **out, char **split, int *i)
 	return (1);
 }
 
-char	*rm_redundant_spaces(t_vars *vars, char *str)
+char	*rm_redundant_spaces(char *str)
 {
 	char	**split;
 	char	*out;
-	char	*tmp;
 	int		i;
 
 	split = ft_split(str, ' ');

@@ -48,7 +48,10 @@ char	**get_env_tab(t_env *env_l)
 	free_env_list(env_l);
 	return (env_t);
 }
-
+/*
+ * Return 1 if it founds "name" in env list and move pointer to it
+ * Return 0 if it didn't find "name" and don't move the pointer on list
+ */
 int	env_seeker(t_env **env_l, const char *name)
 {
 	t_env	*save;
@@ -85,8 +88,14 @@ t_env	*get_env_list(char **env_main)
 	while (env_main[++i])
 	{
 		len = ft_strchr(env_main[i], '=') - env_main[i];
-		env_add_back(&env, new_env(ft_substr(env_main[i], 0, len), \
-		ft_substr(env_main[i], len + 1, ft_strlen(env_main[i]))));
+		if (ft_strncmp("OLDPWD=", env_main[i], 7) == 0)
+		{
+			env_add_back(&env, new_env(\
+			ft_substr(env_main[i], 0, len), NULL));
+		}
+		else
+			env_add_back(&env, new_env(ft_substr(env_main[i], 0, len), \
+			ft_substr(env_main[i], len + 1, ft_strlen(env_main[i]))));
 	}
 	return (env);
 }

@@ -18,8 +18,8 @@ void	ft_init_vars(t_vars *vars, t_shell *shell, char *str)
 	vars->str = str;
 	vars->env_vars = shell->env;
 	vars->last_ret = &shell->ret;
-	vars->quotes = ft_quotes_init(vars, -1, -1, NONE);
-	vars->env = ft_quotes_init(vars, -1, -1, NONE);
+	vars->quotes = ft_quotes_init(-1, -1, NONE);
+	vars->env = ft_quotes_init(-1, -1, NONE);
 	if (!vars->quotes || !vars->env)
 	{
 		free_cmd_list(vars->cmd);

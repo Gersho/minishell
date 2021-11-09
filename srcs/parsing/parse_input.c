@@ -101,7 +101,7 @@ int	ft_parse_loop(t_vars *vars)
 				return (-255);
 			tmp->next = ft_cmd_init();
 			if (!tmp->next)
-				ft_freevars_exit(vars, -1);
+				ft_freevars_exit(vars);
 			tmp = tmp->next;
 			i++;
 		}

@@ -61,8 +61,8 @@ static void	get_return_value(t_shell *shell)
 	int				err;
 
 	if (shell->cmd->param[1])
-		exit_status = (unsigned char)ft_atoi_exit(shell->cmd->param[1], &err);
 	{
+		exit_status = (unsigned char)ft_atoi_exit(shell->cmd->param[1], &err);
 		if (err)
 		{
 			ft_printf_fd(2, "%s: exit: %s: numeric argument required\n", \
