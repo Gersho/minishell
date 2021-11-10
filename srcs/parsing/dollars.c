@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/09 17:27:15 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/10 17:15:40 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void	ft_handle_dollars(t_vars *vars, int len)
 			&& ft_get_type(vars->quotes, i) != SIMPLE)
 		{
 			i++;
-
 			if (vars->str[i] == '?' || !ft_isalpha(vars->str[i]))
 			{
 				if (vars->str[i] == '?')
@@ -136,22 +135,3 @@ void	ft_handle_dollars(t_vars *vars, int len)
 		len = ft_strlen(vars->str);
 	}
 }
-
-
-/*
-
-
-			// if (vars->str[i] == '?')
-			// {
-			// 	ft_dollars_lastret(vars, &i);
-			// 	continue ;
-			// }
-			// if (!ft_isalpha(vars->str[i]))
-			// {
-			// 	while (!is_separator(vars->str[i]) \
-			// 		&& vars->str[i] != 34 && vars->str[i] == 39)
-			// 		i++;
-			// 	continue ;
-			// }
-
-*/
