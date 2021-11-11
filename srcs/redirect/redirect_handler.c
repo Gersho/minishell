@@ -39,22 +39,21 @@ static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 
 static int	read_through_redirect(t_shell *shell)
 {
-	int		redirect_mode;
+	int		redirect;
 	char	*filename;
 	int		i;
 
-	i = 0;
-	while (shell->cmd->red[i])
+	i = -1;
+	while (shell->cmd->red[++i])
 	{
-		redirect_mode = which_redirect(shell->cmd->red[i]);
+		while (which_redirect(shell->cmd->red[i]) == 0)
+			continue ;
+		redirect = which_redirect(shell->cmd->red[i]);
 		i++;
 		filename = ft_strdup(shell->cmd->red[i]);
 		if (filename == NULL)
 			return (1);
-		if (redirect_mode == HERE_DOC)
-			here_doc(filename, shell->cmd);
-		else
-			open_with_param(shell, filename, redirect_mode);
+		open_with_param(shell, filename, redirect);
 		i++;
 	}
 	ft_free_str_tab(shell->cmd->red);
@@ -72,10 +71,13 @@ void	redirect_handler(t_shell *shell)
 	start = shell->cmd;
 	while (shell->cmd)
 	{
-		if (first_cmd)
-			shell->cmd->in = dup(0);
-		else
-			shell->cmd->in = pipe_fd[0];
+		if (shell->cmd->in == 0)
+		{
+			if (first_cmd)
+				shell->cmd->in = dup(0);
+			else
+				shell->cmd->in = pipe_fd[0];
+		}
 		pipe(pipe_fd);
 		if (shell->cmd->next)
 			shell->cmd->out = pipe_fd[1];
@@ -84,7 +86,7 @@ void	redirect_handler(t_shell *shell)
 			close_multiple_fd(2, pipe_fd[0], pipe_fd[1]);
 			shell->cmd->out = dup(1);
 		}
-		read_through_redirect(shell);
+		read_through_redirect(shell);//todo do something with the return
 		shell->cmd = shell->cmd->next;
 		first_cmd = 0;
 	}

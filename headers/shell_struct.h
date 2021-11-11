@@ -22,10 +22,10 @@ typedef struct s_env_list	t_env;
 
 enum e_open_param
 {
+	HERE_DOC,
 	RED_OUT_T,
 	RED_OUT_A,
-	RED_IN,
-	HERE_DOC
+	RED_IN
 };
 
 enum e_type

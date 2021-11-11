@@ -45,7 +45,28 @@ void	wait_all_process(t_cmd *cmd, t_shell *shell)
 		write(1, "\n", 1);
 }
 
-int	parse_cmd(t_shell *shell)
+int check_heredoc(t_shell *shell)
+{
+	t_cmd	*cmd;
+	int 	i;
+
+	cmd = shell->cmd;
+	while (cmd)
+	{
+		i = -1;
+		while (cmd->red[++i])
+		{
+			if (which_redirect(cmd->red[i]) != HERE_DOC)
+				continue ;
+			if (!here_doc(cmd->red[i + 1], shell))
+				return (0);
+		}
+		cmd = cmd->next;
+	}
+	return (1);
+}
+
+void	parse_cmd(t_shell *shell)
 {
 	int		status;
 	t_cmd	*cmd_ptr;
@@ -53,16 +74,17 @@ int	parse_cmd(t_shell *shell)
 	status = 0;
 	shell->error = 0;
 	cmd_ptr = shell->cmd;
-	redirect_handler(shell);
-	if (!shell->error)
-		launch_all_commands(shell, &status);
-	else
+	if (!check_heredoc(shell))
 	{
-		close_all_fds(shell);
-		shell->ret = EXIT_FAILURE;
+		redirect_handler(shell);
+		if (!shell->error)
+			launch_all_commands(shell, &status);
+		else {
+			close_all_fds(shell);
+			shell->ret = EXIT_FAILURE;
+		}
+		if (status != -1 && !shell->error)
+			wait_all_process(cmd_ptr, shell);
 	}
-	if (status != -1 && !shell->error)
-		wait_all_process(cmd_ptr, shell);
 	free_cmd_list(cmd_ptr);
-	return (1);
 }

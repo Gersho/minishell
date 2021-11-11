@@ -22,6 +22,7 @@ void init_shell(t_shell *shell, char **line, char **env)
 }
 
 //TODO crash echo OLPWD if its NULL / any env that is null
+//todo Exit status = 1 if ctrl+c
 int main(int ac,char **av, char **env)
 {
 	t_shell shell;
