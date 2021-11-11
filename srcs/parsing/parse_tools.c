@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 15:35:21 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 13:53:50 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 static void	ft_param_loop(t_vars *vars, int *i)
 {
-	while (vars->str[*i])
+	int	len;
+
+	len = ft_strlen(vars->str);
+	while (*i < len)
 	{
 		if (vars->str[*i] == ' ')
 			break ;

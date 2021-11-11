@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 10:43:42 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/09 14:12:11 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 int	ft_str_index_c(char *str, char c)
 {
 	int	i;
+	int	len;
 
 	i = 0;
-	while (str[i])
+	len = ft_strlen(str);
+	while (i < len)
 	{
 		if (str[i] == c)
 			return (i);
