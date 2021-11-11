@@ -22,12 +22,17 @@ int	here_doc(char *limiter, t_cmd *cmd)
 		perror("pipo");
 	ft_printf_fd(1, "%s> %s", KMAG, KNRM);
 	get_next_line(0, &line);
-	while (ft_strcmp(limiter, line) != 0)
+	if (*line)
 	{
-		ft_printf_fd(1, "%s> %s", KMAG, KNRM);
-		ft_putstr_nl_fd(line, pipe_doc[1]);
-		free(line);
-		get_next_line(0, &line);
+		while (ft_strcmp(limiter, line) != 0)
+		{
+			ft_printf_fd(1, "%s> %s", KMAG, KNRM);
+			ft_putstr_nl_fd(line, pipe_doc[1]);
+			free(line);
+			get_next_line(0, &line);
+			if (!*line)
+				break ;
+		}
 	}
 	free(line);
 	close_perror(pipe_doc[1]);
