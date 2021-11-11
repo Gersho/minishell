@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 11:19:17 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/09 14:12:11 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 16:53:34 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,15 @@ int	is_quote_or_dollar(char c)
 char	*ft_get_env_value(t_vars *vars, char *name)
 {
 	char	*tmp;
-	t_env	**envs;
+	t_env	*envs;
 
-	envs = &vars->env_vars;
-	if (env_seeker(envs, name) == 0)
+	envs = vars->env_vars;
+	if (env_seeker(&envs, name) == 0)
 		return (NULL);
-	tmp = ft_strdup((*envs)->value);
+	if (envs->value == NULL)
+		return (NULL);
+	else
+		tmp = ft_strdup(envs->value);
 	if (!tmp)
 	{
 		free(name);

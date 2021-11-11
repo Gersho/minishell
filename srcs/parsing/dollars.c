@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/10 17:15:40 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 16:54:06 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static void	ft_dollars_to_env(t_vars *vars, int *i)
 		swap = rm_redundant_spaces(swap);
 	ft_update_quote_data(vars->quotes, \
 		(ft_strlen(swap) - ft_strlen(tmp) - 1), *i);
-	*i += ft_strlen(swap) - ft_strlen(tmp) + 1;
+	*i += (int)(ft_strlen(swap) - 2);
 	free(tmp);
 	tmp = ft_build_newstr(vars, limits, swap);
 	if (!tmp)
@@ -130,8 +130,8 @@ void	ft_handle_dollars(t_vars *vars, int len)
 				continue ;
 			}
 			ft_dollars_to_env(vars, &i);
+			len = ft_strlen(vars->str);
 		}
 		i++;
-		len = ft_strlen(vars->str);
 	}
 }
