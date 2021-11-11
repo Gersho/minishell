@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 10:43:13 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/06 13:29:18 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/11 19:42:19 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*rm_redundant_spaces(char *str)
 			return (NULL);
 	}
 	free(str);
+	ft_free_str_tab(split);
 	return (out);
 }
 
