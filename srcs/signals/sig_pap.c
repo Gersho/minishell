@@ -12,7 +12,7 @@
 
 #include "../../headers/minishell.h"
 
-static void	sig_pap(int sig)
+void	sig_pap(int sig)
 {
 	if (sig == SIGINT)
 	{

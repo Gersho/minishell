@@ -21,6 +21,9 @@ void init_shell(t_shell *shell, char **line, char **env)
 	tcgetattr(0, &shell->term);
 }
 
+//TODO crash echo OLPWD if its NULL / any env that is null
+//todo Exit status = 1 if ctrl+c
+//todo here doc ctrlc and ctrlD segf
 int main(int ac,char **av, char **env)
 {
 	t_shell shell;

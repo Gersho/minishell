@@ -18,7 +18,13 @@ static void	free_cmd_and_exit(t_shell *shell)
 	exit(shell->ret);
 }
 
-int	exec_cmd_fork(t_shell *shell)
+static void	exit_if_param_null(char *str)
+{
+	if (!str)
+	exit (EXIT_SUCCESS);
+}
+
+void	exec_cmd_fork(t_shell *shell)
 {
 	char	**env_t;
 	char	**path_tab;
@@ -27,6 +33,7 @@ int	exec_cmd_fork(t_shell *shell)
 	shell->cmd->pid = fork();
 	if (shell->cmd->pid == 0)
 	{
+		exit_if_param_null(*shell->cmd->param);
 		replace_std(shell->cmd->in, shell->cmd->out);
 		if (shell->cmd->next)
 			close_unused_fd(shell);
@@ -44,5 +51,4 @@ int	exec_cmd_fork(t_shell *shell)
 	else if (shell->cmd->pid == -1)
 		perror("fork");
 	close_multiple_fd(2, shell->cmd->in, shell->cmd->out);
-	return (-1);
 }
