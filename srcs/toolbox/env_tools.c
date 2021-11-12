@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_tools.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 08:42:57 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:42:57 by jchevet          ###   ########lyon.fr   */
+/*   Updated: 2021/11/12 13:06:42 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	**get_env_tab(t_env *env_l)
 	free_env_list(env_l);
 	return (env_t);
 }
+
 /*
  * Return 1 if it founds "name" in env list and move pointer to it
  * Return 0 if it didn't find "name" and don't move the pointer on list
