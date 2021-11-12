@@ -22,7 +22,11 @@ static char	**cpy_env_to_tab(t_env *env_l, char **env_t)
 	{
 		env_t[i] = ft_strjoin(env_l->name, "=");
 		save = env_t[i];
-		env_t[i] = ft_strjoin(save, env_l->value);
+		if (env_l->value == NULL)
+			env_t[i] = ft_strjoin(save, "");
+		else
+			env_t[i] = ft_strjoin(save, env_l->value);
+//		printf("env=%s\n", env_t[i]);
 		free(save);
 		if (env_t[i] == NULL)
 		{
