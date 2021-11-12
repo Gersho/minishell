@@ -18,7 +18,7 @@ static int	command_not_found(char *path, char *name)
 	{
 		ft_printf_fd(2, "%s: %s: command not found\n", \
 		PROMPTERR, name);
-		return (1);
+		return (127);
 	}
 	return (0);
 }
@@ -77,21 +77,24 @@ int	get_cmd_path(t_shell *shell, char **path_tab)
 	path = NULL;
 	if (is_absolute_path(shell, path_tab))
 		return (shell->ret);
-	while (path_tab[i])
+	if (path_tab == NULL)
+		path_exist(*shell->cmd->param, shell->cmd);
+	else
 	{
-		path = ft_strjoin(path_tab[i], *shell->cmd->param);
-		if (path == NULL)
-			return (1);
-		if (path_exist(path, shell->cmd))
+		while (path_tab[i])
 		{
+			path = ft_strjoin(path_tab[i], *shell->cmd->param);
+			if (path == NULL)
+				return (1);
+			if (path_exist(path, shell->cmd))
+			{
+				free(path);
+				break;
+			}
+			i++;
 			free(path);
-			break ;
 		}
-		i++;
-		free(path);
+		ft_free_str_tab(path_tab);
 	}
-	ft_free_str_tab(path_tab);
-	if (command_not_found(shell->cmd->path, *shell->cmd->param))
-		return (127);
-	return (0);
+	return (command_not_found(shell->cmd->path, *shell->cmd->param));
 }
