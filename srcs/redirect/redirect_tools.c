@@ -45,7 +45,7 @@ int	which_redirect(char *red)
 {
 	int	redirect_mode;
 
-	redirect_mode = 0;
+	redirect_mode = -1;
 	redirect_in(red, &redirect_mode);
 	redirect_out(red, &redirect_mode);
 	return (redirect_mode);

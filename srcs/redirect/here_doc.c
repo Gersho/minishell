@@ -12,13 +12,6 @@
 
 #include "../../headers/minishell.h"
 
-void sig_doc(int sig)
-{
-	(void)sig;
-	ft_putchar('\n');
-	exit(EXIT_FAILURE);
-}
-
 int	here_doc(char *limiter, t_shell *shell)
 {
 	char	*line;
@@ -28,23 +21,13 @@ int	here_doc(char *limiter, t_shell *shell)
 
 	if (pipe(pipe_doc) == -1)
 		perror("pipo");
+	
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
-//		close_perror(pipe_doc[0]);
-//		while (1)
-//		{
-//			line = readline("\x1B[35m> \x1B[0m");
-//			if (!line)
-//				exit(EXIT_SUCCESS);
-//			if (ft_strcmp(limiter, line) == 0) {
-//				free(line);
-//				break;
-//			}
-//			ft_putstr_nl_fd(line, pipe_doc[1]);
-//			free(line);
-//		}
-		printf("limiter=%s\n", limiter);
+		signal(SIGINT, SIG_DFL);
+		close_perror(pipe_doc[0]);
 		ft_printf_fd(1, "%s> %s", KMAG, KNRM);
 		while (get_next_line(0, &line))
 		{
@@ -62,15 +45,16 @@ int	here_doc(char *limiter, t_shell *shell)
 		close_perror(pipe_doc[1]);
 		exit(EXIT_SUCCESS);
 	}
-	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	if (WEXITSTATUS(status) == 1)
-	{
-		shell->ret = 1;
-	}
 	close_perror(pipe_doc[1]);
 	shell->cmd->in = pipe_doc[0];
-//	dup2_close(pipe_doc[0], shell->cmd->in);
+	if (WIFSIGNALED(status))
+	{
+		ft_putchar_fd('\n', 2);
+		shell->ret = 1;
+		return (0);
+	}
+	shell->ret = WEXITSTATUS(status);
 	return (1);
 }
 

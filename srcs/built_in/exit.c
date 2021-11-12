@@ -55,7 +55,7 @@ static int	more_than_one_param(char **param)
 	return (0);
 }
 
-static void	get_return_value(t_shell *shell)
+static int	get_return_value(t_shell *shell)
 {
 	unsigned char	exit_status;
 	int				err;
@@ -70,22 +70,32 @@ static void	get_return_value(t_shell *shell)
 			shell->ret = 255;
 		}
 		else if (more_than_one_param(shell->cmd->param))
+		{
 			shell->ret = 1;
+			return (0);
+		}
 		else
 			shell->ret = (int) exit_status;
 	}
+	return (1);
 }
 
 void	exit_shell(t_shell *shell, int in_fork)
 {
 	if (shell->cmd)
 	{
-		get_return_value(shell);
-		close_perror(shell->std_out);
-		close_perror(shell->std_in);
+		if (!get_return_value(shell))
+			return ;
 	}
 	if (!in_fork)
+	{
+		if (shell->cmd)
+		{
+			close_perror(shell->std_out);
+			close_perror(shell->std_in);
+		}
 		ft_printf_fd(2, "exit\n");
+	}
 	tcsetattr(0, TCSANOW, &shell->term);
 	free_env_list(shell->env);
 	free_cmd_list(shell->cmd);

@@ -46,8 +46,9 @@ static int	read_through_redirect(t_shell *shell)
 	i = -1;
 	while (shell->cmd->red[++i])
 	{
-		while (which_redirect(shell->cmd->red[i]) == 0)
+		if (which_redirect(shell->cmd->red[i]) == -1 || which_redirect(shell->cmd->red[i]) == HERE_DOC)
 			continue ;
+		
 		redirect = which_redirect(shell->cmd->red[i]);
 		i++;
 		filename = ft_strdup(shell->cmd->red[i]);

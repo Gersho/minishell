@@ -54,12 +54,15 @@ int check_heredoc(t_shell *shell)
 	while (cmd)
 	{
 		i = -1;
-		while (cmd->red[++i])
+		if (cmd->red)
 		{
-			if (which_redirect(cmd->red[i]) != HERE_DOC)
-				continue ;
-			if (!here_doc(cmd->red[i + 1], shell))
-				return (0);
+			while (cmd->red[++i])
+			{
+				if (which_redirect(cmd->red[i]) != HERE_DOC)
+					continue;
+				if (!here_doc(cmd->red[i + 1], shell))
+					return (0);
+			}
 		}
 		cmd = cmd->next;
 	}
@@ -74,12 +77,13 @@ void	parse_cmd(t_shell *shell)
 	status = 0;
 	shell->error = 0;
 	cmd_ptr = shell->cmd;
-	if (!check_heredoc(shell))
+	if (check_heredoc(shell))
 	{
 		redirect_handler(shell);
 		if (!shell->error)
 			launch_all_commands(shell, &status);
-		else {
+		else
+		{
 			close_all_fds(shell);
 			shell->ret = EXIT_FAILURE;
 		}
@@ -87,4 +91,5 @@ void	parse_cmd(t_shell *shell)
 			wait_all_process(cmd_ptr, shell);
 	}
 	free_cmd_list(cmd_ptr);
+	shell->cmd = NULL;
 }

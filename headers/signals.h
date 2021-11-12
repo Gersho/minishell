@@ -16,6 +16,7 @@
 # include "minishell.h"
 
 void	sig_pap_handler(void);
+void	sig_pap(int sig);
 void	sig_child_handler(t_shell *shell);
 
 #endif
