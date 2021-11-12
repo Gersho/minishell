@@ -37,11 +37,11 @@ int	here_doc(char *limiter, t_shell *shell)
 
 	if (pipe(pipe_doc) == -1)
 		perror("pipo");
-//	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
-//		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		close_perror(pipe_doc[0]);
 		ft_printf_fd(1, "%s> %s", KMAG, KNRM);
 		while (get_next_line(0, &line))

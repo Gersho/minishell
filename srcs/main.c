@@ -59,5 +59,10 @@ int main(int ac,char **av, char **env)
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)
 			parse_cmd(&shell);
+		else if (shell.cmd)
+		{
+			free_cmd_list(shell.cmd);
+			shell.cmd = NULL;
+		}
 	}
 }
