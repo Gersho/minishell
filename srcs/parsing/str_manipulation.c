@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 10:43:13 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/11 19:42:19 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/12 16:53:57 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 
 	cut = ft_get_quote_count(vars, start, end);
 	tmp = malloc(sizeof(char) * (end - start - cut + 2));
+//printf("ptr113: %p*\n", tmp);
 	if (!tmp)
 		return (NULL);
 	i = 0;
