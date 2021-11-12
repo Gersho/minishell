@@ -52,3 +52,4 @@ void	exec_cmd_fork(t_shell *shell)
 		perror("fork");
 	close_multiple_fd(2, shell->cmd->in, shell->cmd->out);
 }
+//todo unset path, ./mini ret not good
