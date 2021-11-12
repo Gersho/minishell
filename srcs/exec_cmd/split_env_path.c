@@ -38,8 +38,7 @@ char	**split_env_path(t_env *env)
 	char	**paths_tab;
 
 	paths_tab = NULL;
-	env_seeker(&env, "PATH");
-	if (env)
+	if (env_seeker(&env, "PATH"))
 	{
 		paths_tab = ft_split(env->value, ':');
 		if (paths_tab == NULL)

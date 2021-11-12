@@ -30,8 +30,9 @@ int	env_list_size(t_env *env)
 	i = 0;
 	while (env)
 	{
+		if (env->value != NULL)
+			i++;
 		env = env->next;
-		i++;
 	}
 	return (i);
 }

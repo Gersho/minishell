@@ -20,20 +20,20 @@ static char	**cpy_env_to_tab(t_env *env_l, char **env_t)
 	i = 0;
 	while (env_l)
 	{
-		env_t[i] = ft_strjoin(env_l->name, "=");
-		save = env_t[i];
-		if (env_l->value == NULL)
-			env_t[i] = ft_strjoin(save, "");
-		else
-			env_t[i] = ft_strjoin(save, env_l->value);
-		free(save);
-		if (env_t[i] == NULL)
+		if (env_l->value != NULL)
 		{
-			ft_free_tab(env_t, i);
-			return (NULL);
+			env_t[i] = ft_strjoin(env_l->name, "=");
+			save = env_t[i];
+			env_t[i] = ft_strjoin(save, env_l->value);
+			free(save);
+			if (env_t[i] == NULL)
+			{
+				ft_free_tab(env_t, i);
+				return (NULL);
+			}
+			i++;
 		}
 		env_l = env_l->next;
-		i++;
 	}
 	return (env_t);
 }
