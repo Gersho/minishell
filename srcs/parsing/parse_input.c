@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/12 15:21:39 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/12 16:00:01 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ int	ft_parse_line(char *str, t_shell *shell)
 	len = ft_strlen(vars.str);
 	if (ft_parse_loop(&vars, len) == -255)
 		return (-255);
-//ft_debug_cmd(vars.cmd);
 	free(vars.str);
 	free_quotes_list(vars.quotes);
 	free_quotes_list(vars.env);
