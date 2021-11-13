@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_pap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 08:42:48 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:42:48 by jchevet          ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 15:04:32 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	sig_pap(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		*g_ptr = 1;
 	}
 }
 
