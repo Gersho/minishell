@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 15:31:35 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/04 11:50:22 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/12 16:41:08 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ char	**ft_param_append_word(char **param, char *new)
 		return (NULL);
 	tmp[i + 1] = NULL;
 	ft_free_str_tab(param);
+//	free(new);
 	return (tmp);
 }
