@@ -40,10 +40,13 @@ char	**split_env_path(t_env *env)
 	paths_tab = NULL;
 	if (env_seeker(&env, "PATH"))
 	{
-		paths_tab = ft_split(env->value, ':');
-		if (paths_tab == NULL)
-			exit(EXIT_FAILURE);
-		add_slash_to_path(paths_tab);
+		if (env->value)
+		{
+			paths_tab = ft_split(env->value, ':');
+			if (paths_tab == NULL)
+				exit(EXIT_FAILURE);
+			add_slash_to_path(paths_tab);
+		}
 	}
 	return (paths_tab);
 }

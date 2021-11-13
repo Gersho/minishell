@@ -35,8 +35,8 @@ static int	path_exist(char *path, t_cmd *cmd)
 		if (cmd->path != NULL)
 			free(cmd->path);
 		cmd->path = ft_strdup(path);
-		if (access(path, X_OK) == 0)
-			ret = 1;
+		if (access(path, X_OK) != 0)
+			ret = 126;
 		close_perror(fd);
 	}
 	return (ret);
@@ -56,7 +56,7 @@ static int	is_absolute_path(t_shell *shell, char **path_tab)
 			print_error_prompt(shell->cmd->path);
 			shell->ret = 127;
 		}
-		else if (access(shell->cmd->path, X_OK))
+		else if (access(shell->cmd->path, X_OK) != 0)
 		{
 			print_error_prompt(shell->cmd->path);
 			shell->ret = 126;
@@ -72,13 +72,27 @@ int	get_cmd_path(t_shell *shell, char **path_tab)
 {
 	int		i;
 	char	*path;
+	t_env	*env;
 
+	env = shell->env;
 	i = 0;
 	path = NULL;
 	if (is_absolute_path(shell, path_tab))
 		return (shell->ret);
-	if (path_tab == NULL)
-		path_exist(*shell->cmd->param, shell->cmd);
+	else if (path_tab == NULL || (env_seeker(&env, "PATH") && !env->value))
+	{
+		int fd = open(*shell->cmd->param, O_RDONLY);
+		if (fd == -1)
+		{
+			print_error_prompt(*shell->cmd->param);
+			return (127);
+		}
+		if (access(*shell->cmd->param, X_OK) != 0)
+		{
+			print_error_prompt(*shell->cmd->param);
+			return (126);
+		}
+	}
 	else
 	{
 		while (path_tab[i])
