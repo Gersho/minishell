@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/12 16:41:17 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 17:25:51 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	to_param_quote(t_vars *vars, t_cmd *current, int i)
 	current->param = ft_param_append_word(current->param, tmp);
 	if (!current->param)
 		ft_freevars_exit(vars);
-	free(tmp);
 	return (j - i - 1);
 }
 
@@ -79,7 +78,6 @@ int	to_param_dblquote(t_vars *vars, t_cmd *current, int i)
 	current->param = ft_param_append_word(current->param, tmp);
 	if (!current->param)
 		ft_freevars_exit(vars);
-	free(tmp);
 	return (j - i - 1);
 }
 
@@ -96,6 +94,5 @@ int	to_param_word(t_vars *vars, t_cmd *current, int i)
 	current->param = ft_param_append_word(current->param, tmp);
 	if (!current->param)
 		ft_freevars_exit(vars);
-	free(tmp);
 	return (j - i);
 }

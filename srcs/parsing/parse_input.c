@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/12 16:00:01 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 17:13:40 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ static void	ft_parse_quotes(t_vars *vars, int len)
 
 static int	ft_check_after_pipe(t_vars *vars, int i, int len, t_cmd *tmp)
 {
-	if(!tmp->param[0])
+	if (!tmp->param[0])
 	{
 		ft_printf_fd(2, "%s: syntax error near unexpected token '|'\n",
-				PROMPTERR);
+			PROMPTERR);
 		*vars->last_ret = 258;
 		return (-255);
 	}

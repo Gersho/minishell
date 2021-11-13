@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 10:59:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/13 13:59:00 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 17:26:01 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 	if (!tmp)
 		ft_freevars_exit(vars);
 	current->red = ft_param_append_word(current->red, tmp);
-	free(tmp);
 	if (!current->red)
 		ft_freevars_exit(vars);
 	j += skip_spaces(&vars->str[j]);
@@ -81,7 +80,6 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 	if (!tmp)
 		ft_freevars_exit(vars);
 	current->red = ft_param_append_word(current->red, tmp);
-	free(tmp);
 	if (!current->red)
 		ft_freevars_exit(vars);
 	return (k - i);
