@@ -42,73 +42,75 @@ static int	path_exist(char *path, t_cmd *cmd)
 	return (ret);
 }
 
+static int is_path_and_xok(char *path)
+{
+	int fd;
+	int ret;
+
+	ret = 0;
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+	{
+		print_error_prompt(path);
+		ret = 127;
+	}
+	else if (access(path, X_OK) != 0)
+	{
+		print_error_prompt(path);
+		ret = 126;
+	}
+	if (fd != -1)
+		close_perror(fd);
+	return (ret);
+}
+
 static int	is_absolute_path(t_shell *shell, char **path_tab)
 {
-	int	fd;
-
 	if (**shell->cmd->param == '/' || **shell->cmd->param == '.')
 	{
 		ft_free_str_tab(path_tab);
 		shell->cmd->path = ft_strdup(*shell->cmd->param);
-		fd = open(shell->cmd->path, O_RDONLY);
-		if (fd == -1)
-		{
-			print_error_prompt(shell->cmd->path);
-			shell->ret = 127;
-		}
-		else if (access(shell->cmd->path, X_OK) != 0)
-		{
-			print_error_prompt(shell->cmd->path);
-			shell->ret = 126;
-		}
-		if (fd != -1)
-			close_perror(fd);
+		shell->ret = is_path_and_xok(shell->cmd->path);
 		return (1);
 	}
 	return (0);
 }
 
+static void	browse_tab(char **path_tab, t_shell *shell)
+{
+	char	*path;
+	int 	i;
+
+	i = 0;
+	while (path_tab[i])
+	{
+		path = ft_strjoin(path_tab[i], *shell->cmd->param);
+		if (path == NULL)
+			return ;
+		if (path_exist(path, shell->cmd))
+		{
+			free(path);
+			break;
+		}
+		i++;
+		free(path);
+	}
+	ft_free_str_tab(path_tab);
+}
+
 int	get_cmd_path(t_shell *shell, char **path_tab)
 {
-	int		i;
-	char	*path;
 	t_env	*env;
 
 	env = shell->env;
-	i = 0;
-	path = NULL;
 	if (is_absolute_path(shell, path_tab))
 		return (shell->ret);
 	else if (path_tab == NULL || (env_seeker(&env, "PATH") && !env->value))
 	{
-		int fd = open(*shell->cmd->param, O_RDONLY);
-		if (fd == -1)
-		{
-			print_error_prompt(*shell->cmd->param);
-			return (127);
-		}
-		if (access(*shell->cmd->param, X_OK) != 0)
-		{
-			print_error_prompt(*shell->cmd->param);
-			return (126);
-		}
+		shell->cmd->path = ft_strdup(*shell->cmd->param);
+		return (is_path_and_xok(*shell->cmd->param));
 	}
 	else
-	{
-		while (path_tab[i])
-		{
-			path = ft_strjoin(path_tab[i], *shell->cmd->param);
-			if (path == NULL)
-				return (1);
-			if (path_exist(path, shell->cmd))
-			{
-				free(path);
-				break;
-			}
-			i++;
-			free(path);
-		}
-		ft_free_str_tab(path_tab);
-	}
+		browse_tab(path_tab, shell);
 	return (command_not_found(shell->cmd->path, *shell->cmd->param));
 }
