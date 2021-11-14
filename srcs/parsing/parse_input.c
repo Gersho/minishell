@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/12 16:00:01 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 15:00:37 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,47 +26,16 @@ static int	ft_parse_checks(t_vars *vars, int *i, t_cmd *tmp)
 	else if ((vars->str[*i] == 60 || vars->str[*i] == 62)
 		&& ft_get_type(vars->env, *i) != ENVS)
 		ret = to_redirect(vars, tmp, *i);
-	if (ret == -255)
-		return (-255);
-	else
-		*i += ret;
-	return (0);
-}
-
-static void	ft_parse_quotes(t_vars *vars, int len)
-{
-	int			i;
-	t_quotes	tmp;
-
-	i = 0;
-	while (i < len)
-	{
-		if (ft_strncmp(&vars->str[i], "\'", 1) == 0)
-		{
-			tmp.start = i;
-			tmp.end = ft_str_index_c((vars->str + i + 1), '\'') + i + 1;
-			tmp.type = SIMPLE;
-			ft_append_quote_data(vars, vars->quotes, tmp);
-			i += tmp.end - tmp.start;
-		}
-		else if (ft_strncmp(&vars->str[i], "\"", 1) == 0)
-		{
-			tmp.start = i;
-			tmp.end = ft_str_index_c((vars->str + i + 1), '\"') + i + 1;
-			tmp.type = DOUBLE;
-			ft_append_quote_data(vars, vars->quotes, tmp);
-			i += tmp.end - tmp.start;
-		}
-		i++;
-	}
+	*i += ret;
+	return (ret);
 }
 
 static int	ft_check_after_pipe(t_vars *vars, int i, int len, t_cmd *tmp)
 {
-	if(!tmp->param[0])
+	if (!tmp->param[0])
 	{
 		ft_printf_fd(2, "%s: syntax error near unexpected token '|'\n",
-				PROMPTERR);
+			PROMPTERR);
 		*vars->last_ret = 258;
 		return (-255);
 	}
@@ -90,27 +59,38 @@ static int	ft_check_after_pipe(t_vars *vars, int i, int len, t_cmd *tmp)
 	return (-255);
 }
 
+static int	ft_handle_pipe(t_vars *vars, int i, int len, t_cmd **tmp)
+{
+	if (ft_check_after_pipe(vars, (i + 1), len, *tmp) == -255)
+		return (-255);
+	(*tmp)->next = ft_cmd_init();
+	if (!(*tmp)->next)
+		ft_freevars_exit(vars);
+	*tmp = (*tmp)->next;
+	return (0);
+}
+
 static int	ft_parse_loop(t_vars *vars, int len)
 {
 	t_cmd	*tmp;
 	int		i;
+	int		ret;
 
 	tmp = vars->cmd;
 	i = 0;
 	while (i < len)
 	{
 		i += skip_spaces(&vars->str[i]);
-		if (ft_parse_checks(vars, &i, tmp) == -255)
+		ret = ft_parse_checks(vars, &i, tmp);
+		if (ret == -255)
 			return (-255);
+		else if (ret != 0)
+			continue ;
 		if (ft_strncmp(&vars->str[i], "|", 1) == 0
 			&& ft_get_type(vars->env, i) != ENVS)
 		{
-			if (ft_check_after_pipe(vars, (i + 1), len, tmp) == -255)
+			if (ft_handle_pipe(vars, i, len, &tmp) == -255)
 				return (-255);
-			tmp->next = ft_cmd_init();
-			if (!tmp->next)
-				ft_freevars_exit(vars);
-			tmp = tmp->next;
 			i++;
 		}
 		else if (vars->str[i] != ' ')

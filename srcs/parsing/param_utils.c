@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 15:31:35 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/12 16:41:08 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/13 17:23:14 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,13 @@ char	**ft_param_append_word(char **param, char *new)
 	int		i;
 	char	**tmp;
 
-	if (!new || new[0] == '\0')
+	if (!new)
 		return (param);
+	if (new[0] == '\0')
+	{
+		free(new);
+		return (param);
+	}
 	i = 0;
 	while (param[i] != NULL)
 		i++;
@@ -64,6 +69,6 @@ char	**ft_param_append_word(char **param, char *new)
 		return (NULL);
 	tmp[i + 1] = NULL;
 	ft_free_str_tab(param);
-//	free(new);
+	free(new);
 	return (tmp);
 }

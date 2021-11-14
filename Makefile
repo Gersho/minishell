@@ -38,6 +38,7 @@ PARSING			= debug.c				\
 				  s_vars.c				\
 				  s_quotes.c			\
 				  str_manipulation.c	\
+				  quote_tools.c			\
 				  red_tools.c
 
 SRCSF			= main.c		\
@@ -76,7 +77,7 @@ CC				= gcc
 
 RM				= rm -rf
 
-CFLAGS			= -Wall -Wextra -Werror -g3 #-fsanitize=address
+CFLAGS			= -Wall -Wextra -Werror #-g3 #-fsanitize=address
 
 all:			libs $(NAME)
 
