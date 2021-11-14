@@ -31,5 +31,6 @@ char	*str_in_lower_case(char *s);
 void	print_error_prompt(char *str);
 int		skip_spaces(char *str);
 void	replace_std(int in, int out);
+char	*lltoa(long long nb);
 
 #endif

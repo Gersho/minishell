@@ -12,11 +12,11 @@
 
 #include "../../headers/minishell.h"
 
-static int	ft_atoi_exit(char *str, int *err)
+static long long	ft_atoll_exit(char *str, int *err)
 {
-	int	i;
-	int	ret;
-	int	is_neg;
+	int			i;
+	long long	ret;
+	int			is_neg;
 
 	*err = 0;
 	is_neg = 1;
@@ -36,7 +36,8 @@ static int	ft_atoi_exit(char *str, int *err)
 	i += skip_spaces(str + i);
 	if (str[i])
 		*err = 1;
-	ret *= is_neg;
+	ret *= (long long)is_neg;
+	printf("ret=%lld\n", ret);
 	return (ret);
 }
 
@@ -62,7 +63,8 @@ static int	get_return_value(t_shell *shell)
 
 	if (shell->cmd->param[1])
 	{
-		exit_status = (unsigned char)ft_atoi_exit(shell->cmd->param[1], &err);
+		exit_status = (unsigned char)ft_atoll_exit(shell->cmd->param[1], &err);
+		printf("exit status=%d\n", (int)exit_status);
 		if (err)
 		{
 			ft_printf_fd(2, "%s: exit: %s: numeric argument required\n", \

@@ -49,6 +49,7 @@ TOOLBOX			= close_tools.c		\
 				  env_tools.c		\
 				  replace_std.c		\
 				  utils.c			\
+				  lltoa.c			\
 
 REDIRECT		= here_doc.c 			\
                   redirect_handler.c	\
