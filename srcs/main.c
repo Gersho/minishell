@@ -25,7 +25,8 @@ void init_shell(t_shell *shell, char **line, char **env)
 
 //TODO crash echo OLPWD if its NULL / any env that is null
 //todo Exit status = 1 if ctrl+c
-//todo here doc ctrlc and ctrlD segf
+//todo cd . unset pwd, oldpwd = truc
+//todo minishell in pipe ? / rm current dir ??
 int main(int ac,char **av, char **env)
 {
 	t_shell shell;
@@ -34,6 +35,11 @@ int main(int ac,char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	if (!isatty(0) || !isatty(1))
+	{
+		ft_printf_fd(2, "%s: You can't do that !!\n", PROMPTERR);
+		exit(EXIT_FAILURE);
+	}
 	init_shell(&shell, &line, env);
 	g_ptr = &shell.ret;
 	while (1)
