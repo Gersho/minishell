@@ -35,9 +35,7 @@ int	here_doc(char *limiter, t_shell *shell)
 	int		pipe_doc[2];
 	int 	pid;
 
-	//todo readline
-	if (pipe(pipe_doc) == -1)
-		perror("pipo");
+	pipe(pipe_doc);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
@@ -48,12 +46,8 @@ int	here_doc(char *limiter, t_shell *shell)
 		while (get_next_line(0, &line))
 		{
 			if (ft_strcmp(limiter, line) == 0)
-			{
-				free(line);
-				close_perror(pipe_doc[1]);
-				exit(EXIT_SUCCESS);
-			}
-			ft_printf_fd(1, "%s> %s", KMAG, KNRM);
+				break ;
+				ft_printf_fd(1, "%s> %s", KMAG, KNRM);
 			ft_putstr_nl_fd(line, pipe_doc[1]);
 			free(line);
 		}
