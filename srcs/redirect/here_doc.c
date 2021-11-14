@@ -35,6 +35,7 @@ int	here_doc(char *limiter, t_shell *shell)
 	int		pipe_doc[2];
 	int 	pid;
 
+	//todo readline
 	if (pipe(pipe_doc) == -1)
 		perror("pipo");
 	signal(SIGINT, SIG_IGN);

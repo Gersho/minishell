@@ -33,6 +33,11 @@ int main(int ac,char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	if (!isatty(0) || !isatty(1))
+	{
+		ft_printf_fd(2, "%s: You can't do that !!\n", PROMPTERR);
+		exit(EXIT_FAILURE);
+	}
 	init_shell(&shell, &line, env);
 	while (1)
 	{
@@ -57,10 +62,6 @@ int main(int ac,char **av, char **env)
 		}
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
-
-// free_cmd_list(shell.cmd);
-// continue ;
-
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)
 			parse_cmd(&shell);
