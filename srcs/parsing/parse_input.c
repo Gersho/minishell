@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/13 17:13:40 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 13:47:48 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,20 @@ static int	ft_parse_checks(t_vars *vars, int *i, t_cmd *tmp)
 	else if ((vars->str[*i] == 60 || vars->str[*i] == 62)
 		&& ft_get_type(vars->env, *i) != ENVS)
 		ret = to_redirect(vars, tmp, *i);
+
+	*i += ret;
+	return (ret);
+/*
 	if (ret == -255)
 		return (-255);
 	else
+	{
+printf("ret:%d\n", ret);
 		*i += ret;
-	return (0);
+printf("new i:%d\n", *i);
+	}
+	return (ret);
+	*/
 }
 
 static void	ft_parse_quotes(t_vars *vars, int len)
@@ -94,14 +103,23 @@ static int	ft_parse_loop(t_vars *vars, int len)
 {
 	t_cmd	*tmp;
 	int		i;
+	int		ret;
 
 	tmp = vars->cmd;
 	i = 0;
 	while (i < len)
 	{
+// printf("PARSE_LOOP i:%d||str[i]:%c*\n", i, vars->str[i]);
 		i += skip_spaces(&vars->str[i]);
+		/*
 		if (ft_parse_checks(vars, &i, tmp) == -255)
 			return (-255);
+			*/
+		ret = ft_parse_checks(vars, &i, tmp);
+		if (ret == -255)
+			return (-255);
+		else if (ret != 0)
+			continue ;
 		if (ft_strncmp(&vars->str[i], "|", 1) == 0
 			&& ft_get_type(vars->env, i) != ENVS)
 		{
@@ -115,6 +133,7 @@ static int	ft_parse_loop(t_vars *vars, int len)
 		}
 		else if (vars->str[i] != ' ')
 			i += to_param_word(vars, tmp, i);
+// printf("PARSE_LOOP END i:%d||str[i]:%c*\n", i, vars->str[i]);
 	}
 	return (0);
 }

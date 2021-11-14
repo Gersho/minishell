@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 10:59:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/13 17:26:01 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 13:47:17 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 	int		j;
 	int		k;
 	char	*tmp;
-
+// printf("TO_REDIRECT i:%d||str[i]:%c*\n", i, vars->str[i]);
 	j = i + 1;
 	if (vars->str[j] == vars->str[j - 1])
 		j++;
 	tmp = ft_substr(vars->str, i, j - i);
+// printf("tmp:%s*\n", tmp);
 	if (!tmp)
 		ft_freevars_exit(vars);
 	current->red = ft_param_append_word(current->red, tmp);
@@ -74,9 +75,11 @@ int	to_redirect(t_vars *vars, t_cmd *current, int i)
 		ft_freevars_exit(vars);
 	j += skip_spaces(&vars->str[j]);
 	k = j;
+// printf("TO_REDIRECT k:%d||str[k]:%c*\n", k, vars->str[k]);
 	if (ft_red_loop(vars, &k) == -255)
 		return (-255);
 	tmp = ft_no_signifiant_quote_substr(vars, j, k - 1);
+// printf("tmp:%s*\n", tmp);
 	if (!tmp)
 		ft_freevars_exit(vars);
 	current->red = ft_param_append_word(current->red, tmp);
