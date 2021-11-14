@@ -39,7 +39,7 @@ static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 	return (1);
 }
 
-static int	read_through_redirect(t_shell *shell)
+static void	read_through_redirect(t_shell *shell)
 {
 	int		redirect;
 	char	*filename;
@@ -48,18 +48,36 @@ static int	read_through_redirect(t_shell *shell)
 	i = -1;
 	while (shell->cmd->red[++i])
 	{
-		if (which_redirect(shell->cmd->red[i]) == -1 || which_redirect(shell->cmd->red[i]) == HERE_DOC)
+		if (which_redirect(shell->cmd->red[i]) == -1 || \
+		which_redirect(shell->cmd->red[i]) == HERE_DOC)
 			continue ;
 		redirect = which_redirect(shell->cmd->red[i]);
 		i++;
 		filename = ft_strdup(shell->cmd->red[i]);
 		if (filename == NULL)
-			return (1);
+		{
+			perror("Malloc filename");
+			return ;
+		}
 		open_with_param(shell, filename, redirect);
 	}
 	ft_free_str_tab(shell->cmd->red);
 	shell->cmd->red = NULL;
-	return (0);
+	return ;
+}
+
+/*
+ * If there is no heredoc, it will set cmd->in with the right input
+ */
+static void	set_cmd_in(int first_cmd, t_shell *shell, int pipe_in)
+{
+	if (shell->cmd->in == 0)
+	{
+		if (first_cmd)
+			shell->cmd->in = dup(0);
+		else
+			shell->cmd->in = pipe_in;
+	}
 }
 
 void	redirect_handler(t_shell *shell)
@@ -72,13 +90,7 @@ void	redirect_handler(t_shell *shell)
 	start = shell->cmd;
 	while (shell->cmd)
 	{
-		if (shell->cmd->in == 0)
-		{
-			if (first_cmd)
-				shell->cmd->in = dup(0);
-			else
-				shell->cmd->in = pipe_fd[0];
-		}
+		set_cmd_in(first_cmd, shell, pipe_fd[0]);
 		pipe(pipe_fd);
 		if (shell->cmd->next)
 			shell->cmd->out = pipe_fd[1];
@@ -87,7 +99,7 @@ void	redirect_handler(t_shell *shell)
 			close_multiple_fd(2, pipe_fd[0], pipe_fd[1]);
 			shell->cmd->out = dup(1);
 		}
-		read_through_redirect(shell);//todo do something with the return
+		read_through_redirect(shell);
 		shell->cmd = shell->cmd->next;
 		first_cmd = 0;
 	}

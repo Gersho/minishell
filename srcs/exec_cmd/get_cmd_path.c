@@ -12,23 +12,21 @@
 
 #include "../../headers/minishell.h"
 
-static int	command_not_found(char *path, char *name)
+static void	print_if_error(char *path, char *name, t_shell *shell)
 {
 	if (path == NULL)
 	{
 		ft_printf_fd(2, "%s: %s: command not found\n", \
 		PROMPTERR, name);
-		return (127);
 	}
-	return (0);
+	else if (shell->ret > 0)
+		print_error_prompt(path);
 }
 
-static int	path_exist(char *path, t_cmd *cmd)
+static int	path_exist(char *path, t_cmd *cmd, t_shell *shell)
 {
 	int	fd;
-	int	ret;
 
-	ret = 0;
 	fd = open(path, O_RDONLY);
 	if (fd != -1)
 	{
@@ -36,10 +34,16 @@ static int	path_exist(char *path, t_cmd *cmd)
 			free(cmd->path);
 		cmd->path = ft_strdup(path);
 		if (access(path, X_OK) != 0)
-			ret = 126;
+		{
+			shell->ret = 126;
+			return (0);
+		}
 		close_perror(fd);
+		shell->ret = 0;
+		return (1);
 	}
-	return (ret);
+	shell->ret = 127;
+	return (0);
 }
 
 static int is_path_and_xok(char *path)
@@ -76,18 +80,24 @@ static int	is_absolute_path(t_shell *shell, char **path_tab)
 	return (0);
 }
 
+/*
+ * Will go through every path to check if the command exist,
+ * if it exist but not X_OK, it will set the error return
+ * and continue to search
+ */
 static void	browse_tab(char **path_tab, t_shell *shell)
 {
 	char	*path;
 	int 	i;
 
 	i = 0;
+	path = NULL;
 	while (path_tab[i])
 	{
 		path = ft_strjoin(path_tab[i], *shell->cmd->param);
 		if (path == NULL)
 			return ;
-		if (path_exist(path, shell->cmd))
+		if (path_exist(path, shell->cmd, shell))
 		{
 			free(path);
 			break;
@@ -112,5 +122,6 @@ int	get_cmd_path(t_shell *shell, char **path_tab)
 	}
 	else
 		browse_tab(path_tab, shell);
-	return (command_not_found(shell->cmd->path, *shell->cmd->param));
+	print_if_error(shell->cmd->path, *shell->cmd->param, shell);
+	return (shell->ret);
 }
