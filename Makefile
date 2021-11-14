@@ -38,6 +38,7 @@ PARSING			= debug.c				\
 				  s_vars.c				\
 				  s_quotes.c			\
 				  str_manipulation.c	\
+				  quote_tools.c			\
 				  red_tools.c
 
 SRCSF			= main.c		\
