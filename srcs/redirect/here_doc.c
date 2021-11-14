@@ -15,7 +15,7 @@
 static int	wait_process(t_shell *shell, int pid, int *pipe_doc)
 {
 	int	status;
-	
+
 	waitpid(pid, &status, 0);
 	close_perror(pipe_doc[1]);
 	shell->cmd->in = pipe_doc[0];
@@ -33,7 +33,7 @@ int	here_doc(char *limiter, t_shell *shell)
 {
 	char	*line;
 	int		pipe_doc[2];
-	int 	pid;
+	int		pid;
 
 	pipe(pipe_doc);
 	signal(SIGINT, SIG_IGN);
@@ -47,7 +47,7 @@ int	here_doc(char *limiter, t_shell *shell)
 		{
 			if (ft_strcmp(limiter, line) == 0)
 				break ;
-				ft_printf_fd(1, "%s> %s", KMAG, KNRM);
+			ft_printf_fd(1, "%s> %s", KMAG, KNRM);
 			ft_putstr_nl_fd(line, pipe_doc[1]);
 			free(line);
 		}
@@ -57,6 +57,3 @@ int	here_doc(char *limiter, t_shell *shell)
 	}
 	return (wait_process(shell, pid, pipe_doc));
 }
-
-
-
