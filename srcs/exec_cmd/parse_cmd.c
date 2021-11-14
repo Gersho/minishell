@@ -18,7 +18,7 @@ static int	last_pid(t_cmd *cmd)
 	return (cmd->pid);
 }
 
-void	wait_all_process(t_cmd *cmd, t_shell *shell)
+static void	wait_all_process(t_cmd *cmd, t_shell *shell)
 {
 	int	status;
 	int	nl;
@@ -45,10 +45,10 @@ void	wait_all_process(t_cmd *cmd, t_shell *shell)
 		write(1, "\n", 1);
 }
 
-int check_heredoc(t_shell *shell)
+static int	check_heredoc(t_shell *shell)
 {
 	t_cmd	*cmd;
-	int 	i;
+	int		i;
 
 	cmd = shell->cmd;
 	while (cmd)
@@ -59,7 +59,7 @@ int check_heredoc(t_shell *shell)
 			while (cmd->red[++i])
 			{
 				if (which_redirect(cmd->red[i]) != HERE_DOC)
-					continue;
+					continue ;
 				if (!here_doc(cmd->red[i + 1], shell))
 					return (0);
 			}
