@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/13 17:35:04 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/14 15:03:03 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int main(int ac,char **av, char **env)
 		}
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
-ft_debug_cmd(shell.cmd);
+//ft_debug_cmd(shell.cmd);
+//exit (-1);
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)
 			parse_cmd(&shell);
