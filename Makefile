@@ -20,46 +20,46 @@ BUILT_IN		=	echo.c			\
 				 	unset.c			\
 				 	exit.c			\
 
-EXEC_CMD		= parse_cmd.c		\
-                  cmd_launcher.c	\
-                  exec_built_in.c	\
-                  exec_cmd_fork.c	\
-                  get_cmd_path.c	\
-                  split_env_path.c	\
-                  is_absolute_path.c	\
+EXEC_CMD		=	parse_cmd.c			\
+                 	cmd_launcher.c		\
+                 	exec_built_in.c		\
+                 	exec_cmd_fork.c		\
+                 	get_cmd_path.c		\
+                 	split_env_path.c	\
+                 	is_absolute_path.c	\
 
-PARSING			= debug.c				\
-				  dollars.c				\
-				  exits.c				\
-				  parse_tools.c			\
-				  parse_input.c			\
-				  s_cmd.c				\
-  				  tools.c				\
-				  param_utils.c			\
-				  s_vars.c				\
-				  s_quotes.c			\
-				  str_manipulation.c	\
-				  quote_tools.c			\
-				  red_tools.c
+PARSING			=	debug.c				\
+				 	dollars.c			\
+				 	exits.c				\
+				 	parse_tools.c		\
+				 	parse_input.c		\
+				 	s_cmd.c				\
+  				 	tools.c				\
+				 	param_utils.c		\
+				 	s_vars.c			\
+				 	s_quotes.c			\
+				 	str_manipulation.c	\
+				 	quote_tools.c		\
+				 	red_tools.c			\
 
-SRCSF			= main.c		\
-				  minishell.c	\
-				  set_prompt.c	\
+SRCSF			=	main.c			\
+				 	minishell.c		\
+				 	set_prompt.c	\
 
-TOOLBOX			= close_tools.c		\
-				  env_tools.c		\
-				  replace_std.c		\
-				  utils.c			\
-				  lltoa.c			\
+TOOLBOX			=	close_tools.c	\
+				 	env_tools.c		\
+				 	replace_std.c	\
+				 	utils.c			\
+				 	lltoa.c			\
 
-REDIRECT		= here_doc.c 			\
-                  redirect_handler.c	\
-                  redirect_tools.c
+REDIRECT		=	here_doc.c 			\
+                 	redirect_handler.c	\
+                 	redirect_tools.c	\
 
-ENV_LIST		= env_unlink.c 	\
-				  s_env.c 		\
-				  env_dup.c 	\
-				  env_add_back.c
+ENV_LIST		=	env_unlink.c 	\
+				 	s_env.c 		\
+				 	env_dup.c 		\
+				 	env_add_back.c	\
 
 SIGNALS			=	sig_child.c \
 					sig_pap.c 	\
@@ -75,11 +75,11 @@ SRCS			=	$(SRCSF)							\
 
 OBJS			=	$(addprefix objs/, $(SRCS:.c=.o))
 
-CC				= gcc
+CC				=	gcc
 
-RM				= rm -rf
+RM				=	rm -rf
 
-CFLAGS			= -Wall -Wextra -Werror #-g3 #-fsanitize=address
+CFLAGS			=	-Wall -Wextra -Werror #-g3 #-fsanitize=address
 
 all:			libs $(NAME)
 
