@@ -46,10 +46,10 @@ static int	path_exist(char *path, t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
-static int is_path_and_xok(char *path)
+int	is_path_and_xok(char *path)
 {
-	int fd;
-	int ret;
+	int	fd;
+	int	ret;
 
 	ret = 0;
 	fd = open(path, O_RDONLY);
@@ -68,18 +68,6 @@ static int is_path_and_xok(char *path)
 	return (ret);
 }
 
-static int	is_absolute_path(t_shell *shell, char **path_tab)
-{
-	if (**shell->cmd->param == '/' || **shell->cmd->param == '.')
-	{
-		ft_free_str_tab(path_tab);
-		shell->cmd->path = ft_strdup(*shell->cmd->param);
-		shell->ret = is_path_and_xok(shell->cmd->path);
-		return (1);
-	}
-	return (0);
-}
-
 /*
  * Will go through every path to check if the command exist,
  * if it exist but not X_OK, it will set the error return
@@ -88,7 +76,7 @@ static int	is_absolute_path(t_shell *shell, char **path_tab)
 static void	browse_tab(char **path_tab, t_shell *shell)
 {
 	char	*path;
-	int 	i;
+	int		i;
 
 	i = 0;
 	path = NULL;
@@ -100,7 +88,7 @@ static void	browse_tab(char **path_tab, t_shell *shell)
 		if (path_exist(path, shell->cmd, shell))
 		{
 			free(path);
-			break;
+			break ;
 		}
 		i++;
 		free(path);
@@ -115,7 +103,9 @@ int	get_cmd_path(t_shell *shell, char **path_tab)
 	env = shell->env;
 	if (is_absolute_path(shell, path_tab))
 		return (shell->ret);
-	else if (path_tab == NULL || (env_seeker(&env, "PATH") && !env->value) || !*env->value)
+	else if (path_tab == NULL || \
+	(env_seeker(&env, "PATH") && !env->value) || \
+	!*env->value)
 	{
 		shell->cmd->path = ft_strdup(*shell->cmd->param);
 		return (is_path_and_xok(*shell->cmd->param));

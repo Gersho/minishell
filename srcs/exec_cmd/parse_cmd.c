@@ -18,6 +18,18 @@ static int	last_pid(t_cmd *cmd)
 	return (cmd->pid);
 }
 
+static void	set_signal_return(int status, t_shell *shell, int *nl)
+{
+	*nl = 1;
+	if (WTERMSIG(status) == SIGINT)
+		shell->ret = 130;
+	if (WTERMSIG(status) == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3", 2);
+		shell->ret = 131;
+	}
+}
+
 static void	wait_all_process(t_cmd *cmd, t_shell *shell)
 {
 	int	status;
@@ -26,16 +38,7 @@ static void	wait_all_process(t_cmd *cmd, t_shell *shell)
 	nl = 0;
 	waitpid(last_pid(cmd), &status, 0);
 	if (WIFSIGNALED(status))
-	{
-		nl = 1;
-		if (WTERMSIG(status) == SIGINT)
-			shell->ret = 130;
-		if (WTERMSIG(status) == SIGQUIT)
-		{
-			ft_putstr_fd("Quit: 3", 2);
-			shell->ret = 131;
-		}
-	}
+		set_signal_return(status, shell, &nl);
 	else
 		shell->ret = WEXITSTATUS(status);
 	while (waitpid(cmd->pid, &status, 0) != -1)

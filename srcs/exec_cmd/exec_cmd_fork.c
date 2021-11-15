@@ -21,7 +21,7 @@ static void	free_cmd_and_exit(t_shell *shell)
 static void	exit_if_param_null(char *str)
 {
 	if (!str)
-	exit (EXIT_SUCCESS);
+		exit (EXIT_SUCCESS);
 }
 
 void	exec_cmd_fork(t_shell *shell)

@@ -25,7 +25,8 @@ EXEC_CMD		= parse_cmd.c		\
                   exec_built_in.c	\
                   exec_cmd_fork.c	\
                   get_cmd_path.c	\
-                  split_env_path.c
+                  split_env_path.c	\
+                  is_absolute_path.c	\
 
 PARSING			= debug.c				\
 				  dollars.c				\
