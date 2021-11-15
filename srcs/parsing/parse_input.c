@@ -110,7 +110,11 @@ int	ft_parse_line(char *str, t_shell *shell)
 	ft_handle_dollars(&vars, len);
 	len = ft_strlen(vars.str);
 	if (ft_parse_loop(&vars, len) == -255)
+	{
+		free_cmd_list(shell->cmd);
+		shell->cmd = NULL;
 		return (-255);
+	}
 	free(vars.str);
 	free_quotes_list(vars.quotes);
 	free_quotes_list(vars.env);

@@ -24,9 +24,6 @@ void init_shell(t_shell *shell, char **line, char **env)
 }
 
 //TODO crash echo OLPWD if its NULL / any env that is null
-//todo Exit status = 1 if ctrl+c
-//todo cd . unset pwd, oldpwd = truc
-//todo minishell in pipe ? / rm current dir ??
 int main(int ac,char **av, char **env)
 {
 	t_shell shell;
@@ -65,8 +62,6 @@ int main(int ac,char **av, char **env)
 		}
 		if (ft_parse_line(line, &shell) == -255)
 			continue ;
-//ft_debug_cmd(shell.cmd);
-//exit (-1);
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)
 			parse_cmd(&shell);
