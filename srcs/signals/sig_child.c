@@ -14,8 +14,7 @@
 
 static void	sig_child(int sig)
 {
-	if (sig == SIGQUIT)
-		ft_putstr_fd("Quit: 3", 2);
+	(void)sig;
 }
 
 /*

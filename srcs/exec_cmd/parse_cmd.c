@@ -28,10 +28,13 @@ static void	wait_all_process(t_cmd *cmd, t_shell *shell)
 	if (WIFSIGNALED(status))
 	{
 		nl = 1;
-		if (WTERMSIG(status) == 2)
+		if (WTERMSIG(status) == SIGINT)
 			shell->ret = 130;
-		if (WTERMSIG(status) == 3)
+		if (WTERMSIG(status) == SIGQUIT)
+		{
+			ft_putstr_fd("Quit: 3", 2);
 			shell->ret = 131;
+		}
 	}
 	else
 		shell->ret = WEXITSTATUS(status);

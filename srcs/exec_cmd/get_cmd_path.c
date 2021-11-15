@@ -115,7 +115,7 @@ int	get_cmd_path(t_shell *shell, char **path_tab)
 	env = shell->env;
 	if (is_absolute_path(shell, path_tab))
 		return (shell->ret);
-	else if (path_tab == NULL || (env_seeker(&env, "PATH") && !env->value))
+	else if (path_tab == NULL || (env_seeker(&env, "PATH") && !env->value) || !*env->value)
 	{
 		shell->cmd->path = ft_strdup(*shell->cmd->param);
 		return (is_path_and_xok(*shell->cmd->param));

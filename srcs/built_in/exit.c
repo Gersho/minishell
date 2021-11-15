@@ -37,7 +37,6 @@ static long long	ft_atoll_exit(char *str, int *err)
 	if (str[i])
 		*err = 1;
 	ret *= (long long)is_neg;
-	printf("ret=%lld\n", ret);
 	return (ret);
 }
 
@@ -56,16 +55,33 @@ static int	more_than_one_param(char **param)
 	return (0);
 }
 
+int 	exit_value_cmp(long long nb, char *exit_value)
+{
+	char	*str;
+	int 	i;
+	int 	start;
+
+	str = lltoa(nb);
+	if (!str)
+		return (1);
+	i = skip_spaces(exit_value);
+	start = i;
+	while (exit_value[i] >= '0' && exit_value[i] <= '9')
+		i++;
+	i = ft_strncmp(exit_value, &str[start], i - start);
+	free(str);
+	return (i);
+}
+
 static int	get_return_value(t_shell *shell)
 {
-	unsigned char	exit_status;
+	long long		exit_status;
 	int				err;
 
 	if (shell->cmd->param[1])
 	{
-		exit_status = (unsigned char)ft_atoll_exit(shell->cmd->param[1], &err);
-		printf("exit status=%d\n", (int)exit_status);
-		if (err)
+		exit_status = ft_atoll_exit(shell->cmd->param[1], &err);
+		if (err || exit_value_cmp(exit_status, shell->cmd->param[1]))
 		{
 			ft_printf_fd(2, "%s: exit: %s: numeric argument required\n", \
 			PROMPTERR, shell->cmd->param[1]);
@@ -77,7 +93,7 @@ static int	get_return_value(t_shell *shell)
 			return (0);
 		}
 		else
-			shell->ret = (int) exit_status;
+			shell->ret = (int)exit_status;
 	}
 	return (1);
 }
