@@ -51,13 +51,13 @@ int	cd(char **param, t_env *env_l)
 	else
 	{
 		env = env_l;
-		update_oldpwd(env);
 		if (chdir(param[1]) == -1)
 		{
 			ft_printf_fd(2, "%s: cd: %s: %s\n", \
 			PROMPTERR, param[1], strerror(errno));
 			return (EXIT_FAILURE);
 		}
+		update_oldpwd(env);
 		if (env_seeker(&env_l, "PWD"))
 			env_ch_value(env_l, getcwd(buf, PATH_MAX));
 		return (EXIT_SUCCESS);
