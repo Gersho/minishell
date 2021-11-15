@@ -100,6 +100,8 @@ static int	get_return_value(t_shell *shell)
 
 void	exit_shell(t_shell *shell, int in_fork)
 {
+	if (!in_fork)
+		ft_printf_fd(2, "exit\n");
 	if (shell->cmd)
 	{
 		if (!get_return_value(shell))
@@ -112,7 +114,6 @@ void	exit_shell(t_shell *shell, int in_fork)
 			close_perror(shell->std_out);
 			close_perror(shell->std_in);
 		}
-		ft_printf_fd(2, "exit\n");
 	}
 	tcsetattr(0, TCSANOW, &shell->term);
 	free_env_list(shell->env);
