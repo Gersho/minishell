@@ -12,6 +12,9 @@
 
 #include "../../headers/minishell.h"
 
+/*
+ * It skip spaces :)
+ */
 int	skip_spaces(char *str)
 {
 	size_t	i;
@@ -22,6 +25,9 @@ int	skip_spaces(char *str)
 	return (i);
 }
 
+/*
+ * display prompt error and the last error set in erno
+ */
 void	print_error_prompt(char *str)
 {
 	ft_printf_fd(2, "%s: ", PROMPTERR);
@@ -45,6 +51,9 @@ char	*str_in_lower_case(char *s)
 	return (str);
 }
 
+/*
+ * It join as many strings as you want
+ */
 char	*ft_mega_str_join(int nb, ...)
 {
 	char	*mega_str;

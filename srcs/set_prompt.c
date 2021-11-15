@@ -32,6 +32,6 @@ char	*set_prompt(t_shell *shell)
 		KMAG, "): ", \
 		KNRM);
 	if (!prompt)
-		prompt = ft_strdup("$");
+		prompt = ft_strdup("$minishell: ");
 	return (prompt);
 }

@@ -28,21 +28,18 @@ static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 		shell->error = 1;
 		shell->ret = 1;
 		print_error_prompt(filename);
-		free(filename);
 		return (EXIT_FAILURE);
 	}
 	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
 		dup2_close(file_fd, shell->cmd->out);
 	else
 		dup2_close(file_fd, shell->cmd->in);
-	free(filename);
 	return (1);
 }
 
 static void	read_through_redirect(t_shell *shell)
 {
 	int		redirect;
-	char	*filename;
 	int		i;
 
 	i = -1;
@@ -53,13 +50,7 @@ static void	read_through_redirect(t_shell *shell)
 			continue ;
 		redirect = which_redirect(shell->cmd->red[i]);
 		i++;
-		filename = ft_strdup(shell->cmd->red[i]);
-		if (filename == NULL)
-		{
-			perror("Malloc filename");
-			return ;
-		}
-		open_with_param(shell, filename, redirect);
+		open_with_param(shell, shell->cmd->red[i], redirect);
 	}
 	ft_free_str_tab(shell->cmd->red);
 	shell->cmd->red = NULL;

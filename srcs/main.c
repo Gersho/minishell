@@ -23,6 +23,19 @@ void init_shell(t_shell *shell, char **line, char **env)
 	tcgetattr(0, &shell->term);
 }
 
+/*
+ * Check if stdin, stdout and stderr are connected to terminal
+ * It's to prevent an execution of bash/minishell in a pipe
+ */
+void check_isatty(void)
+{
+	if (!isatty(0) || !isatty(1) || !isatty(2))
+	{
+		ft_printf_fd(2, "%s: You can't do that !!\n", PROMPTERR);
+		exit(EXIT_FAILURE);
+	}
+}
+
 //TODO crash echo OLPWD if its NULL / any env that is null
 int main(int ac,char **av, char **env)
 {
@@ -32,11 +45,6 @@ int main(int ac,char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	if (!isatty(0) || !isatty(1))
-	{
-		ft_printf_fd(2, "%s: You can't do that !!\n", PROMPTERR);
-		exit(EXIT_FAILURE);
-	}
 	init_shell(&shell, &line, env);
 	g_ptr = &shell.ret;
 	while (1)

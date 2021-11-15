@@ -99,7 +99,7 @@ t_env	*get_env_list(char **env_main)
 		}
 		else
 			env_add_back(&env, new_env(ft_substr(env_main[i], 0, len), \
-			ft_substr(env_main[i], len + 1, ft_strlen(env_main[i]))));
+			ft_substr(env_main[i], len + 1, ft_strlen(env_main[i] + len + 1))));
 	}
 	return (env);
 }

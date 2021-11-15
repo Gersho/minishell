@@ -96,6 +96,10 @@ static void	browse_tab(char **path_tab, t_shell *shell)
 	ft_free_str_tab(path_tab);
 }
 
+/*
+ * This function will seek the cmd path and check if it can
+ * be executed
+ */
 int	get_cmd_path(t_shell *shell, char **path_tab)
 {
 	t_env	*env;

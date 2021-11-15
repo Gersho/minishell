@@ -32,7 +32,7 @@ int	print_env_export(t_env *env)
 		if (save->value)
 			ft_printf_fd(1, "declare -x %s=\"%s\"\n", save->name, save->value);
 		else
-			ft_printf_fd(1, "declare -x %s\n", save->name, save->value);
+			ft_printf_fd(1, "declare -x %s\n", save->name);
 		cpy = env_unlink(cpy, save->name);
 		save = cpy;
 	}

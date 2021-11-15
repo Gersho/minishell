@@ -12,6 +12,9 @@
 
 #include "../../headers/minishell.h"
 
+/*
+ * Redo the env list without the "name" link
+ */
 t_env	*env_unlink(t_env *env_l, char *name)
 {
 	t_env	*new;

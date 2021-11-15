@@ -30,6 +30,9 @@ static void	set_signal_return(int status, t_shell *shell, int *nl)
 	}
 }
 
+/*
+ * Wait all childs to finish and set the return according to the exit status
+ */
 static void	wait_all_process(t_cmd *cmd, t_shell *shell)
 {
 	int	status;
@@ -51,6 +54,11 @@ static void	wait_all_process(t_cmd *cmd, t_shell *shell)
 		write(1, "\n", 1);
 }
 
+/*
+ * Will go through every cmd to check if there is a heredoc and execute it
+ * return 1 if there is none or it executed correctly
+ * return 0 if the heredoc was finished by a signal
+ */
 static int	check_heredoc(t_shell *shell)
 {
 	t_cmd	*cmd;

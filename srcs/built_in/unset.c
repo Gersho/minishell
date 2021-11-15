@@ -16,7 +16,7 @@ static int	check_arg_quantity(char **param)
 {
 	if (param[1] == NULL)
 	{
-		ft_putstr_fd("unset: not enough arguments\n", 2);
+		ft_printf_fd(2, "%s: unset: not enough arguments\n", PROMPTERR);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
