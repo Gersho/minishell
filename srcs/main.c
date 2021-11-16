@@ -57,7 +57,6 @@ static int	readline_protection(char *line, char *prompt, t_shell *shell)
 	return (ret);
 }
 
-//TODO crash echo OLPWD if its NULL / any env that is null
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
