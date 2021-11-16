@@ -19,12 +19,18 @@ static int	is_plus_equal(char *param, char *name, t_env *env, int i)
 	if (param[i] == '+' && param[i + 1] == '=')
 	{
 		if (!env_seeker(&env, name))
-			env_add_back(&env, new_env(name, env->value = ft_strdup(param + i + 2)));
+			env_add_back(&env, new_env(name, ft_strdup(param + i + 2)));
 		else
 		{
-			tmp = env->value;
-			env->value = ft_strjoin(env->value, param + i + 2);
-			free(tmp);
+			free(name);
+			if (env->value)
+			{
+				tmp = env->value;
+				env->value = ft_strjoin(env->value, param + i + 2);
+				free(tmp);
+			}
+			else
+				env->value = ft_strdup("");
 		}
 		return (1);
 	}
