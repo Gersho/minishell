@@ -111,6 +111,10 @@ int	ft_parse_line(char *str, t_shell *shell)
 	len = ft_strlen(vars.str);
 	if (ft_parse_loop(&vars, len) == -255)
 	{
+		ft_free_str_tab(shell->cmd->param);
+		ft_free_str_tab(shell->cmd->red);
+		shell->cmd->param = NULL;
+		shell->cmd->red = NULL;
 		free_cmd_list(shell->cmd);
 		shell->cmd = NULL;
 		return (-255);

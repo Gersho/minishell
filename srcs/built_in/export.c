@@ -37,10 +37,14 @@ static int	is_equal(char *param, char *name, t_env *env, int i)
 	if (param[i] == '=')
 	{
 		if (!env_seeker(&env, name))
+		{
+			printf("pas normal\n");
 			env_add_back(&env, new_env(name, \
 			ft_substr(param, i + 1, ft_strlen(param))));
+		}
 		else
 		{
+			printf("env->name=%s | env->value=%s | param=%s\n", env->name, env->value, param + i + 1);
 			free(env->value);
 			env->value = ft_substr(param, i + 1, ft_strlen(param));
 		}
@@ -78,6 +82,7 @@ void	parse_export(char *param, t_env **env)
 		i++;
 		if (param[i] == '\0')
 		{
+			printf("pas normal de ouf\n");
 			if (!env_seeker(&envptr, param))
 				env_add_back(env, new_env(ft_strdup(param), NULL));
 		}

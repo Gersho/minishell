@@ -56,7 +56,12 @@ int	is_path_and_xok(char *path)
 		print_error_prompt(path);
 		return (127);
 	}
-	fd = open(path, O_RDWR);
+	if (S_ISDIR(stat_path.st_mode))
+	{
+		ft_printf_fd(2, "%s: %s: is a directory\n", PROMPTERR, path);
+		return (126);
+	}
+	fd = open(path, O_RDONLY);
 	if (fd == -1 || access(path, X_OK) != 0)
 	{
 		print_error_prompt(path);

@@ -19,6 +19,7 @@ char	*set_prompt(t_shell *shell)
 	char	buf[PATH_MAX];
 	char	*status;
 
+	prompt = NULL;
 	if (shell->ret == 0)
 		status = "🌸 ";
 	else
