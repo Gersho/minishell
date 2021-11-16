@@ -6,15 +6,15 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/14 15:03:03 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/16 11:49:39 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-int*	g_ptr;
+int	*g_ptr;
 
-void init_shell(t_shell *shell, char **line, char **env)
+void	init_shell(t_shell *shell, char **line, char **env)
 {
 	*line = NULL;
 	shell->env = get_env_list(env);
@@ -27,7 +27,7 @@ void init_shell(t_shell *shell, char **line, char **env)
  * Check if stdin, stdout and stderr are connected to terminal
  * It's to prevent an execution of bash/minishell in a pipe
  */
-void check_isatty(void)
+void	check_isatty(void)
 {
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 	{
@@ -37,11 +37,11 @@ void check_isatty(void)
 }
 
 //TODO crash echo OLPWD if its NULL / any env that is null
-int main(int ac,char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	t_shell shell;
-	char*	line;
-	char 	*prompt;
+	t_shell	shell;
+	char	*line;
+	char	*prompt;
 
 	(void)ac;
 	(void)av;
