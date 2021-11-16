@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/13 17:25:51 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/16 16:47:42 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int	to_param_dblquote(t_vars *vars, t_cmd *current, int i)
 	int		j;
 	char	*tmp;
 
+printf("i:%d||str[i]:%c\n", i, vars->str[i]);
 	j = ft_str_index_c((vars->str + i + 1), '\"') + i + 2;
+printf("j:%d||str[j]:%c\n", j, vars->str[j]);
+printf("j-i:%d\n", j - i);
 	if (j == 0)
 	{
 		ft_printf_fd(2, "%s: syntax error unclosed quote\n", PROMPTERR);
