@@ -48,24 +48,23 @@ static int	path_exist(char *path, t_cmd *cmd, t_shell *shell)
 
 int	is_path_and_xok(char *path)
 {
-	int	fd;
-	int	ret;
+	int			fd;
+	struct stat	stat_path;
 
-	ret = 0;
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
+	if (stat(path, &stat_path) == -1)
 	{
 		print_error_prompt(path);
-		ret = 127;
+		return (127);
 	}
-	else if (access(path, X_OK) != 0)
+	fd = open(path, O_RDWR);
+	if (fd == -1 || access(path, X_OK) != 0)
 	{
 		print_error_prompt(path);
-		ret = 126;
+		if (fd != -1)
+			close_perror(fd);
+		return (126);
 	}
-	if (fd != -1)
-		close_perror(fd);
-	return (ret);
+	return (0);
 }
 
 /*
@@ -100,14 +99,16 @@ static void	browse_tab(char **path_tab, t_shell *shell)
  * This function will seek the cmd path and check if it can
  * be executed
  */
-int	get_cmd_path(t_shell *shell, char **path_tab)
+int	get_cmd_path(t_shell *shell)
 {
 	t_env	*env;
+	char	**path_tab;
 
 	env = shell->env;
-	if (is_absolute_path(shell, path_tab))
+	if (is_absolute_path(shell))
 		return (shell->ret);
-	else if (path_tab == NULL || \
+	path_tab = split_env_path(shell->env);
+	if (path_tab == NULL || \
 	(env_seeker(&env, "PATH") && !env->value) || \
 	!*env->value)
 	{

@@ -12,6 +12,16 @@
 
 #include "../../headers/minishell.h"
 
+void	print_list(t_env *env)
+{
+	while (env)
+	{
+		if (env->value)
+			ft_printf_fd(1, "%s=%s\n", env->name, env->value);
+		env = env->next;
+	}
+}
+
 int	env(t_env *env_l)
 {
 	print_list(env_l);

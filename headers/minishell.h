@@ -30,7 +30,9 @@
 # include <errno.h>
 # include <stdio.h>
 # include <stdarg.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
+# include <sys/types.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
