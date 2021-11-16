@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/14 15:00:37 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/16 13:46:04 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,12 @@ int	ft_parse_line(char *str, t_shell *shell)
 	t_vars		vars;
 	int			len;
 
+	shell->cmd = ft_cmd_init();
+	if (!shell->cmd)
+	{
+		free_env_list(shell->env);
+		ft_error_exit(-1);
+	}
 	ft_init_vars(&vars, shell, str);
 	len = ft_strlen(vars.str);
 	ft_parse_quotes(&vars, len);
