@@ -27,7 +27,6 @@ static void	exit_if_param_null(char *str)
 void	exec_cmd_fork(t_shell *shell)
 {
 	char	**env_t;
-	char	**path_tab;
 
 	sig_child_handler(shell);
 	shell->cmd->pid = fork();
@@ -39,8 +38,7 @@ void	exec_cmd_fork(t_shell *shell)
 			close_unused_fd(shell);
 		if (exec_built_in(shell, 1))
 			exit(shell->ret);
-		path_tab = split_env_path(shell->env);
-		shell->ret = get_cmd_path(shell, path_tab);
+		shell->ret = get_cmd_path(shell);
 		if (shell->ret > 0)
 			free_cmd_and_exit(shell);
 		env_t = get_env_tab(shell->env);

@@ -31,7 +31,7 @@ void check_isatty(void)
 {
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 	{
-		ft_printf_fd(2, "%s: You can't do that !!\n", PROMPTERR);
+		ft_printf_fd(2, "%s: Please don't do that !!\n", PROMPTERR);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -45,6 +45,8 @@ int main(int ac,char **av, char **env)
 
 	(void)ac;
 	(void)av;
+
+	check_isatty();
 	init_shell(&shell, &line, env);
 	g_ptr = &shell.ret;
 	while (1)

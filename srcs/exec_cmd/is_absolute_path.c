@@ -12,11 +12,10 @@
 
 #include "../../headers/minishell.h"
 
-int	is_absolute_path(t_shell *shell, char **path_tab)
+int	is_absolute_path(t_shell *shell)
 {
 	if (**shell->cmd->param == '/' || **shell->cmd->param == '.')
 	{
-		ft_free_str_tab(path_tab);
 		shell->cmd->path = ft_strdup(*shell->cmd->param);
 		shell->ret = is_path_and_xok(shell->cmd->path);
 		return (1);
