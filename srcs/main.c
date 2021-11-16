@@ -34,7 +34,7 @@ static void	check_isatty(int ac, char **av)
 	(void)av;
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 	{
-		ft_printf_fd(2, "%s: You can't do that !!\n", PROMPTERR);
+		ft_printf_fd(2, "%s: Please don't do that !!\n", PROMPTERR);
 		exit(EXIT_FAILURE);
 	}
 }
