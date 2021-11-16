@@ -65,6 +65,9 @@ char	*ft_mega_str_join(int nb, ...)
 	i = 1;
 	va_start(args, nb);
 	mega_str = (char *) va_arg(args, char *);
+	mega_str = ft_strdup(mega_str);
+	if (!mega_str)
+		return (NULL);
 	while (i < nb)
 	{
 		str = (char *) va_arg(args, char *);

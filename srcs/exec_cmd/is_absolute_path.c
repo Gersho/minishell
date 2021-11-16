@@ -14,7 +14,7 @@
 
 int	is_absolute_path(t_shell *shell)
 {
-	if (**shell->cmd->param == '/' || **shell->cmd->param == '.')
+	if (ft_strchr(*shell->cmd->param, '/') || **shell->cmd->param == '.')
 	{
 		shell->cmd->path = ft_strdup(*shell->cmd->param);
 		shell->ret = is_path_and_xok(shell->cmd->path);

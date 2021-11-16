@@ -31,7 +31,7 @@ static int	go_home(t_env *env_l, char *buf)
 	env = env_l;
 	if (!env_seeker(&env_l, "HOME"))
 	{
-		ft_putstr_fd("bash: cd: HOME not set\n", 2);
+		ft_printf_fd(2, "%s: cd: HOME not set\n", PROMPTERR);
 		return (EXIT_FAILURE);
 	}
 	update_oldpwd(env);

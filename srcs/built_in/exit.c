@@ -119,5 +119,6 @@ void	exit_shell(t_shell *shell, int in_fork)
 	tcsetattr(0, TCSANOW, &shell->term);
 	free_env_list(shell->env);
 	free_cmd_list(shell->cmd);
+	clear_history();
 	exit((unsigned char)shell->ret);
 }
