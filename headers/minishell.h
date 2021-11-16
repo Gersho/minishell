@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 14:39:57 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/13 15:03:54 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/16 11:32:25 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # include "signals.h"
 # include "parsing.h"
 
-extern	int*	g_ptr;
+extern int	*g_ptr;
 
 //----list_cmd
 t_cmd		*ft_cmd_init(void);
