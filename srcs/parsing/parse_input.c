@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/16 13:46:04 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/17 11:20:44 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int	ft_parse_checks(t_vars *vars, int *i, t_cmd *tmp)
 		&& ft_get_type(vars->env, *i) != ENVS)
 		ret = to_redirect(vars, tmp, *i);
 	*i += ret;
+	if (ret == -254 || ret == -255)
+		return (-255);
 	return (ret);
 }
 

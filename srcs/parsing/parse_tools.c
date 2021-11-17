@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 17:09:37 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/13 17:25:51 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/17 11:22:18 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,14 @@ int	to_param_quote(t_vars *vars, t_cmd *current, int i)
 	int		j;
 	char	*tmp;
 
-	j = ft_str_index_c((vars->str + i + 1), '\'') + i + 2;
-	if (j == 0)
+	j = ft_str_index_c((vars->str + i + 1), '\'');
+	if (j == -1)
 	{
 		ft_printf_fd(2, "%s: syntax error unclosed quote\n", PROMPTERR);
-		*vars->last_ret = 123;
+		*vars->last_ret = 258;
 		return (-255);
 	}
+	j += i + 2;
 	ft_param_loop(vars, &j);
 	tmp = ft_no_signifiant_quote_substr(vars, i, j - 1);
 	if (!tmp)
@@ -64,13 +65,14 @@ int	to_param_dblquote(t_vars *vars, t_cmd *current, int i)
 	int		j;
 	char	*tmp;
 
-	j = ft_str_index_c((vars->str + i + 1), '\"') + i + 2;
-	if (j == 0)
+	j = ft_str_index_c((vars->str + i + 1), '\"');
+	if (j == -1)
 	{
 		ft_printf_fd(2, "%s: syntax error unclosed quote\n", PROMPTERR);
-		*vars->last_ret = 123;
+		*vars->last_ret = 258;
 		return (-255);
 	}
+	j += i + 2;
 	ft_param_loop(vars, &j);
 	tmp = ft_no_signifiant_quote_substr(vars, i, j - 1);
 	if (!tmp)
