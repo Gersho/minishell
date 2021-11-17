@@ -12,14 +12,16 @@
 
 #include "../../headers/minishell.h"
 
-static int	is_plus_equal(char *param, char *name, t_env *env, int i)
+static int	is_plus_equal(char *param, char *name, t_env **envhead, int i)
 {
 	char	*tmp;
+	t_env	*env;
 
+	env = *envhead;
 	if (param[i] == '+' && param[i + 1] == '=')
 	{
 		if (!env_seeker(&env, name))
-			env_add_back(&env, new_env(name, ft_strdup(param + i + 2)));
+			env_add_back(envhead, new_env(name, ft_strdup(param + i + 2)));
 		else
 		{
 			free(name);
@@ -37,15 +39,19 @@ static int	is_plus_equal(char *param, char *name, t_env *env, int i)
 	return (0);
 }
 
-static int	is_equal(char *param, char *name, t_env *env, int i)
+static int	is_equal(char *param, char *name, t_env **envhead, int i)
 {
+	t_env	*env;
+
+	env = *envhead;
+	printf("env ptrequial=%p\n", envhead);
 	if (param[i] == '=')
 	{
 		if (!env_seeker(&env, name))
 		{
-//			printf("env ptr=%p\n", env);
-			env_add_back(&env, new_env(name, ft_strdup(param + i + 1)));
-//			printf("env ptr=%p\n", env);
+			printf("env ptr=%p\n", env);
+			env_add_back(envhead, new_env(name, ft_strdup(param + i + 1)));
+			printf("env value after add back=%s\n", env->value);
 		}
 		else
 		{
@@ -58,7 +64,7 @@ static int	is_equal(char *param, char *name, t_env *env, int i)
 	return (0);
 }
 
-static int	check_sign(char *param, t_env *env, int i)
+static int	check_sign(char *param, t_env **env, int i)
 {
 	char	*name;
 
@@ -82,7 +88,7 @@ void	parse_export(char *param, t_env **env)
 	envptr = *env;
 	while (param[i])
 	{
-		if (check_sign(param, *env, i))
+		if (check_sign(param, env, i))
 			break ;
 		i++;
 		if (param[i] == '\0')
@@ -112,6 +118,8 @@ int	export(char **param, t_env **env)
 			continue ;
 		}
 		parse_export(param[j], env);
+//		t_env *envptr = *env;
+//		printf("env ptr=%s\n", envptr->value);
 	}
 	return (ret);
 }
