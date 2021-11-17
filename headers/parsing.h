@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 16:39:23 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/17 13:47:11 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/17 16:55:41 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void		ft_env_expand_none(t_vars *vars, int *i);
 char		*ft_get_env_value(t_vars *vars, char *name);
 //----parsing
 int			ft_parse_line(char *line, t_shell *shell);
+int			parse_error_quote(t_vars *vars);
 //----cmd->param
 char		**ft_param_init(void);
 char		**ft_param_append_word(char **param, char *new);

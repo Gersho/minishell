@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/17 13:47:20 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/17 17:03:05 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static int	ft_parse_loop(t_vars *vars, int len)
 	i = 0;
 	while (i < len)
 	{
+// printf("i:%d || str[i]:%c\n", i, vars->str[i]);
 		i += skip_spaces(&vars->str[i]);
 		ret = ft_parse_checks(vars, &i, tmp);
 		if (ret == -255)
@@ -96,7 +97,12 @@ static int	ft_parse_loop(t_vars *vars, int len)
 			i++;
 		}
 		else if (vars->str[i] != ' ')
-			i += to_param_word(vars, tmp, i);
+		{
+			ret = to_param_word(vars, tmp, i);
+			if (ret == -255)
+				return (-255);
+			i += ret;
+		}
 	}
 	return (0);
 }
@@ -124,6 +130,7 @@ int	ft_parse_line(char *str, t_shell *shell)
 		shell->cmd = NULL;
 		return (-255);
 	}
+// ft_debug_cmd(shell->cmd);
 	free(vars.str);
 	free_quotes_list(vars.quotes);
 	free_quotes_list(vars.env);
