@@ -73,7 +73,10 @@ int	main(int ac, char **av, char **env)
 		if (readline_protection(line, prompt, &shell) == -255)
 			continue ;
 		if (ft_parse_line(line, &shell) == -255)
+		{
+			free(line);
 			continue ;
+		}
 		line = NULL;
 		if (*shell.cmd->param || *shell.cmd->red)
 			parse_cmd(&shell);
