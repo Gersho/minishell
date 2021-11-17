@@ -50,7 +50,9 @@ int	is_path_and_xok(char *path)
 {
 	int			fd;
 	struct stat	stat_path;
+	int 		ret;
 
+	ret = 0;
 	if (stat(path, &stat_path) == -1)
 	{
 		print_error_prompt(path);
@@ -65,11 +67,11 @@ int	is_path_and_xok(char *path)
 	if (fd == -1 || access(path, X_OK) != 0)
 	{
 		print_error_prompt(path);
-		if (fd != -1)
-			close_perror(fd);
-		return (126);
+		ret = 126;
 	}
-	return (0);
+	if (fd != -1)
+		close_perror(fd);
+	return (ret);
 }
 
 /*
