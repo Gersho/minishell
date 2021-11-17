@@ -46,11 +46,12 @@ SRCSF			=	main.c			\
 				 	minishell.c		\
 				 	set_prompt.c	\
 
-TOOLBOX			=	close_tools.c	\
-				 	env_tools.c		\
-				 	replace_std.c	\
-				 	utils.c			\
-				 	lltoa.c			\
+TOOLBOX			=	close_tools.c		\
+				 	env_tools.c			\
+				 	replace_std.c		\
+				 	utils.c				\
+				 	lltoa.c				\
+				 	ft_mega_str_join.c	\
 
 REDIRECT		=	here_doc.c 			\
                  	redirect_handler.c	\

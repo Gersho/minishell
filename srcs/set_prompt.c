@@ -32,7 +32,7 @@ char	*set_prompt(t_shell *shell)
 		KCYN, getenv("USER"), \
 		KMAG, "): ", \
 		KNRM);
-	if (prompt)
+	if (!prompt)
 		prompt = ft_strdup("\x1B[34mminishell: \x1B[0m");
 	return (prompt);
 }
