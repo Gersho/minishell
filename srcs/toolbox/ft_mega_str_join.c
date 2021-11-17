@@ -28,7 +28,7 @@ static int	free_old_or_error(char *tmp, char *mega_str)
 char	*ft_mega_str_join(int nb, ...)
 {
 	char	*mega_str;
-	char 	*tmp;
+	char	*tmp;
 	int		i;
 	va_list	args;
 
