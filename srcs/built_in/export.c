@@ -43,8 +43,9 @@ static int	is_equal(char *param, char *name, t_env *env, int i)
 	{
 		if (!env_seeker(&env, name))
 		{
-			env_add_back(&env, new_env(name, \
-			env->value = ft_strdup(param + i + 1)));
+//			printf("env ptr=%p\n", env);
+			env_add_back(&env, new_env(name, ft_strdup(param + i + 1)));
+//			printf("env ptr=%p\n", env);
 		}
 		else
 		{

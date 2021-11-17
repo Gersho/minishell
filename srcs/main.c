@@ -74,7 +74,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		if (ft_parse_line(line, &shell) == -255)
 		{
-			free(line);
+//			free(line);
 			continue ;
 		}
 		line = NULL;

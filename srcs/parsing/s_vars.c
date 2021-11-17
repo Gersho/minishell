@@ -38,8 +38,8 @@ void	ft_free_vars(t_vars *vars)
 		free_cmd_list(vars->cmd);
 	if (vars->str)
 		free(vars->str);
-	if (vars->env_vars)
-		free_env_list(vars->env_vars);
+//	if (vars->env_vars)
+//		free_env_list(vars->env_vars);
 	if (vars->quotes)
 		free_quotes_list(vars->quotes);
 	if (vars->env)

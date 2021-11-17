@@ -119,7 +119,8 @@ int	ft_parse_line(char *str, t_shell *shell)
 	len = ft_strlen(vars.str);
 	if (ft_parse_loop(&vars, len) == -255)
 	{
-		free_cmd_list(shell->cmd);
+		ft_free_vars(&vars);
+//		free_cmd_list(shell->cmd);
 		shell->cmd = NULL;
 		return (-255);
 	}
