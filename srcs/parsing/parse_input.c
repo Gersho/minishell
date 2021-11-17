@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/17 11:20:44 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/17 13:47:20 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	ft_parse_line(char *str, t_shell *shell)
 	len = ft_strlen(vars.str);
 	if (ft_parse_loop(&vars, len) == -255)
 	{
-		ft_free_vars(&vars);
+		ft_free_vars_continue(&vars);
 //		free_cmd_list(shell->cmd);
 		shell->cmd = NULL;
 		return (-255);
