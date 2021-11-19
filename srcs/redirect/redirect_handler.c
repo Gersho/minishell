@@ -60,39 +60,54 @@ static void	read_through_redirect(t_shell *shell)
 /*
  * If there is no heredoc, it will set cmd->in with the right input
  */
-static void	set_cmd_in(int first_cmd, t_shell *shell, int pipe_in)
-{
-	if (shell->cmd->in == 0)
-	{
-		if (first_cmd)
-			shell->cmd->in = dup(0);
-		else
-			shell->cmd->in = pipe_in;
-	}
-}
+//static void	set_cmd_in(int first_cmd, t_shell *shell, int pipe_in)
+//{
+//	if (shell->cmd->in == 0)
+//	{
+//		if (first_cmd)
+//			shell->cmd->in = dup(0);
+//		else
+//			shell->cmd->in = pipe_in;
+//	}
+//}
+
+//void	redirect_handler(t_shell *shell)
+//{
+//	int		pipe_fd[2];
+//	int		first_cmd;
+//	t_cmd	*start;
+//
+//	first_cmd = 1;
+//	start = shell->cmd;
+//	while (shell->cmd)
+//	{
+//		set_cmd_in(first_cmd, shell, pipe_fd[0]);
+//		pipe(pipe_fd);
+//		if (shell->cmd->next)
+//			shell->cmd->out = pipe_fd[1];
+//		else
+//		{
+//			close_multiple_fd(2, pipe_fd[0], pipe_fd[1]);
+//			shell->cmd->out = dup(1);
+//		}
+//		read_through_redirect(shell);
+//		shell->cmd = shell->cmd->next;
+//		first_cmd = 0;
+//	}
+//	shell->cmd = start;
+//}
 
 void	redirect_handler(t_shell *shell)
 {
-	int		pipe_fd[2];
-	int		first_cmd;
-	t_cmd	*start;
+//	set_cmd_in(first_cmd, shell, pipe_fd[0]);
+//	pipe(pipe_fd);
+//	if (shell->cmd->next)
+//		shell->cmd->out = pipe_fd[1];
+//	else
+//	{
+//		close_multiple_fd(2, pipe_fd[0], pipe_fd[1]);
+//		shell->cmd->out = dup(1);
+//	}
+	read_through_redirect(shell);
 
-	first_cmd = 1;
-	start = shell->cmd;
-	while (shell->cmd)
-	{
-		set_cmd_in(first_cmd, shell, pipe_fd[0]);
-		pipe(pipe_fd);
-		if (shell->cmd->next)
-			shell->cmd->out = pipe_fd[1];
-		else
-		{
-			close_multiple_fd(2, pipe_fd[0], pipe_fd[1]);
-			shell->cmd->out = dup(1);
-		}
-		read_through_redirect(shell);
-		shell->cmd = shell->cmd->next;
-		first_cmd = 0;
-	}
-	shell->cmd = start;
 }

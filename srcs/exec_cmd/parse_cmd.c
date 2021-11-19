@@ -93,14 +93,14 @@ void	parse_cmd(t_shell *shell)
 	cmd_ptr = shell->cmd;
 	if (check_heredoc(shell))
 	{
-		redirect_handler(shell);
-		if (!shell->error)
+//		redirect_handler(shell);
+//		if (!shell->error)
 			launch_all_commands(shell, &status);
-		else
-		{
-			close_all_fds(shell);
-			shell->ret = EXIT_FAILURE;
-		}
+//		else
+//		{
+//			close_all_fds(shell);
+//			shell->ret = EXIT_FAILURE;
+//		}
 		if (status != -1 && !shell->error)
 			wait_all_process(cmd_ptr, shell);
 	}

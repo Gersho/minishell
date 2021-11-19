@@ -17,6 +17,8 @@
  */
 void	replace_std(int in, int out)
 {
-	dup2_close(in, 0);
-	dup2_close(out, 1);
+	if (in != 0)
+		dup2_close(in, 0);
+	if (out != 1)
+		dup2_close(out, 1);
 }
