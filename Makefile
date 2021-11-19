@@ -41,6 +41,7 @@ PARSING			=	debug.c				\
 				 	str_manipulation.c	\
 				 	quote_tools.c		\
 				 	red_tools.c			\
+					parse_error.c		\
 
 SRCSF			=	main.c			\
 				 	minishell.c		\

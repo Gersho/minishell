@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/17 11:20:44 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/19 13:46:15 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	ft_parse_checks(t_vars *vars, int *i, t_cmd *tmp)
 
 static int	ft_check_after_pipe(t_vars *vars, int i, int len, t_cmd *tmp)
 {
-	if (!tmp->param[0])
+	if (!tmp->param[0] && !tmp->red[0])
 	{
 		ft_printf_fd(2, "%s: syntax error near unexpected token '|'\n",
 			PROMPTERR);
@@ -96,7 +96,12 @@ static int	ft_parse_loop(t_vars *vars, int len)
 			i++;
 		}
 		else if (vars->str[i] != ' ')
-			i += to_param_word(vars, tmp, i);
+		{
+			ret = to_param_word(vars, tmp, i);
+			if (ret == -255)
+				return (-255);
+			i += ret;
+		}
 	}
 	return (0);
 }
@@ -119,8 +124,7 @@ int	ft_parse_line(char *str, t_shell *shell)
 	len = ft_strlen(vars.str);
 	if (ft_parse_loop(&vars, len) == -255)
 	{
-		ft_free_vars(&vars);
-//		free_cmd_list(shell->cmd);
+		ft_free_vars_continue(&vars);
 		shell->cmd = NULL;
 		return (-255);
 	}
