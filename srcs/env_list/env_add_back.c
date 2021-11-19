@@ -23,11 +23,10 @@ void	env_add_back(t_env **lst, t_env *new)
 {
 	t_env	*tmp;
 
+	if (!lst)
+		return ;
 	if (!*lst)
-	{
 		*lst = new;
-		printf("new->name %s | value= %s\n", new->name, new->value);
-	}
 	else
 	{
 		tmp = env_last(*lst);

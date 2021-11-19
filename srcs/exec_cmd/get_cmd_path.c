@@ -50,7 +50,7 @@ int	is_path_and_xok(char *path)
 {
 	int			fd;
 	struct stat	stat_path;
-	int 		ret;
+	int			ret;
 
 	ret = 0;
 	if (stat(path, &stat_path) == -1)

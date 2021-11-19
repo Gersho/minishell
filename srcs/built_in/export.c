@@ -44,15 +44,10 @@ static int	is_equal(char *param, char *name, t_env **envhead, int i)
 	t_env	*env;
 
 	env = *envhead;
-	printf("env ptrequial=%p\n", envhead);
 	if (param[i] == '=')
 	{
 		if (!env_seeker(&env, name))
-		{
-			printf("env ptr=%p\n", env);
 			env_add_back(envhead, new_env(name, ft_strdup(param + i + 1)));
-			printf("env value after add back=%s\n", env->value);
-		}
 		else
 		{
 			free(name);
@@ -118,8 +113,6 @@ int	export(char **param, t_env **env)
 			continue ;
 		}
 		parse_export(param[j], env);
-//		t_env *envptr = *env;
-//		printf("env ptr=%s\n", envptr->value);
 	}
 	return (ret);
 }
