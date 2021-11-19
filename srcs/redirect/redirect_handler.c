@@ -22,7 +22,7 @@ static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 	else if (redirect_mode == RED_OUT_A)
 		file_fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 00644);
 	else if (redirect_mode == RED_IN)
-		file_fd = open(filename, O_RDWR, S_IRWXU | S_IRWXG);
+		file_fd = open(filename, O_RDONLY, S_IRWXU | S_IRWXG);
 	if (file_fd == -1)
 	{
 		shell->error = 1;

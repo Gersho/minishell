@@ -23,9 +23,9 @@ static void	print_if_error(char *path, char *name, t_shell *shell)
 		print_error_prompt(path);
 }
 
-static int	path_exist(char *path, t_cmd *cmd, t_shell *shell)
+static int	path_exist(char *path, t_cmd *cmd, t_shell *shell, char **denied)
 {
-	int	fd;
+	int		fd;
 
 	fd = open(path, O_RDONLY);
 	if (fd != -1)
@@ -35,7 +35,10 @@ static int	path_exist(char *path, t_cmd *cmd, t_shell *shell)
 		cmd->path = ft_strdup(path);
 		if (access(path, X_OK) != 0)
 		{
+			if (*denied == NULL)
+				*denied = ft_strdup(cmd->path);
 			shell->ret = 126;
+			close_perror(fd);
 			return (0);
 		}
 		close_perror(fd);
@@ -46,9 +49,12 @@ static int	path_exist(char *path, t_cmd *cmd, t_shell *shell)
 	return (0);
 }
 
+/*
+ * Verify if there is something in path, if it is a directory,
+ * if it can be executed and set the return value
+ */
 int	is_path_and_xok(char *path)
 {
-	int			fd;
 	struct stat	stat_path;
 	int			ret;
 
@@ -63,14 +69,11 @@ int	is_path_and_xok(char *path)
 		ft_printf_fd(2, "%s: %s: is a directory\n", PROMPTERR, path);
 		return (126);
 	}
-	fd = open(path, O_RDONLY);
-	if (fd == -1 || access(path, X_OK) != 0)
+	if (access(path, X_OK) != 0)
 	{
 		print_error_prompt(path);
 		ret = 126;
 	}
-	if (fd != -1)
-		close_perror(fd);
 	return (ret);
 }
 
@@ -82,22 +85,28 @@ int	is_path_and_xok(char *path)
 static void	browse_tab(char **path_tab, t_shell *shell)
 {
 	char	*path;
+	char	*denied;
 	int		i;
 
-	i = 0;
+	i = -1;
 	path = NULL;
-	while (path_tab[i])
+	denied = NULL;
+	while (path_tab[++i])
 	{
 		path = ft_strjoin(path_tab[i], *shell->cmd->param);
 		if (path == NULL)
 			return ;
-		if (path_exist(path, shell->cmd, shell))
+		if (path_exist(path, shell->cmd, shell, &denied))
 		{
 			free(path);
 			break ;
 		}
-		i++;
 		free(path);
+	}
+	if (shell->cmd->path != NULL && shell->ret == 126)
+	{
+		free(shell->cmd->path);
+		shell->cmd->path = denied;
 	}
 	ft_free_str_tab(path_tab);
 }
