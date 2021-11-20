@@ -6,13 +6,13 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/19 13:46:15 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/19 15:01:06 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-static int	ft_parse_checks(t_vars *vars, int *i, t_cmd *tmp)
+static int	ft_parse_quote_and_ret(t_vars *vars, int *i, t_cmd *tmp)
 {
 	int	ret;
 
@@ -32,43 +32,25 @@ static int	ft_parse_checks(t_vars *vars, int *i, t_cmd *tmp)
 	return (ret);
 }
 
-static int	ft_check_after_pipe(t_vars *vars, int i, int len, t_cmd *tmp)
+static int	ft_parse_pipe_and_word(t_vars *vars, int *i, t_cmd **tmp, int len)
 {
-	if (!tmp->param[0] && !tmp->red[0])
-	{
-		ft_printf_fd(2, "%s: syntax error near unexpected token '|'\n",
-			PROMPTERR);
-		*vars->last_ret = 258;
-		return (-255);
-	}
-	i += skip_spaces(&vars->str[i]);
-	while (i < len)
-	{
-		if (vars->str[i] == '|')
-		{
-			ft_printf_fd(2, "%s: syntax error near unexpected token 'newline'\n",
-				PROMPTERR);
-			*vars->last_ret = 258;
-			return (-255);
-		}
-		else
-			return (1);
-		i++;
-	}
-	ft_printf_fd(2, "%s: syntax error near unexpected token 'newline'\n",
-		PROMPTERR);
-	*vars->last_ret = 258;
-	return (-255);
-}
+	int	ret;
 
-static int	ft_handle_pipe(t_vars *vars, int i, int len, t_cmd **tmp)
-{
-	if (ft_check_after_pipe(vars, (i + 1), len, *tmp) == -255)
-		return (-255);
-	(*tmp)->next = ft_cmd_init();
-	if (!(*tmp)->next)
-		ft_freevars_exit(vars);
-	*tmp = (*tmp)->next;
+	ret = 0;
+	if (ft_strncmp(&vars->str[*i], "|", 1) == 0
+		&& ft_get_type(vars->env, *i) != ENVS)
+	{
+		if (ft_handle_pipe(vars, *i, len, tmp) == -255)
+			return (-255);
+		*i += 1;
+	}
+	else if (vars->str[*i] != ' ')
+	{
+		ret = to_param_word(vars, *tmp, *i);
+		if (ret == -255)
+			return (-255);
+		*i += ret;
+	}
 	return (0);
 }
 
@@ -83,25 +65,13 @@ static int	ft_parse_loop(t_vars *vars, int len)
 	while (i < len)
 	{
 		i += skip_spaces(&vars->str[i]);
-		ret = ft_parse_checks(vars, &i, tmp);
+		ret = ft_parse_quote_and_ret(vars, &i, tmp);
 		if (ret == -255)
 			return (-255);
 		else if (ret != 0)
 			continue ;
-		if (ft_strncmp(&vars->str[i], "|", 1) == 0
-			&& ft_get_type(vars->env, i) != ENVS)
-		{
-			if (ft_handle_pipe(vars, i, len, &tmp) == -255)
-				return (-255);
-			i++;
-		}
-		else if (vars->str[i] != ' ')
-		{
-			ret = to_param_word(vars, tmp, i);
-			if (ret == -255)
-				return (-255);
-			i += ret;
-		}
+		if (ft_parse_pipe_and_word(vars, &i, &tmp, len) == -255)
+			return (-255);
 	}
 	return (0);
 }
