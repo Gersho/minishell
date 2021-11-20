@@ -82,7 +82,7 @@ CC				=	gcc
 
 RM				=	rm -rf
 
-CFLAGS			=	-Wall -Wextra -Werror #-g3 #-fsanitize=address
+CFLAGS			=	-Wall -Wextra -Werror
 
 all:			libs $(NAME)
 
