@@ -43,6 +43,7 @@ static void	dup_std_and_dup2(t_shell *shell)
 {
 	shell->std_in = dup(0);
 	shell->std_out = dup(1);
+	redirect_handler(shell);
 	replace_std(shell->cmd->in, shell->cmd->out);
 }
 
@@ -50,20 +51,23 @@ static int	what_cmd(int command, t_shell *shell, int in_fork)
 {
 	if (!in_fork)
 		dup_std_and_dup2(shell);
-	if (command == ECHO_M)
-		shell->ret = echo(shell->cmd->param);
-	else if (command == PWD_M)
-		shell->ret = pwd(shell->cmd->param);
-	else if (command == CD_M)
-		shell->ret = cd(shell->cmd->param, shell->env);
-	else if (command == ENV_M)
-		shell->ret = env(shell->env);
-	else if (command == EXPORT_M)
-		shell->ret = export(shell->cmd->param, &shell->env);
-	else if (command == UNSET_M)
-		shell->ret = unset(shell->cmd->param, &shell->env);
-	else
-		exit_shell(shell, in_fork);
+	if (!shell->error)
+	{
+		if (command == ECHO_M)
+			shell->ret = echo(shell->cmd->param);
+		else if (command == PWD_M)
+			shell->ret = pwd(shell->cmd->param);
+		else if (command == CD_M)
+			shell->ret = cd(shell->cmd->param, shell->env);
+		else if (command == ENV_M)
+			shell->ret = env(shell->env);
+		else if (command == EXPORT_M)
+			shell->ret = export(shell->cmd->param, &shell->env);
+		else if (command == UNSET_M)
+			shell->ret = unset(shell->cmd->param, &shell->env);
+		else
+			exit_shell(shell, in_fork);
+	}
 	if (!in_fork)
 		replace_std(shell->std_in, shell->std_out);
 	return (1);
