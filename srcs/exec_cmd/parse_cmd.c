@@ -92,9 +92,11 @@ void	parse_cmd(t_shell *shell)
 	shell->error = 0;
 	cmd_ptr = shell->cmd;
 	if (check_heredoc(shell))
+	{
 		launch_all_commands(shell, &status);
-	if (status != -1 && !shell->error)
-		wait_all_process(cmd_ptr, shell);
+		if (status != -1 && !shell->error)
+			wait_all_process(cmd_ptr, shell);
+	}
 	free_cmd_list(cmd_ptr);
 	shell->cmd = NULL;
 }
