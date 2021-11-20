@@ -23,7 +23,7 @@ static void	exit_if_param_null(char *str, t_shell *shell)
 	if (!str)
 	{
 		close_multiple_fd(2, shell->cmd->in, shell->cmd->out);
-		exit (EXIT_SUCCESS);
+		exit (shell->ret);
 	}
 }
 

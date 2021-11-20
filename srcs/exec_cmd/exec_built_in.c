@@ -47,6 +47,9 @@ static void	dup_std_and_dup2(t_shell *shell)
 	replace_std(shell->cmd->in, shell->cmd->out);
 }
 
+/*
+ * Check what builtin it is, launch it and retrieve the return
+ */
 static int	what_cmd(int command, t_shell *shell, int in_fork)
 {
 	if (!in_fork)

@@ -12,7 +12,7 @@
 
 #include "../../headers/minishell.h"
 
-static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
+static int	open_red_file(t_shell *shell, char *filename, int redirect_mode)
 {
 	int	file_fd;
 
@@ -22,7 +22,7 @@ static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 	else if (redirect_mode == RED_OUT_A)
 		file_fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 00644);
 	else if (redirect_mode == RED_IN)
-		file_fd = open(filename, O_RDONLY, S_IRWXU | S_IRWXG);
+		file_fd = open(filename, O_RDONLY);
 	if (file_fd == -1)
 	{
 		shell->error = 1;
@@ -30,6 +30,7 @@ static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 		print_error_prompt(filename);
 		return (EXIT_FAILURE);
 	}
+	shell->ret = 0;
 	if (redirect_mode == RED_OUT_A || redirect_mode == RED_OUT_T)
 		dup2_close(file_fd, shell->cmd->out);
 	else
@@ -50,7 +51,7 @@ void	redirect_handler(t_shell *shell)
 			continue ;
 		redirect = which_redirect(shell->cmd->red[i]);
 		i++;
-		if (open_with_param(shell, shell->cmd->red[i], redirect) == 1)
+		if (open_red_file(shell, shell->cmd->red[i], redirect) == 1)
 			break ;
 	}
 	ft_free_str_tab(shell->cmd->red);
