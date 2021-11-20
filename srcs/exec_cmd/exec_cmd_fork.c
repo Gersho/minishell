@@ -25,7 +25,6 @@ static void	exit_if_param_null(char *str, t_shell *shell)
 		close_multiple_fd(2, shell->cmd->in, shell->cmd->out);
 		exit (EXIT_SUCCESS);
 	}
-
 }
 
 void	exec_cmd_fork(t_shell *shell, int pipe_in)
@@ -38,8 +37,8 @@ void	exec_cmd_fork(t_shell *shell, int pipe_in)
 	{
 		if (shell->cmd->next)
 			close_perror(pipe_in);
-		exit_if_param_null(*shell->cmd->param, shell);
 		redirect_handler(shell);
+		exit_if_param_null(*shell->cmd->param, shell);
 		replace_std(shell->cmd->in, shell->cmd->out);
 		if (shell->error)
 			exit(EXIT_FAILURE);
