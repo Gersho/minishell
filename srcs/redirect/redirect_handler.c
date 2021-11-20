@@ -34,7 +34,7 @@ static int	open_with_param(t_shell *shell, char *filename, int redirect_mode)
 		dup2_close(file_fd, shell->cmd->out);
 	else
 		dup2_close(file_fd, shell->cmd->in);
-	return (1);
+	return (0);
 }
 
 void	redirect_handler(t_shell *shell)
@@ -50,7 +50,8 @@ void	redirect_handler(t_shell *shell)
 			continue ;
 		redirect = which_redirect(shell->cmd->red[i]);
 		i++;
-		open_with_param(shell, shell->cmd->red[i], redirect);
+		if (open_with_param(shell, shell->cmd->red[i], redirect) == 1)
+			break ;
 	}
 	ft_free_str_tab(shell->cmd->red);
 	shell->cmd->red = NULL;
