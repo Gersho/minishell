@@ -59,10 +59,6 @@ char		**init_env_tab(char **env);
 //----Error handling
 void		ft_error_exit(int err);
 void		ft_freevars_exit(t_vars *vars);
-//----Utils
-int			skip_spaces(char *str);
-void		print_error_prompt(char *str);
-char		*str_in_lower_case(char *s);
 //----Tools
 int			ft_str_index_c(char *str, char c);
 int			is_separator(char c);
