@@ -35,7 +35,11 @@ int	here_doc(char *limiter, t_shell *shell)
 	int		pipe_doc[2];
 	int		pid;
 
-	pipe(pipe_doc);
+	if (pipe(pipe_doc) == -1)
+	{
+		perror("pipe");
+		return (1);
+	}
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
