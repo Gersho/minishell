@@ -74,7 +74,7 @@ static int	check_heredoc(t_shell *shell)
 			{
 				if (which_redirect(shell->cmd->red[i]) != HERE_DOC)
 					continue ;
-				if (!here_doc(shell->cmd->red[i + 1], shell))
+				if (!here_doc(shell->cmd->red[i + 1], shell, cmd))
 					return (0);
 			}
 		}
@@ -92,6 +92,7 @@ void	parse_cmd(t_shell *shell)
 	status = 0;
 	shell->error = 0;
 	cmd_ptr = shell->cmd;
+	//TODO builtin << heredoc
 	if (check_heredoc(shell))
 	{
 		launch_all_commands(shell, &status);

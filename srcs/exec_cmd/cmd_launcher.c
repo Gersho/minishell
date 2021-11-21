@@ -12,6 +12,9 @@
 
 #include "../../headers/minishell.h"
 
+/*
+ * Will replace cmd->in and cmd->out by pipe if there is no heredoc
+ */
 static void	set_cmd_in_and_out(t_shell *shell, int *pipe_fd, int first)
 {
 	if (!first)

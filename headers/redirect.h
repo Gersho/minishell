@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 void	redirect_handler(t_shell *shell);
-int		here_doc(char *limiter, t_shell *shell);
+int		here_doc(char *limiter, t_shell *shell, t_cmd *cmd);
 int		which_redirect(char *red);
 
 #endif

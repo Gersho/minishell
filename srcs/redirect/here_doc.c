@@ -12,7 +12,20 @@
 
 #include "../../headers/minishell.h"
 
-static int	wait_process(t_shell *shell, int pid, int *pipe_doc)
+static void	close_heredoc_fds(t_cmd *cmd)
+{
+	t_cmd	*cmd_ptr;
+
+	cmd_ptr = cmd;
+	while (cmd_ptr)
+	{
+		if (cmd_ptr->in != 0)
+			close_perror(cmd_ptr->in);
+		cmd_ptr = cmd_ptr->next;
+	}
+}
+
+static int	wait_process(t_shell *shell, int pid, int *pipe_doc, t_cmd *cmdptr)
 {
 	int	status;
 
@@ -23,6 +36,7 @@ static int	wait_process(t_shell *shell, int pid, int *pipe_doc)
 	shell->cmd->in = pipe_doc[0];
 	if (WIFSIGNALED(status))
 	{
+		close_heredoc_fds(cmdptr);
 		ft_putchar_fd('\n', 2);
 		shell->ret = 1;
 		return (0);
@@ -51,7 +65,7 @@ static void	do_heredoc(int *pipe_doc, char *limiter)
 	exit(EXIT_SUCCESS);
 }
 
-int	here_doc(char *limiter, t_shell *shell)
+int	here_doc(char *limiter, t_shell *shell, t_cmd *cmdptr)
 {
 	int		pipe_doc[2];
 	int		pid;
@@ -67,5 +81,5 @@ int	here_doc(char *limiter, t_shell *shell)
 		do_heredoc(pipe_doc, limiter);
 	if (pid == -1)
 		perror("fork");
-	return (wait_process(shell, pid, pipe_doc));
+	return (wait_process(shell, pid, pipe_doc, cmdptr));
 }
