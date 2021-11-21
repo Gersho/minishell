@@ -65,21 +65,22 @@ static int	check_heredoc(t_shell *shell)
 	int		i;
 
 	cmd = shell->cmd;
-	while (cmd)
+	while (shell->cmd)
 	{
 		i = -1;
-		if (cmd->red)
+		if (shell->cmd->red)
 		{
-			while (cmd->red[++i])
+			while (shell->cmd->red[++i])
 			{
-				if (which_redirect(cmd->red[i]) != HERE_DOC)
+				if (which_redirect(shell->cmd->red[i]) != HERE_DOC)
 					continue ;
-				if (!here_doc(cmd->red[i + 1], shell))
+				if (!here_doc(shell->cmd->red[i + 1], shell))
 					return (0);
 			}
 		}
-		cmd = cmd->next;
+		shell->cmd = shell->cmd->next;
 	}
+	shell->cmd = cmd;
 	return (1);
 }
 
