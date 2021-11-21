@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:10:29 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/19 15:01:06 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/21 14:36:54 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,24 @@ static int	ft_parse_loop(t_vars *vars, int len)
 	return (0);
 }
 
+static int	ft_check_empty_type(t_vars *vars)
+{
+	if (!vars->cmd->param[0] && !vars->cmd->red[0] \
+			&& vars->quotes->start != -1)
+	{
+		ft_printf_fd(2, "%s: : command not found\n", PROMPTERR);
+		*g_ptr = 127;
+		return (-255);
+	}
+	else if (!vars->cmd->param[0] && !vars->cmd->red[0] \
+			&& vars->env->start != -1)
+	{
+		*g_ptr = 0;
+		return (-255);
+	}
+	return (0);
+}
+
 int	ft_parse_line(char *str, t_shell *shell)
 {
 	t_vars		vars;
@@ -92,7 +110,7 @@ int	ft_parse_line(char *str, t_shell *shell)
 	ft_parse_quotes(&vars, len);
 	ft_handle_dollars(&vars, len);
 	len = ft_strlen(vars.str);
-	if (ft_parse_loop(&vars, len) == -255)
+	if (ft_parse_loop(&vars, len) == -255 || ft_check_empty_type(&vars) == -255)
 	{
 		ft_free_vars_continue(&vars);
 		shell->cmd = NULL;
