@@ -45,6 +45,7 @@ static void	dup_std_and_dup2(t_shell *shell)
 	shell->std_out = dup(1);
 	redirect_handler(shell);
 	replace_std(shell->cmd->in, shell->cmd->out);
+	shell->cmd->in = 0;
 }
 
 /*
