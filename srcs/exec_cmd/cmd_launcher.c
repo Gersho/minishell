@@ -15,8 +15,17 @@
 static void	set_cmd_in_and_out(t_shell *shell, int *pipe_fd, int first)
 {
 	if (!first)
-		shell->cmd->in = pipe_fd[0];
-	pipe(pipe_fd);
+	{
+		if (shell->cmd->in != 0)
+			close_perror(pipe_fd[0]);
+		else
+			shell->cmd->in = pipe_fd[0];
+	}
+	if (pipe(pipe_fd) == -1)
+	{
+		perror("pipe");
+		return ;
+	}
 	if (shell->cmd->next)
 		shell->cmd->out = pipe_fd[1];
 	else
@@ -43,7 +52,7 @@ void	launch_all_commands(t_shell *shell, int *status)
 		}
 		if (shell->cmd->next)
 			close_perror(pipe_fd[1]);
-		if (!first)
+		if (shell->cmd->in != 0)
 			close_perror(shell->cmd->in);
 		shell->cmd = shell->cmd->next;
 		first = 0;
