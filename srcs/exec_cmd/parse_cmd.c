@@ -32,6 +32,7 @@ static void	set_signal_return(int status, t_shell *shell, int *nl)
 
 /*
  * Wait all childs to finish and set the return according to the exit status
+ * or the signal
  */
 static void	wait_all_process(t_cmd *cmd, t_shell *shell)
 {
