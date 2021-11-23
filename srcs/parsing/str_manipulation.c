@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 10:43:13 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/13 15:10:15 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/24 00:24:28 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,6 @@ static int	ft_get_quote_count(t_vars *vars, int start, int end)
 	return (count);
 }
 
-static int	ft_is_quote_data(t_vars *vars, int i)
-{
-	t_quotes	*tmp;
-
-	tmp = vars->quotes;
-	while (tmp)
-	{
-		if (i == tmp->start || i == tmp->end)
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
 char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 {
 	int		cut;
@@ -128,4 +114,31 @@ char	*ft_no_signifiant_quote_substr(t_vars *vars, int start, int end)
 	}
 	tmp[i] = '\0';
 	return (tmp);
+}
+
+char	*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp)
+{
+	char		*part_a;
+	char		*part_b;
+	char		*swap;
+	char		*final;
+	t_quotes	env;
+
+	part_a = ft_substr(vars->str, 0, limits.start);
+	if (!part_a)
+		return (NULL);
+	env.start = ft_strlen(part_a);
+	env.end = ft_strlen(part_a) + ft_strlen(tmp) - 1;
+	env.type = ENVS;
+	ft_append_quote_data(vars, vars->env, env);
+	part_b = ft_substr(vars->str, limits.end, ft_strlen(vars->str));
+	if (tmp == NULL)
+		swap = ft_strdup(part_a);
+	else
+		swap = ft_strjoin(part_a, tmp);
+	final = ft_strjoin(swap, part_b);
+	free(part_a);
+	free(part_b);
+	free(swap);
+	return (final);
 }

@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 16:39:23 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/19 14:17:23 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/24 00:24:13 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_type		ft_get_type(t_quotes *quotes, int i);
 void		ft_update_quote_data(t_quotes *q, int size, int i);
 void		free_quotes_list(t_quotes *quotes);
 void		ft_parse_quotes(t_vars *vars, int len);
+int			ft_is_quote_data(t_vars *vars, int i);
 //----s_vars
 void		ft_init_vars(t_vars *vars, t_shell *shell, char *str);
 void		ft_free_vars(t_vars *vars);
@@ -31,6 +32,7 @@ void		ft_handle_dollars(t_vars *vars, int len);
 void		ft_env_expand_double(t_vars *vars, int *i);
 void		ft_env_expand_none(t_vars *vars, int *i);
 char		*ft_get_env_value(t_vars *vars, char *name);
+char		*ft_build_newstr(t_vars *vars, t_quotes limits, char *tmp);
 //----parsing
 int			ft_parse_line(char *line, t_shell *shell);
 int			parse_error_quote(t_vars *vars);

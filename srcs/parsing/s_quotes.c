@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 13:00:47 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/14 14:36:34 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/24 00:21:29 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,18 @@ void	free_quotes_list(t_quotes *quotes)
 		quotes = NULL;
 		quotes = tmp;
 	}
+}
+
+int	ft_is_quote_data(t_vars *vars, int i)
+{
+	t_quotes	*tmp;
+
+	tmp = vars->quotes;
+	while (tmp)
+	{
+		if (i == tmp->start || i == tmp->end)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
 }
