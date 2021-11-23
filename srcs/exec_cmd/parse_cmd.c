@@ -93,10 +93,10 @@ void	parse_cmd(t_shell *shell)
 	status = 0;
 	shell->error = 0;
 	cmd_ptr = shell->cmd;
-	//TODO builtin << heredoc
 	if (check_heredoc(shell))
 	{
-		launch_all_commands(shell, &status);
+		if (!launch_all_commands(shell, &status))
+			close_all_fds(cmd_ptr);
 		if (status != -1 && !shell->error)
 			wait_all_process(cmd_ptr, shell);
 	}

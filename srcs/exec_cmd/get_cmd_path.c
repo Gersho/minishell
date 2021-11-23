@@ -25,28 +25,25 @@ static void	print_if_error(char *path, char *name, t_shell *shell)
 
 static int	path_exist(char *path, t_cmd *cmd, t_shell *shell, char **denied)
 {
-	int		fd;
+	struct stat	stat_path;
 
-	fd = open(path, O_RDONLY);
-	if (fd != -1)
+	if (stat(path, &stat_path) == -1)
 	{
-		if (cmd->path != NULL)
-			free(cmd->path);
-		cmd->path = ft_strdup(path);
-		if (access(path, X_OK) != 0)
-		{
-			if (*denied == NULL)
-				*denied = ft_strdup(cmd->path);
-			shell->ret = 126;
-			close_perror(fd);
-			return (0);
-		}
-		close_perror(fd);
-		shell->ret = 0;
-		return (1);
+		shell->ret = 127;
+		return (0);
 	}
-	shell->ret = 127;
-	return (0);
+	if (cmd->path != NULL)
+		free(cmd->path);
+	cmd->path = ft_strdup(path);
+	if (access(path, X_OK) != 0)
+	{
+		if (*denied == NULL)
+			*denied = ft_strdup(cmd->path);
+		shell->ret = 126;
+		return (0);
+	}
+	shell->ret = 0;
+	return (1);
 }
 
 /*

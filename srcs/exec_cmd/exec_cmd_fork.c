@@ -35,8 +35,7 @@ void	exec_cmd_fork(t_shell *shell, int pipe_in)
 	shell->cmd->pid = fork();
 	if (shell->cmd->pid == 0)
 	{
-		if (shell->cmd->next)
-			close_perror(pipe_in);
+		close_unused_fd(shell, pipe_in);
 		redirect_handler(shell);
 		exit_if_param_null(*shell->cmd->param, shell);
 		replace_std(shell->cmd->in, shell->cmd->out);

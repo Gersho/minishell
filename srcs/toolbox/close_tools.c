@@ -12,25 +12,31 @@
 
 #include "../../headers/minishell.h"
 
-void	close_all_fds(t_shell *shell)
+void	close_all_fds(t_cmd *cmd)
 {
-	while (shell->cmd)
+	while (cmd)
 	{
-		close_perror(shell->cmd->in);
-		close_perror(shell->cmd->out);
-		shell->cmd = shell->cmd->next;
+		if (cmd->in != 0)
+			close_perror(cmd->in);
+		if (cmd->out != 1)
+			close_perror(cmd->out);
+		cmd = cmd->next;
 	}
 }
 
-void	close_unused_fd(t_shell *shell)
+void	close_unused_fd(t_shell *shell, int pipe_in)
 {
 	t_cmd	*ptr;
 
 	ptr = shell->cmd->next;
+	if (ptr)
+		close_perror(pipe_in);
 	while (ptr)
 	{
-		close_perror(ptr->in);
-		close_perror(ptr->out);
+		if (ptr->in != 0)
+			close_perror(ptr->in);
+		if (ptr->out != 1)
+			close_perror(ptr->out);
 		ptr = ptr->next;
 	}
 }

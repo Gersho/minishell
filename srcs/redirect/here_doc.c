@@ -73,6 +73,7 @@ int	here_doc(char *limiter, t_shell *shell, t_cmd *cmdptr)
 	if (pipe(pipe_doc) == -1)
 	{
 		perror("pipe");
+		close_heredoc_fds(cmdptr);
 		return (0);
 	}
 	signal(SIGINT, SIG_IGN);
