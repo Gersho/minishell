@@ -27,10 +27,10 @@ char	*set_prompt(t_shell *shell)
 	getcwd(buf, PATH_MAX);
 	curr_dir = ft_strrchr(buf, (int) '/') + 1;
 	prompt = ft_mega_str_join(10, status, \
-		KBLU, curr_dir, \
-		KMAG, " (", \
-		KCYN, getenv("USER"), \
-		KMAG, "): ", \
+		KCYN, curr_dir, \
+		KBLU, " (", \
+		KRED, getenv("USER"), \
+		KBLU, "): ", \
 		KNRM);
 	if (!prompt)
 		prompt = ft_strdup("\x1B[34mminishell: \x1B[0m");
