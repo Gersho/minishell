@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-void	launch_all_commands(t_shell *shell, int *status);
+int		launch_all_commands(t_shell *shell, int *status);
 void	exec_cmd_fork(t_shell *shell, int pipe_in);
 int		exec_built_in(t_shell *shell, int in_fork);
 int		is_built_in(char *param);
