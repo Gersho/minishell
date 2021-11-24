@@ -6,7 +6,7 @@
 /*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 11:42:04 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/24 00:23:53 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/24 10:24:31 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_get_env_limit(char *str, int i)
 	len = ft_strlen(str);
 	while (i < len)
 	{
-		if (!ft_isalnum(str[i]))
+		if (!ft_isalnum(str[i]) && str[i] != '_')
 			break ;
 		i++;
 	}
@@ -116,7 +116,8 @@ void	ft_handle_dollars(t_vars *vars, int len)
 			&& ft_get_type(vars->quotes, i) != SIMPLE)
 		{
 			i++;
-			if (vars->str[i] == '?' || !ft_isalpha(vars->str[i]))
+			if (vars->str[i] == '?' || (!ft_isalpha(vars->str[i]) \
+				&& vars->str[i] != '_'))
 			{
 				if (vars->str[i] == '?')
 					ft_dollars_lastret(vars, &i);
