@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 08:41:53 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:41:53 by jchevet          ###   ########lyon.fr   */
+/*   Updated: 2021/11/25 12:59:50 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	what_cmd(int command, t_shell *shell, int in_fork)
 		if (command == ECHO_M)
 			shell->ret = echo(shell->cmd->param);
 		else if (command == PWD_M)
-			shell->ret = pwd(shell->cmd->param);
+			shell->ret = pwd();
 		else if (command == CD_M)
 			shell->ret = cd(shell->cmd->param, shell->env);
 		else if (command == ENV_M)
