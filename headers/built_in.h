@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 08:43:19 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:43:19 by jchevet          ###   ########lyon.fr   */
+/*   Updated: 2021/11/25 12:59:34 by kzennoun         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef enum e_cmd_name
 }t_cmd_name;
 
 int		echo(char **param);
-int		pwd(char **param);
+int		pwd(void);
 int		cd(char **param, t_env *env_l);
 int		env(t_env *env_l);
 int		export(char **param, t_env **env);
