@@ -43,6 +43,11 @@ static void	dup_std_and_dup2(t_shell *shell)
 {
 	shell->std_in = dup(0);
 	shell->std_out = dup(1);
+	if (shell->std_in == -1 || shell->std_out == -1)
+	{
+		perror("dup");
+		exit(EXIT_FAILURE);
+	}
 	redirect_handler(shell);
 	replace_std(shell->cmd->in, shell->cmd->out);
 	shell->cmd->in = 0;
