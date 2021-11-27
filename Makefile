@@ -45,7 +45,6 @@ PARSING			=	debug.c				\
 					parse_pipe.c		\
 
 SRCSF			=	main.c			\
-				 	minishell.c		\
 				 	set_prompt.c	\
 
 TOOLBOX			=	close_tools.c		\

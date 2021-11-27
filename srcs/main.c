@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/09 13:17:49 by kzennoun          #+#    #+#             */
-/*   Updated: 2021/11/19 13:59:48 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/27 11:03:08 by jchevet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	init_shell(t_shell *shell, char **line, char **env)
 	shell->env = get_env_list(env);
 	shell->cmd = NULL;
 	shell->ret = 0;
+	shell->std_in = 0;
+	shell->std_out = 1;
 	tcgetattr(0, &shell->term);
 	g_ptr = &shell->ret;
 }

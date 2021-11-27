@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kzennoun <kzennoun@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 08:41:53 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/25 12:59:50 by kzennoun         ###   ########lyon.fr   */
+/*   Updated: 2021/11/27 13:35:48 by jchevet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,21 @@ int	is_built_in(char *param)
 	return (cmd);
 }
 
-static void	dup_std_and_dup2(t_shell *shell)
+/*
+ * This will save std in and out then do the the redirect if there is one/many
+ */
+static void	redirect_in_main(t_shell *shell)
 {
-	shell->std_in = dup(0);
-	shell->std_out = dup(1);
-	if (shell->std_in == -1 || shell->std_out == -1)
+	if (*shell->cmd->red)
 	{
-		perror("dup");
-		exit(EXIT_FAILURE);
+		shell->std_in = dup(0);
+		if (shell->std_in == -1)
+			free_all(shell, 1, "dup");
+		shell->std_out = dup(1);
+		if (shell->std_out == -1)
+			free_all(shell, 1, "dup");
+		redirect_handler(shell);
 	}
-	redirect_handler(shell);
-	replace_std(shell->cmd->in, shell->cmd->out);
-	shell->cmd->in = 0;
 }
 
 /*
@@ -59,7 +62,7 @@ static void	dup_std_and_dup2(t_shell *shell)
 static int	what_cmd(int command, t_shell *shell, int in_fork)
 {
 	if (!in_fork)
-		dup_std_and_dup2(shell);
+		redirect_in_main(shell);
 	if (!shell->error)
 	{
 		if (command == ECHO_M)
@@ -79,6 +82,8 @@ static int	what_cmd(int command, t_shell *shell, int in_fork)
 	}
 	if (!in_fork)
 		replace_std(shell->std_in, shell->std_out);
+	shell->std_in = 0;
+	shell->std_out = 1;
 	return (1);
 }
 

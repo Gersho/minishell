@@ -6,7 +6,7 @@
 /*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 08:43:42 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:43:42 by jchevet          ###   ########lyon.fr   */
+/*   Updated: 2021/11/27 11:32:11 by jchevet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void	print_error_prompt(char *str);
 int		skip_spaces(char *str);
 void	replace_std(int in, int out);
 char	*lltoa(long long nb);
+void	free_all(t_shell *shell, int display_err_and_exit, char *err_name);
 
 #endif

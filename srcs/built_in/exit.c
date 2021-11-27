@@ -6,7 +6,7 @@
 /*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 08:40:29 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:40:29 by jchevet          ###   ########lyon.fr   */
+/*   Updated: 2021/11/27 11:32:24 by jchevet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,6 @@ void	exit_shell(t_shell *shell, int in_fork)
 		if (!get_return_value(shell))
 			return ;
 	}
-	if (!in_fork)
-	{
-		if (shell->cmd)
-		{
-			close_perror(shell->std_out);
-			close_perror(shell->std_in);
-		}
-	}
-	tcsetattr(0, TCSANOW, &shell->term);
-	free_env_list(shell->env);
-	free_cmd_list(shell->cmd);
-	clear_history();
+	free_all(shell, 0, NULL);
 	exit((unsigned char)shell->ret);
 }

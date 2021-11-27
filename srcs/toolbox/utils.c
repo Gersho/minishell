@@ -6,7 +6,7 @@
 /*   By: jchevet <jchevet@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 08:43:06 by jchevet           #+#    #+#             */
-/*   Updated: 2021/11/09 08:43:06 by jchevet          ###   ########lyon.fr   */
+/*   Updated: 2021/11/27 13:32:24 by jchevet          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,27 @@ char	*str_in_lower_case(char *s)
 		i++;
 	}
 	return (str);
+}
+
+/*
+ * Free everything, reset terminal setting and
+ * close std_in and std_out if needed.
+ * Display last error and exit 1 if specified.
+ */
+void	free_all(t_shell *shell, int display_err_and_exit, char *err_name)
+{
+	if (shell->std_in > 0)
+		close_perror(shell->std_in);
+	if (shell->std_out > 1)
+		close_perror(shell->std_out);
+	tcsetattr(0, TCSANOW, &shell->term);
+	free_env_list(shell->env);
+	free_cmd_list(shell->cmd);
+	rl_clear_history();
+	if (display_err_and_exit)
+	{
+		perror(err_name);
+		ft_putstr_fd("Exit Failure\n", 2);
+		exit(EXIT_FAILURE);
+	}
 }
